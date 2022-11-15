@@ -1,10 +1,12 @@
+using CalNohitQoL.Globals;
 using CalNohitQoL.Items;
+using CalNohitQoL.ModPlayers;
 using Terraria;
 using Terraria.ModLoader;
 
 namespace CalNohitQoL.Buffs
 {
-	public class Trippy : ModBuff
+    public class Trippy : ModBuff
 	{
         public override void SetStaticDefaults()
         {      
@@ -17,7 +19,7 @@ namespace CalNohitQoL.Buffs
 
 		public override void Update(Player player, ref int buffIndex)
 		{
-			player.GetModPlayer<CalNohitQoLPlayer>().Trippy = true;
+			player.GetModPlayer<ShroomsPlayer>().Trippy = true;
 		}
 	}
 }

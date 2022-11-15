@@ -71,7 +71,7 @@ namespace CalNohitQoL.Items
                         break;
                 }
                 CalNohitQoL.BHTYPE = bhType;
-                Main.NewText("Type changed to: " + TypeText, Color.DarkRed);
+                CalNohitQoLUtils.DisplayText("Type changed to: " + TypeText, Color.DarkRed);
             }
             else
             {

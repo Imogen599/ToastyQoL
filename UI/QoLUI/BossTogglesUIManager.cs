@@ -111,11 +111,11 @@ namespace CalNohitQoL.UI.QoLUI
                 {
                     spriteBatch.Draw(tickGlowTexture, spawnPos + tickPos, null, Color.White, 0, tickGlowTexture.Size() * 0.5f, 1f, 0, 0);
                     Main.hoverItemName = "[c/ffcc44:Mark every boss as alive]";
-                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                     {
                         // On click stuff
                         MarkAllBossesAsX(false);
-                        TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                        TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                         SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                     }
                 }
@@ -132,10 +132,10 @@ namespace CalNohitQoL.UI.QoLUI
                 {
                     spriteBatch.Draw(crossGlowTexture, spawnPos + crossPos, null, Color.White, 0, crossGlowTexture.Size() * 0.5f, 1f, 0, 0);
                     Main.hoverItemName = "[c/ffcc44:Mark every boss as dead]";
-                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                     {
                         MarkAllBossesAsX(true);
-                        TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                        TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                         SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                     }
                 }

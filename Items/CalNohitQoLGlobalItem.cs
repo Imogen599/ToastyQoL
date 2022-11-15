@@ -33,6 +33,8 @@ using Terraria.ModLoader;
 using Terraria.ID;
 using Terraria.DataStructures;
 using System.Linq;
+using CalNohitQoL.ModPlayers;
+using CalNohitQoL.Systems;
 
 namespace CalNohitQoL.Items
 {
@@ -41,69 +43,26 @@ namespace CalNohitQoL.Items
 
         Color tooltipcolour = Color.Red;
 
+        // This is massive, evil, and scares me.
         public override void ModifyTooltips(Item itemID, List<TooltipLine> tooltips)
         {
-            //Fountains
-
-            TooltipLine line;
             TooltipLine nameLine = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
-            {
                 ApplyRarityColor(itemID, nameLine);
-            }
-             
+            
+            // Communitys tooltip.
             if (itemID.type == ModContent.ItemType<TheCommunity>())
             {
-                string bossName = CalNohitQoLUtils.GetLatestBossKilled();
-                TooltipLine obj2 = new TooltipLine(Mod, "1", "People who have nohit SCal with this:");
-                obj2.Text = "Current power level: "+bossName;
+                string bossName = ProgressionSystem.GetLatestBossKilled();
+                TooltipLine obj2 = new(Mod, "1", "Misc")
+                {
+                    Text = "Current power level: " + bossName
+                };
                 tooltips.Add(obj2);
             }
 
-            switch (itemID.type)
-            {
-                case ItemID.PureWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Ocean upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.OasisFountain:
-                case ItemID.DesertWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Desert upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.JungleWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Jungle upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.IcyWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Snow upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.CorruptWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip0", "Forces surrounding biome state to Corruption upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.CrimsonWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip1", "Forces surrounding biome state to Crimson upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                case ItemID.HallowedWaterFountain:
-                    line = new TooltipLine(Mod, "Tooltip1", "In hardmode, forces surrounding biome state to Hallow upon activation");
-                    tooltips.Add(line);
-                    break;
-
-                //cavern fountain?
-            }
-
-
             //potion tooltips
-            if (CalNohitQoL.Instance.PotionTooltips)
+            if (Toggles.PotionTooltips)
             {
                 if (itemID.type == ModContent.ItemType<TriumphPotion>())
                 {
@@ -452,7 +411,7 @@ namespace CalNohitQoL.Items
                 }
             }
             //early hm blocks
-            if (CalNohitQoL.Instance.ItemTooltips)
+            if (Toggles.ItemTooltips)
             {
                 if (!NPC.downedMechBoss1)
                 {
@@ -2145,9 +2104,10 @@ namespace CalNohitQoL.Items
             }
         }
 
+        // Less massive and evil, but still spooky.
         public override bool CanUseItem(Item item, Player player)
         {
-            if (CalNohitQoL.Instance.PotionLock)
+            if (Toggles.PotionLock)
 
             {
                 if (item.type == ModContent.ItemType<TriumphPotion>())
@@ -2244,7 +2204,7 @@ namespace CalNohitQoL.Items
                     return DownedBossSystem.downedYharon;
                 }
             }
-            if (CalNohitQoL.Instance.ItemLock)
+            if (Toggles.ItemLock)
             {
 
                 if (item.type == 533 || item.type == ModContent.ItemType<GaussPistol>())
@@ -2357,7 +2317,7 @@ namespace CalNohitQoL.Items
                     return false;
                 }
             }
-            if (CalNohitQoL.Instance.ItemLock)
+            if (Toggles.ItemLock)
             {
                 if (!NPC.downedSlimeKing)
                 {
@@ -2674,9 +2634,11 @@ namespace CalNohitQoL.Items
             return true;
 
         }
+        
+        // EVEN LESS masive and evil, and only slightly frightening. 
         public override bool CanEquipAccessory(Item item, Player player, int slot, bool modded)
         {
-            if (CalNohitQoL.Instance.AccLock)
+            if (Toggles.AccLock)
             {
                 if (!NPC.downedSlimeKing)
                 {
@@ -2972,7 +2934,7 @@ namespace CalNohitQoL.Items
 
             return true;
         }
-        private void ApplyRarityColor(Item item, TooltipLine nameLine)
+        private static void ApplyRarityColor(Item item, TooltipLine nameLine)
         {
             if (CalNohitQoLLists.SCalTooltips.Contains(item.type))
                 nameLine.OverrideColor = CalNohitQoLUtils.TwoColorPulse(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
@@ -3474,7 +3436,7 @@ namespace CalNohitQoL.Items
 
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
-            if (!CalNohitQoL.Instance.AccLock)
+            if (!Toggles.AccLock)
             {
                 return;
             }
@@ -3695,16 +3657,14 @@ namespace CalNohitQoL.Items
 
         public override void UpdateInventory(Item item, Player player)
         {
-            TryUnlimBuff(item, player);
+            GiveUnlimitedBuffs(item, player);
             if (item.type == ModContent.ItemType<NormalityRelocator>() && !NPC.downedMoonlord)
-            {
                 player.Calamity().normalityRelocator = false;
-            }
         }
 
         public override bool Shoot(Item item, Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            if (CalNohitQoL.Instance.ItemLock)
+            if (Toggles.ItemLock)
             {
                 if (type == 89 || type == 91 || type == 242)
                 {
@@ -3750,22 +3710,13 @@ namespace CalNohitQoL.Items
             }        
         }
 
-        public static void TryUnlimBuff(Item item, Player player)
+        private static void GiveUnlimitedBuffs(Item item, Player player)
         {
-            if (CalNohitQoL.Instance.InfinitePotions)
+            if (Toggles.InfinitePotions)
             {
-
-
-                if (item.buffType != 0&&item.stack > 1)// && GetInstance<FargoConfig>().UnlimitedPotionBuffsOn120)
-                {
+                if (item.buffType != 0 && item.stack > 1)
                     player.AddBuff(item.buffType, 2);
 
-                    //compensate to account for luck potion being weaker based on remaining duration wtf
-                    if (item.type == ItemID.LuckPotion)
-                        player.GetModPlayer<CalNohitQoLPlayer>().luckPotionBoost = Math.Max(player.GetModPlayer<CalNohitQoLPlayer>().luckPotionBoost, 0.1f);
-                    else if (item.type == ItemID.LuckPotionGreater)
-                        player.GetModPlayer<CalNohitQoLPlayer>().luckPotionBoost = Math.Max(player.GetModPlayer<CalNohitQoLPlayer>().luckPotionBoost, 0.2f);
-                }
                 switch (item.type)
                 {
                     case ItemID.SharpeningStation:
@@ -3784,6 +3735,7 @@ namespace CalNohitQoL.Items
                         player.AddBuff(BuffID.SugarRush, 2);
                         break;
                 }
+
                 if(item.type == ModContent.ItemType<VigorousCandle>())
                     player.AddBuff(ModContent.BuffType<CirrusPinkCandleBuff>(), 2);
 
@@ -3806,7 +3758,7 @@ namespace CalNohitQoL.Items
         }
         public override bool CanBeConsumedAsAmmo(Item ammo, Item weapon, Player player)
         {
-            if (CalNohitQoL.Instance.InfiniteAmmo)
+            if (Toggles.InfiniteAmmo)
             {
                 if (ammo.ammo != 0)
                     return false;
@@ -3815,7 +3767,7 @@ namespace CalNohitQoL.Items
         }
         public override bool ConsumeItem(Item item, Player player)
         {
-            if(CalNohitQoL.Instance.InfiniteConsumables)
+            if(Toggles.InfiniteConsumables)
             { 
                 if (item.damage > 0 && item.ammo == 0)
                     return false;

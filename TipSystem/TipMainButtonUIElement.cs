@@ -80,7 +80,6 @@ namespace CalNohitQoL.TipSystem
             spriteBatch.Draw(iconTexture, iconCenter, null, Color.White, 0, iconTexture.Size()*0.5f, scale, SpriteEffects.None, 0);
             if (isHovering)
             {
-                // Today we are going to learn how to draw a box. Why? Snazzy.
                 string mouseTextString = "Open Boss Compendium";
 
                 Vector2 boxSize = FontAssets.MouseText.Value.MeasureString(mouseTextString);
@@ -102,16 +101,12 @@ namespace CalNohitQoL.TipSystem
                     textboxStart.Y = Main.screenHeight - boxSize.Y - 4f;
                 }
                 Utils.DrawInvBG(spriteBatch, new Rectangle((int)textboxStart.X - 10, (int)textboxStart.Y-6, (int)boxSize.X-22, (int)boxSize.Y+5), new Color(21, 37, 46));
-                //Main.instance.MouseText(mouseTextString);
+
                 // Custom Mouse Text
                 TipsUIManager.DrawCustomMouseText(spriteBatch, CalNohitQoL.DraedonFont, mouseTextString, Color.Cyan, true);
                 if (Main.mouseLeft && Main.mouseLeftRelease)
                 {
-                    //Player player = Main.LocalPlayer;
-                    //player.KillMe(new Terraria.DataStructures.PlayerDeathReason(), 1000, 1);
-                    //Main.NewText(player.name+" got no bitches", new Color(225, 25, 25));
-
-                    
+                  
                     TipsUIManager.IsDrawing = !TipsUIManager.IsDrawing;
                     SoundEngine.PlaySound(TipsUIManager.IsDrawing ? SoundID.MenuOpen : SoundID.MenuClose, Main.LocalPlayer.Center);
                     if (TipsUIManager.IsDrawing)

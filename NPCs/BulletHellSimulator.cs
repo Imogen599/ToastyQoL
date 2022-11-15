@@ -215,7 +215,6 @@ namespace CalNohitQoL.NPCs
             }
             #endregion
             #region Timers and other things
-            // Defense = Type of bullet hell this is dumb so i made an actual variable for it.
             // BHType = Which BH to use.
             // ai[2] = Stage of bullet hell
             // ai[1] = Running timer
@@ -259,13 +258,13 @@ namespace CalNohitQoL.NPCs
                 switch (BHType)
                 {
                     case 1:
-                        CalNohitQoLUtils.SCalBH1Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
+                        SCalBH1Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
                         break;
                     case 2:
-                        CalNohitQoLUtils.SCalBH2Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
+                        SCalBH2Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
                         break;
                     case 3:
-                        CalNohitQoLUtils.SCalBH3Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
+                        SCalBH3Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
                         break;
                     case 4:
                         int divisor = (RevengeanceMode ? 225 : (Main.expertMode ? 450 : 675));
@@ -281,19 +280,19 @@ namespace CalNohitQoL.NPCs
                                 moonAI++;
                             }
                         }
-                        CalNohitQoLUtils.SCalBH4Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI);
+                        SCalBH4Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI);
                         break;
                     case 5:
                         if (!firstMoonSpawned)
                         {
-                            CalNohitQoLUtils.SCalBH5Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI, true);
+                            SCalBH5Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI, true);
                             firstMoonSpawned = true;
                         }
                         else
-                            CalNohitQoLUtils.SCalBH5Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI, false);
+                            SCalBH5Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset, RevengeanceMode, moonAI, false);
                         break;
                     default:
-                        CalNohitQoLUtils.SCalBH1Sim(NPC, player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
+                        SCalBH1Sim(player, NPC.ai[1], NPC.ai[2], SpawnFrequency, offset);
                         break;
                 }
             }    
@@ -338,5 +337,241 @@ namespace CalNohitQoL.NPCs
                 }
             }
         }
+
+        #region BHS
+        private readonly static int fireBlastProj = ModContent.ProjectileType<SCalBrimstoneFireblast>();
+        private readonly static int gigaBlastProj = ModContent.ProjectileType<SCalBrimstoneGigablast>();
+
+        public void SCalBH1Sim(Player player, float overallTimer, float bhStageCounter, int SpawnFrequency, float offset)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+                int BH1FrequencyAtPlayer = SpawnFrequency * 6;
+
+                if (overallTimer % SpawnFrequency == (SpawnFrequency - 1))
+                {
+                    if (overallTimer % BH1FrequencyAtPlayer == (BH1FrequencyAtPlayer - 1)) //Aimed projectile
+                    {
+                        float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                        float velocity = (distance == -1000f ? 4f : -4f) * offset;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    if (bhStageCounter == 1f) // Blasts from above
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else if (bhStageCounter == 2f) // Blasts from left and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else // Blasts from above, left, and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                }
+            }
+        }
+        public void SCalBH2Sim(Player player, float overallTimer, float bhStageCounter, int SpawnFrequency, float offset)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient)
+            {
+
+                if (bhStageCounter == 1f) // Fireblasts
+                {
+                    if (overallTimer % 180 == 179) // Blasts from top
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * offset, fireBlastProj, 1, 0f, Main.myPlayer);
+                }
+                else if (bhStageCounter == 2f)
+                {
+                    if (overallTimer % 180 == 179) // Blasts from right
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -5f * offset, 0f, fireBlastProj, 1, 0f, Main.myPlayer);
+                }
+                else if (bhStageCounter == 3f)
+                {
+                    if (overallTimer % 180 == 179) // Blasts from top
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * offset, fireBlastProj, 1, 0f, Main.myPlayer);
+                }
+                int BH2Frequency = SpawnFrequency + 1;
+                int BH2FrequencyAtPlayer = BH2Frequency * 6;
+
+                if (overallTimer % BH2Frequency == (BH2Frequency - 1)) // Hellblasts
+                {
+                    // This BH does not have aimed projectiles. May make this toggleable for  the funsies.
+                    //
+                    //if (npc.ai[1] % BH2FrequencyAtPlayer == (BH2FrequencyAtPlayer - 1)) // Aimed projectile
+                    //{
+                    //	float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                    //	float velocity = (distance == -1000f ? 4f : -4f) * offset;
+                    //	Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    //}
+                    if (bhStageCounter == 1f) // Blasts from below
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else if (bhStageCounter == 2f) // Blasts from left
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else // Blasts from left and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                }
+            }
+        }
+        public void SCalBH3Sim(Player player, float overallTimer, float bhStageCounter, int SpawnFrequency, float offset)
+        {
+            if (Main.netMode != NetmodeID.MultiplayerClient) // Gigablasts and Fireblasts
+            {
+                if (overallTimer < 900)
+                    overallTimer += 1800f;
+                if (overallTimer % 180 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * offset, fireBlastProj, 1, 0f, Main.myPlayer);
+
+                if (overallTimer % 240 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * offset, gigaBlastProj, 1, 0f, Main.myPlayer);
+
+                int BH3Frequency = SpawnFrequency + 4;
+                int BH3FrequencyAtPlayer = BH3Frequency * 6;
+
+                if (overallTimer % BH3Frequency == (BH3Frequency - 1))
+                {
+                    // No aimed hellblasts
+                    //
+                    //if (npc.ai[1] % BH3FrequencyAtPlayer == (BH3FrequencyAtPlayer - 1)) // Aimed projectile
+                    //{
+                    //	float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                    //	float velocity = (distance == -1000f ? 4f : -4f) * offset;
+                    //	Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    //}
+                    if (bhStageCounter == 1f) // Blasts from above
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else if (bhStageCounter == 2f) // Blasts from right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else // Blasts from left and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                }
+            }
+        }
+        public void SCalBH4Sim(Player player, float overallTimer, float bhStageCounter, int SpawnFrequency, float offset, bool RevengeanceMode, float moonAI)
+        {
+
+            if (Main.netMode != NetmodeID.MultiplayerClient) // Gigablasts and Fireblasts
+            {
+                if (overallTimer < 900)
+                    overallTimer += 2700f;
+                if (overallTimer % 180 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * offset, fireBlastProj, 1, 0f, Main.myPlayer);
+
+                if (overallTimer % 240 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * offset, gigaBlastProj, 1, 0f, Main.myPlayer);
+
+                int divisor = (RevengeanceMode ? 225 : (Main.expertMode ? 450 : 675));
+                if (overallTimer % divisor == 0 && Main.expertMode) // Moons
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 1f * offset, ModContent.ProjectileType<BrimstoneMonster>(), 1, 0f, Main.myPlayer, 0f, moonAI);
+
+                }
+
+                int BH4Frequency = SpawnFrequency + 6;
+                int BH4FrequencyAtPlayer = BH4Frequency * 6;
+
+                if (overallTimer % BH4Frequency == (BH4Frequency - 1))
+                {
+                    // You get the idea, no aimed hellblasts.
+                    //
+                    //if (npc.ai[1] % BH4FrequencyAtPlayer == (BH4FrequencyAtPlayer - 1)) // Aimed projectile
+                    //{
+                    //	float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                    //	float velocity = (distance == -1000f ? 4f : -4f) * offset;
+                    //	Projectile.NewProjectile(player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    //}
+                    if (bhStageCounter == 1f) // Blasts from below
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y + 1000f, 0f, -4f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else if (bhStageCounter == 2f) // Blasts from left
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else // Blasts from left and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                }
+            }
+        }
+        public void SCalBH5Sim(Player player, float overallTimer, float bhStageCounter, int SpawnFrequency, float offset, bool RevengeanceMode, float moonAI, bool spawnMoons)
+        {
+            // TODO: Make this be better, add a delay before the moons spawn or smth
+            if (Main.netMode != NetmodeID.MultiplayerClient) // Gigablasts, Fireblasts, Skulls  
+            {
+
+                if (overallTimer < 900)
+                {
+
+                    overallTimer += 3600;
+                }
+                if (overallTimer == 3605)
+                {
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X, player.position.Y - 500f, 0f, 1f * offset, ModContent.ProjectileType<BrimstoneMonster>(), 1, 0f, Main.myPlayer, 0f, 0);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X, player.position.Y - 500f, 0f, 1f * offset, ModContent.ProjectileType<BrimstoneMonster>(), 1, 0f, Main.myPlayer, 0f, 1);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X, player.position.Y - 500f, 0f, 1f * offset, ModContent.ProjectileType<BrimstoneMonster>(), 1, 0f, Main.myPlayer, 0f, 2);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X, player.position.Y - 500f, 0f, 1f * offset, ModContent.ProjectileType<BrimstoneMonster>(), 1, 0f, Main.myPlayer, 0f, 3);
+                }
+                if (overallTimer % 240 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 5f * offset, fireBlastProj, 1, 0f, Main.myPlayer);
+
+                if (overallTimer % 360 == 0)
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 10f * offset, gigaBlastProj, 1, 0f, Main.myPlayer);
+
+                if (overallTimer % 30 == 0)
+                {
+                    int random = Main.rand.Next(-500, 501);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + random, -5f * offset, 0f, ModContent.ProjectileType<BrimstoneWave>(), 1, 0f, Main.myPlayer);
+                    Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y - random, 5f * offset, 0f, ModContent.ProjectileType<BrimstoneWave>(), 1, 0f, Main.myPlayer);
+                }
+                int BH5Frequency = SpawnFrequency + 8;
+                int BH5FrequencyAtPlayer = BH5Frequency * 6;
+
+                if (overallTimer % BH5Frequency == (BH5Frequency - 1))
+                {
+                    if (overallTimer % BH5FrequencyAtPlayer == (BH5FrequencyAtPlayer - 1)) // Aimed projectile
+                    {
+                        float distance = Main.rand.NextBool() ? -1000f : 1000f;
+                        float velocity = (distance == -1000f ? 4f : -4f) * offset;
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + distance, player.position.Y, velocity, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    if (bhStageCounter == 1f) // Blasts from above
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 4f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else if (bhStageCounter == 2f) // Blasts from left and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3.5f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                    else // Blasts from above, left, and right
+                    {
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + Main.rand.Next(-1000, 1001), player.position.Y - 1000f, 0f, 3f * offset, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X + 1000f, player.position.Y + Main.rand.Next(-1000, 1001), -3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                        Projectile.NewProjectile(NPC.GetSource_FromAI(), player.position.X - 1000f, player.position.Y + Main.rand.Next(-1000, 1001), 3f * offset, 0f, ModContent.ProjectileType<BrimstoneHellblast2>(), 1, 0f, Main.myPlayer);
+                    }
+                }
+            }
+        }
+        #endregion
     }
 }

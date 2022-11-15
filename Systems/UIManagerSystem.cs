@@ -28,7 +28,7 @@ namespace CalNohitQoL.Systems
 				//IL_0098: Unknown result type (might be due to invalid IL or missing references)
 				if (!Main.inFancyUI && Main.playerInventory)
 				{
-					CalNohitQoL.UltimateUI2.Draw(SpriteBatch);
+					CalNohitQoL.cheatIndicatorUIRenderer.Draw(SpriteBatch);
 					CalNohitQoL.SummonSlotUIIcon2.Draw(SpriteBatch);
 
 				}

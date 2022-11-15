@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalNohitQoL.ModPlayers;
+using CalNohitQoL.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using System;
@@ -78,10 +80,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 2;
                         }
@@ -127,10 +129,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 1;
                         }
@@ -172,7 +174,7 @@ namespace CalNohitQoL.UI.QoLUI
             Texture2D glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/MapGlow", (AssetRequestMode)2).Value;
             string textToSend = "Reveal The Full Map";
             string textToSendFormat = "[c/ffcc44:Fills out all of your map, cannot be reversed]";
-            ref bool thingToSend = ref CalNohitQoLWorld.MapReveal;
+            ref bool thingToSend = ref MapSystem.MapReveal;
             TogglesUIManager.SpecialToggleOnClick toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
             switch (pageNumber)
             {
@@ -188,7 +190,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/gravestoneGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle Gravestones";
                                 textToSendFormat = "[c/ffcc44:Enable Gravestones dropping]";
-                                thingToSend = ref CalNohitQoL.Instance.GravestonesEnabled;
+                                thingToSend = ref Toggles.GravestonesEnabled;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -200,7 +202,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/shroomGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle Shrooms Damage";
                                 textToSendFormat = "[c/ffcc44:Toggles the bonus damage given by the Odd Mushroom family]";
-                                thingToSend = ref CalNohitQoL.Instance.ShroomsExtraDamage;
+                                thingToSend = ref Toggles.ShroomsExtraDamage;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -209,7 +211,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/shroomGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle Shrooms Fix";
                                 textToSendFormat = "[c/ffcc44:Toggles making certain broken projectiles visible when]\n[c/ffcc44:using any shroom item]";
-                                thingToSend = ref CalNohitQoL.Instance.ShroomsInvisProjectilesVisible;
+                                thingToSend = ref Toggles.ShroomsInvisProjectilesVisible;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -218,7 +220,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/chargeGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle Arsenal Recharge";
                                 textToSendFormat = "[c/ffcc44:Toggles fully charging Arsenal Weapons on respawn]";
-                                thingToSend = ref CalNohitQoL.Instance.AutoChargeDraedonWeapons;
+                                thingToSend = ref Toggles.AutoChargeDraedonWeapons;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -227,8 +229,8 @@ namespace CalNohitQoL.UI.QoLUI
                     }
                     #region Light Hack
                     Texture2D autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/lightHack", (AssetRequestMode)2).Value;
-                    Texture2D statusTexture = CalNohitQoL.Instance.LightHack>0 ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    Texture2D statusTextureGlow = CalNohitQoL.Instance.LightHack > 0 ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    Texture2D statusTexture = Toggles.LightHack>0 ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    Texture2D statusTextureGlow = Toggles.LightHack > 0 ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     Vector2 backgroundDrawCenter2;
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
@@ -241,7 +243,7 @@ namespace CalNohitQoL.UI.QoLUI
                     //Rectangle iconRectangeArea2 = new Rectangle((Main.screenWidth + 390) / 2, (Main.screenHeight - 255) / 2, (int)(105 * Main.UIScale), (int)(30*Main.UIScale));
                     Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
                     bool isHovering = mouseHitbox.Intersects(IconRectangeArea2);
-                    string text1 = CalNohitQoL.Instance.LightHack > 0 ? "Set Light Hack to " + (CalNohitQoL.Instance.LightHack * 100f).ToString() + "%" : "Turn Light Hack off";
+                    string text1 = Toggles.LightHack > 0 ? "Set Light Hack to " + (Toggles.LightHack * 100f).ToString() + "%" : "Turn Light Hack off";
                     if (isHovering)
                     {
 
@@ -257,40 +259,40 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = $"{text1}";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             string text = "";
-                            if (CalNohitQoL.Instance.LightHack == 0f)
+                            if (Toggles.LightHack == 0f)
                             {
 
-                                CalNohitQoL.Instance.LightHack = 0.25f;
+                                Toggles.LightHack = 0.25f;
                                 text = "Set to 25%";
                             }
-                            else if (CalNohitQoL.Instance.LightHack == 0.25f)
+                            else if (Toggles.LightHack == 0.25f)
                             {
-                                CalNohitQoL.Instance.LightHack = 0.5f;
+                                Toggles.LightHack = 0.5f;
                                 text = "Set to 50%";
                             }
-                            else if (CalNohitQoL.Instance.LightHack == 0.5f)
+                            else if (Toggles.LightHack == 0.5f)
                             {
-                                CalNohitQoL.Instance.LightHack = 0.75f;
+                                Toggles.LightHack = 0.75f;
                                 text = "Set to 75%";
                             }
-                            else if (CalNohitQoL.Instance.LightHack == 0.75f)
+                            else if (Toggles.LightHack == 0.75f)
                             {
-                                CalNohitQoL.Instance.LightHack = 1f;
+                                Toggles.LightHack = 1f;
                                 text = "Set to 100%";
                             }
                             else
                             {
-                                CalNohitQoL.Instance.LightHack = 0f;
+                                Toggles.LightHack = 0f;
                                 text = "Turned Off";
                             }
-                            CalNohitQoLPlayer.UIUpdateTextTimer = 120;
-                            TogglesUIManager.textToShow = text;
+                            GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
+                            TogglesUIManager.TextToShow = text;
                             TogglesUIManager.ColorToUse = Color.LightSkyBlue;
                         }
                     }
@@ -303,7 +305,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = $"[c/ffcc44:{text1}]\n" + (CalNohitQoL.Instance.LightHack > 0 ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = $"[c/ffcc44:{text1}]\n" + (Toggles.LightHack > 0 ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -322,7 +324,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/timeGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle MNL Indicator";
                                 textToSendFormat = "[c/ffcc44:Shows a chat message informing you how close you]\n[c/ffcc44:were to a bosses MNL according to nohit rules]";
-                                thingToSend = ref CalNohitQoL.Instance.MNLIndicator;
+                                thingToSend = ref Toggles.MNLIndicator;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -331,7 +333,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/sassGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle Sass Mode";
                                 textToSendFormat = "[c/ffcc44:Shows a chat message when you die that]\n[c/ffcc44:insults you.]";
-                                thingToSend = ref CalNohitQoL.Instance.SassMode;
+                                thingToSend = ref Toggles.SassMode;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.SassMode;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
@@ -340,7 +342,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/dpsGlow", (AssetRequestMode)2).Value;
                                 textToSend = "Toggle DPS stats";
                                 textToSendFormat = "[c/ffcc44:Shows a chat message that tells you the average dps you had]\n[c/ffcc44:on a boss.]";
-                                thingToSend = ref CalNohitQoL.Instance.BossDPS;
+                                thingToSend = ref Toggles.BossDPS;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.BossDPS;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;

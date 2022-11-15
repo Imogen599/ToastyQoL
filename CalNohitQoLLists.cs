@@ -1,24 +1,10 @@
-using System.Collections.Generic;
-using CalamityMod;
-using CalamityMod.Buffs.Alcohol;
-using CalamityMod.Buffs.DamageOverTime;
-using CalamityMod.Buffs.StatDebuffs;
 using CalamityMod.Items;
 using CalamityMod.Items.Accessories;
 using CalamityMod.Items.Accessories.Wings;
-using CalamityMod.Items.Ammo.FiniteUse;
-using CalamityMod.Items.Armor.Vanity;
-using CalamityMod.Items.DraedonMisc;
 using CalamityMod.Items.Fishing.AstralCatches;
-using CalamityMod.Items.Fishing.BrimstoneCragCatches;
-using CalamityMod.Items.Fishing.FishingRods;
 using CalamityMod.Items.Fishing.SunkenSeaCatches;
 using CalamityMod.Items.LoreItems;
-using CalamityMod.Items.Materials;
-using CalamityMod.Items.Placeables;
-using CalamityMod.Items.Placeables.Furniture.Trophies;
 using CalamityMod.Items.Tools;
-using CalamityMod.Items.TreasureBags;
 using CalamityMod.Items.Weapons.DraedonsArsenal;
 using CalamityMod.Items.Weapons.Magic;
 using CalamityMod.Items.Weapons.Melee;
@@ -27,62 +13,21 @@ using CalamityMod.Items.Weapons.Rogue;
 using CalamityMod.Items.Weapons.Summon;
 using CalamityMod.Items.Weapons.Typeless;
 using CalamityMod.Items.Weapons.Typeless.FiniteUse;
-using CalamityMod.NPCs.Abyss;
-using CalamityMod.NPCs.AcidRain;
-using CalamityMod.NPCs.AquaticScourge;
-using CalamityMod.NPCs.Astral;
-using CalamityMod.NPCs.AstrumAureus;
-using CalamityMod.NPCs.AstrumDeus;
-using CalamityMod.NPCs.BrimstoneElemental;
-using CalamityMod.NPCs.Bumblebirb;
-using CalamityMod.NPCs.Calamitas;
-using CalamityMod.NPCs.CeaselessVoid;
-using CalamityMod.NPCs.Crabulon;
-using CalamityMod.NPCs.Crags;
-using CalamityMod.NPCs.Cryogen;
-using CalamityMod.NPCs.DesertScourge;
-using CalamityMod.NPCs.DevourerofGods;
-using CalamityMod.NPCs.ExoMechs.Apollo;
-using CalamityMod.NPCs.ExoMechs.Ares;
-using CalamityMod.NPCs.ExoMechs.Artemis;
-using CalamityMod.NPCs.ExoMechs.Thanatos;
-using CalamityMod.NPCs.GreatSandShark;
-using CalamityMod.NPCs.HiveMind;
-using CalamityMod.NPCs.Leviathan;
-using CalamityMod.NPCs.NormalNPCs;
-using CalamityMod.NPCs.OldDuke;
-using CalamityMod.NPCs.Perforator;
-using CalamityMod.NPCs.PlaguebringerGoliath;
-using CalamityMod.NPCs.PlagueEnemies;
-using CalamityMod.NPCs.Polterghast;
-using CalamityMod.NPCs.ProfanedGuardians;
-using CalamityMod.NPCs.Providence;
-using CalamityMod.NPCs.Ravager;
-using CalamityMod.NPCs.Signus;
-using CalamityMod.NPCs.SlimeGod;
-using CalamityMod.NPCs.StormWeaver;
-using CalamityMod.NPCs.SulphurousSea;
-using CalamityMod.NPCs.SunkenSea;
-using CalamityMod.NPCs.SupremeCalamitas;
-using CalamityMod.NPCs.Yharon;
 using CalamityMod.Projectiles.Boss;
-using CalamityMod.Projectiles.DraedonsArsenal;
 using CalamityMod.Projectiles.Enemy;
-using CalamityMod.Projectiles.Magic;
 using CalamityMod.Projectiles.Melee;
-using CalamityMod.Projectiles.Ranged;
-using CalamityMod.Projectiles.Rogue;
-using CalamityMod.Projectiles.Summon;
-using CalamityMod.Tiles.LivingFire;
 using CalNohitQoL.Items;
+using System.Collections.Generic;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace CalNohitQoL
 {
+    // Yes these are all manually updated.
+    // Yes it is painful to maintain.
     public class CalNohitQoLLists
     {
-        //prehardmode
+        // Prehardmode.
         public static List<int> PostKingSlime { get; private set; }
         public static List<int> PostDesertScourge { get; private set; }
         public static List<int> PostEyeOfCthulhu { get; private set; }
@@ -93,7 +38,7 @@ namespace CalNohitQoL
         public static List<int> PostDeerclops { get; private set; }
         public static List<int> PostSkeletron { get; private set; }
         public static List<int> PostSlimeGod { get; private set; }
-        //hardmode
+        // Hardmode.
         public static List<int> PostWallOfFlesh { get; private set; }
         public static List<int> PostQueenSlime { get; private set; }
         public static List<int> PostCryogen { get; private set; }
@@ -115,7 +60,7 @@ namespace CalNohitQoL
         public static List<int> PostRavager { get; private set; }
         public static List<int> PostCultist { get; private set; }
         public static List<int> PostAstrumDeus { get; private set; }
-        //postmoonlord
+        // Post Moonlord.
         public static List<int> PostMoonlord { get; private set; }
         public static List<int> PostProfanedGuardians { get; private set; }
         public static List<int> PostDragonFolly { get; private set; }
@@ -130,7 +75,7 @@ namespace CalNohitQoL
         public static List<int> PostDraedon { get; private set; }
         public static List<int> PostSCal { get; private set; }
         public static List<int> Endgame { get; private set; }
-        //misc lists
+        // Other lists.
         public static List<int> SCalTooltips { get; private set; }
         public static List<int> ShroomsDrawProjs { get; private set; }
 

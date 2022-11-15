@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalNohitQoL.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
@@ -80,10 +81,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 2;
                         }
@@ -129,10 +130,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 1;
                         }
@@ -175,7 +176,7 @@ namespace CalNohitQoL.UI.QoLUI
             Texture2D glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/MapGlow", (AssetRequestMode)2).Value;
             string textToSend = "Reveal The Full Map";
             string textToSendFormat = "[c/ffcc44:Fills out all of your map, cannot be reversed]";
-            ref bool thingToSend = ref CalNohitQoLWorld.MapReveal;
+            ref bool thingToSend = ref MapSystem.MapReveal;
             TogglesUIManager.SpecialToggleOnClick toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
 
             switch (pageNumber)
@@ -196,7 +197,7 @@ namespace CalNohitQoL.UI.QoLUI
                                     glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/SpawnsGlow", (AssetRequestMode)2).Value;
                                     textToSend = "Toggle Enemy Spawns";
                                     textToSendFormat = "[c/ffcc44:Toggles allowing enemies to spawn]";
-                                    thingToSend = ref CalNohitQoLWorld.NoSpawns;
+                                    thingToSend = ref Toggles.NoSpawns;
                                     toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                     TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                     break;
@@ -205,7 +206,7 @@ namespace CalNohitQoL.UI.QoLUI
                                     glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/timeGlow", (AssetRequestMode)2).Value;
                                     textToSend = "Toggle Time Flow";
                                     textToSendFormat = "[c/ffcc44:Pauses & resumes time flowing]";
-                                    thingToSend = ref CalNohitQoLWorld.FrozenTime;
+                                    thingToSend = ref Toggles.FrozenTime;
                                     toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                     TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                     break;
@@ -254,7 +255,7 @@ namespace CalNohitQoL.UI.QoLUI
                                     glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/biomeGlow", (AssetRequestMode)2).Value;
                                     textToSend = "Toggle Biome Fountains";
                                     textToSendFormat = "[c/ffcc44:Water fountains now force their biome post Queen Bee]";
-                                    thingToSend = ref CalNohitQoL.Instance.BiomeFountainsForceBiome;
+                                    thingToSend = ref Toggles.BiomeFountainsForceBiome;
                                     toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                     TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                     break;
@@ -317,7 +318,7 @@ namespace CalNohitQoL.UI.QoLUI
                                     glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/teleportGlow", (AssetRequestMode)2).Value;
                                     textToSend = "Toggle Map Teleporting";
                                     textToSendFormat = "[c/ffcc44:Right click the fullscreen map to teleport]";
-                                    thingToSend = ref CalNohitQoLWorld.MapTeleport;
+                                    thingToSend = ref MapSystem.MapTeleport;
                                     toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
                                     TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                     break;

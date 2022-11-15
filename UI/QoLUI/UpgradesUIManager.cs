@@ -83,22 +83,22 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = "[c/ffcc44:Automated System enables every upgrade]\n[c/ffcc44:up to your latest boss in progression killed]";
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    CalNohitQoL.Instance.AutomateProgressionUpgrades = !CalNohitQoL.Instance.AutomateProgressionUpgrades;
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    Toggles.AutomateProgressionUpgrades = !Toggles.AutomateProgressionUpgrades;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(autoTexture, drawPos2, null, Color.White, 0, autoTexture.Size() * 0.5f, 1f, 0, 0);
-            Texture2D statusTexture = CalNohitQoL.Instance.AutomateProgressionUpgrades ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-            Texture2D statusTextureGlow = CalNohitQoL.Instance.AutomateProgressionUpgrades ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+            Texture2D statusTexture = Toggles.AutomateProgressionUpgrades ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+            Texture2D statusTextureGlow = Toggles.AutomateProgressionUpgrades ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
             {
                 spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                Main.hoverItemName = "[c/ffcc44:Automated System enables every upgrade]\n[c/ffcc44:up to your latest boss in progression killed]\n" + (CalNohitQoL.Instance.AutomateProgressionUpgrades ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                Main.hoverItemName = "[c/ffcc44:Automated System enables every upgrade]\n[c/ffcc44:up to your latest boss in progression killed]\n" + (Toggles.AutomateProgressionUpgrades ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
             }
             spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
             string textToShow2 = "Toggle Automated System";
@@ -135,18 +135,18 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = $"[c/ffcc44:Next Upgrade: {NextHPUpgrade}]";
                 }              
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    if (!CalNohitQoL.Instance.AutomateProgressionUpgrades)
+                    if (!Toggles.AutomateProgressionUpgrades)
                         CheckNextUpgrade(UpgradeType.HP);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(hpTexture, drawPos2, null, Color.White, 0, hpTexture.Size() * 0.5f, 1f, 0, 0);
-            if(CalNohitQoL.Instance.AutomateProgressionUpgrades)
+            if(Toggles.AutomateProgressionUpgrades)
                 spriteBatch.Draw(lockTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, lockTexture.Size() * 0.5f, 1, 0, 0);
             if (isHovering)
             {
@@ -190,19 +190,19 @@ namespace CalNohitQoL.UI.QoLUI
                     
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK EFFECT GOES HERE
 
-                    if (!CalNohitQoL.Instance.AutomateProgressionUpgrades)
+                    if (!Toggles.AutomateProgressionUpgrades)
                         CheckNextUpgrade(UpgradeType.Mana);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(manaTexture, drawPos2, null, Color.White, 0, manaTexture.Size() * 0.5f, 1f, 0, 0);
-            if (CalNohitQoL.Instance.AutomateProgressionUpgrades)
+            if (Toggles.AutomateProgressionUpgrades)
                 spriteBatch.Draw(lockTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, lockTexture.Size() * 0.5f, 1, 0, 0);
             if (isHovering)
             {
@@ -244,18 +244,18 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = $"[c/ffcc44:Next Upgrade: {NextRageUpgrade}]";
                 }            
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK EFFECT GOES HERE
-                    if (!CalNohitQoL.Instance.AutomateProgressionUpgrades)
+                    if (!Toggles.AutomateProgressionUpgrades)
                         CheckNextUpgrade(UpgradeType.Rage);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(rageTexture, drawPos2, null, Color.White, 0, rageTexture.Size() * 0.5f, 1f, 0, 0);
-            if (CalNohitQoL.Instance.AutomateProgressionUpgrades)
+            if (Toggles.AutomateProgressionUpgrades)
                 spriteBatch.Draw(lockTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, lockTexture.Size() * 0.5f, 1, 0, 0);
             if (isHovering)
             {
@@ -297,18 +297,18 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = $"[c/ffcc44:Next Upgrade: {NextAdrenalineUpgrade}]";
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK EFFECT GOES HERE
-                    if (!CalNohitQoL.Instance.AutomateProgressionUpgrades)
+                    if (!Toggles.AutomateProgressionUpgrades)
                         CheckNextUpgrade(UpgradeType.Adren);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(adrenUpgrade, drawPos2, null, Color.White, 0, adrenUpgrade.Size() * 0.5f, 1f, 0, 0);
-            if (CalNohitQoL.Instance.AutomateProgressionUpgrades)
+            if (Toggles.AutomateProgressionUpgrades)
                 spriteBatch.Draw(lockTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, lockTexture.Size() * 0.5f, 1, 0, 0);
             if (isHovering)
             {
@@ -353,18 +353,18 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = $"[c/ffcc44:Next Upgrade: {NextAccUpgrade}]";
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK EFFECT GOES HERE
-                    if(!CalNohitQoL.Instance.AutomateProgressionUpgrades)
+                    if(!Toggles.AutomateProgressionUpgrades)
                         CheckNextUpgrade(UpgradeType.AccSlots);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
 
             spriteBatch.Draw(accTexture, drawPos2, null, Color.White, 0, accTexture.Size() * 0.5f, 1f, 0, 0);
-            if (CalNohitQoL.Instance.AutomateProgressionUpgrades)
+            if (Toggles.AutomateProgressionUpgrades)
                 spriteBatch.Draw(lockTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, lockTexture.Size() * 0.5f, 1, 0, 0);
             if (isHovering)
             {

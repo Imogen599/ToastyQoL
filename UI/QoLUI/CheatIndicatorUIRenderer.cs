@@ -28,13 +28,13 @@ namespace CalNohitQoL.UI.QoLUI
         {
            
             Texture2D Icon;
-            if (CalNohitQoL.Instance.GodmodeEnabled)
+            if (Toggles.GodmodeEnabled)
                 Icon = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/cheatGodUIIcon", (AssetRequestMode)2).Value;
-            else if (CalNohitQoL.Instance.InfiniteFlightTime)
+            else if (Toggles.InfiniteFlightTime)
                 Icon = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/cheatWingsUIIcon", (AssetRequestMode)2).Value;
-            else if (CalNohitQoL.Instance.InfiniteMana)
+            else if (Toggles.InfiniteMana)
                 Icon = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/cheatManaUIIcon", (AssetRequestMode)2).Value;
-            else if (CalNohitQoL.Instance.InstantDeath)
+            else if (Toggles.InstantDeath)
                 Icon = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/cheatDeathUIIcon", (AssetRequestMode)2).Value;
             else
                 Icon = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/baseUIIcon", (AssetRequestMode)2).Value;
@@ -65,27 +65,27 @@ namespace CalNohitQoL.UI.QoLUI
             if (isHovering)
             {
                 string IconHighlight;
-                if (CalNohitQoL.Instance.GodmodeEnabled)
+                if (Toggles.GodmodeEnabled)
                     IconHighlight = "[c/cdd00c:Godmode Enabled]";
-                else if (CalNohitQoL.Instance.InfiniteFlightTime)
+                else if (Toggles.InfiniteFlightTime)
                     IconHighlight = "[c/78fa91:Infinite Flight Enabled]";
-                else if (CalNohitQoL.Instance.InfiniteMana)
+                else if (Toggles.InfiniteMana)
                     IconHighlight = "[c/393dc0:Infinite Mana Enabled]";
-                else if (CalNohitQoL.Instance.InstantDeath)
+                else if (Toggles.InstantDeath)
                     IconHighlight = "[c/f92a07:Instant Death Enabled]";
                 else
                     IconHighlight = "No Player Cheat";
                 Main.hoverItemName = IconHighlight + "\n[c/ffcc44:Click to open UI!]";
 
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     TogglesUIManager.UIOpen = !TogglesUIManager.UIOpen;
                     if(TogglesUIManager.UIOpen)
                         TogglesUIManager.CloseAllUI(false);
                     else
                         TogglesUIManager.CloseAllUI(true);
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                 }
             }

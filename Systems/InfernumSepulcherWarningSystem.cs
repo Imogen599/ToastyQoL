@@ -20,8 +20,9 @@ namespace CalNohitQoL.Systems
                 {
                     if (Main.npc[i].type == ModContent.NPCType<SepulcherHead>())
                     {
-                        Main.NewText("Warning: You have Infernum enabled. Sepulcher will not delete projectiles properly.", Color.OrangeRed);
+                        CalNohitQoLUtils.DisplayText("Warning: You have Infernum enabled. Sepulcher will not delete projectiles properly.", Color.OrangeRed);
                         WarningGiven = true;
+                        break;
                     }
                 }
             }

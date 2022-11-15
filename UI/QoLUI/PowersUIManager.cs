@@ -82,10 +82,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White*0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0); 
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 2;
                         }
@@ -131,10 +131,10 @@ namespace CalNohitQoL.UI.QoLUI
                     {
                         spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                             PageNumber = 1;
                         }
@@ -183,8 +183,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #region Godmode
 
                     Texture2D autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Godmode", (AssetRequestMode)2).Value;
-                    Texture2D statusTexture = CalNohitQoL.Instance.GodmodeEnabled ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    Texture2D statusTextureGlow = CalNohitQoL.Instance.GodmodeEnabled ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    Texture2D statusTexture = Toggles.GodmodeEnabled ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    Texture2D statusTextureGlow = Toggles.GodmodeEnabled ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     Vector2 backgroundDrawCenter2;
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
@@ -213,12 +213,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:Prevents you from taking damage]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.GodmodeEnabled = !CalNohitQoL.Instance.GodmodeEnabled;
+                            Toggles.GodmodeEnabled = !Toggles.GodmodeEnabled;
                         }
                     }
 
@@ -230,7 +230,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering&&mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10,10), statusTexture.Size())))
                     { 
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10,10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:Prevents you from taking damage]\n" + ( CalNohitQoL.Instance.GodmodeEnabled ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:Prevents you from taking damage]\n" + ( Toggles.GodmodeEnabled ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10,10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -239,8 +239,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #endregion
                     #region Instant Death
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/InstantDeath", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InstantDeath ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InstantDeath ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InstantDeath ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InstantDeath ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset+baseVerticalInterval) / 2;
@@ -266,12 +266,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:Makes you die upon taking damage]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InstantDeath = !CalNohitQoL.Instance.InstantDeath;
+                            Toggles.InstantDeath = !Toggles.InstantDeath;
                         }
                     }
 
@@ -280,7 +280,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:Makes you die upon taking damage]\n" + (CalNohitQoL.Instance.InstantDeath ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:Makes you die upon taking damage]\n" + (Toggles.InstantDeath ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -289,8 +289,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #endregion
                     #region Infinite Flight
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Wings", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InfiniteFlightTime ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InfiniteFlightTime ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InfiniteFlightTime ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InfiniteFlightTime ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset + baseVerticalInterval*2) / 2;
@@ -316,12 +316,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:You never run out of flight time]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InfiniteFlightTime = !CalNohitQoL.Instance.InfiniteFlightTime;
+                            Toggles.InfiniteFlightTime = !Toggles.InfiniteFlightTime;
                         }
                     }
 
@@ -330,7 +330,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:You never run out of flight time]\n" + (CalNohitQoL.Instance.InfiniteFlightTime ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:You never run out of flight time]\n" + (Toggles.InfiniteFlightTime ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -339,8 +339,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #endregion
                     #region Infinite Mana
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Mana", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InfiniteMana ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InfiniteMana ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InfiniteMana ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InfiniteMana ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset + baseVerticalInterval * 3) / 2;
@@ -366,12 +366,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:You never run out of Mana]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InfiniteMana = !CalNohitQoL.Instance.InfiniteMana;
+                            Toggles.InfiniteMana = !Toggles.InfiniteMana;
                         }
                     }
 
@@ -380,7 +380,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:You never run out of Mana]\n" + (CalNohitQoL.Instance.InfiniteMana ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:You never run out of Mana]\n" + (Toggles.InfiniteMana ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -389,8 +389,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #endregion
                     #region Infinite Potions
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Potion", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InfinitePotions ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InfinitePotions ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InfinitePotions ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InfinitePotions ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset + baseVerticalInterval * 4) / 2;
@@ -416,12 +416,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:Potion durations are infinite]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InfinitePotions = !CalNohitQoL.Instance.InfinitePotions;
+                            Toggles.InfinitePotions = !Toggles.InfinitePotions;
                         }
                     }
 
@@ -430,7 +430,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:Potion durations are infinite]\n" + (CalNohitQoL.Instance.InfinitePotions ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:Potion durations are infinite]\n" + (Toggles.InfinitePotions ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -441,8 +441,8 @@ namespace CalNohitQoL.UI.QoLUI
                 case 2:
                     #region Infinite Ammo
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Ammo", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InfiniteAmmo ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InfiniteAmmo ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InfiniteAmmo ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InfiniteAmmo ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset) / 2;
@@ -468,12 +468,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:Ammo is not consumed]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InfiniteAmmo = !CalNohitQoL.Instance.InfiniteAmmo;
+                            Toggles.InfiniteAmmo = !Toggles.InfiniteAmmo;
                         }
                     }
 
@@ -482,7 +482,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:Ammo is not consumed]\n" + (CalNohitQoL.Instance.InfiniteAmmo ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:Ammo is not consumed]\n" + (Toggles.InfiniteAmmo ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -492,8 +492,8 @@ namespace CalNohitQoL.UI.QoLUI
                     #endregion
                     #region Infinite Consumables
                     autoTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cons", (AssetRequestMode)2).Value;
-                    statusTexture = CalNohitQoL.Instance.InfiniteConsumables ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-                    statusTextureGlow = CalNohitQoL.Instance.InfiniteConsumables ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+                    statusTexture = Toggles.InfiniteConsumables ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+                    statusTextureGlow = Toggles.InfiniteConsumables ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
                     // Position of the Icon
                     backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
                     backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset+baseVerticalInterval) / 2;
@@ -519,12 +519,12 @@ namespace CalNohitQoL.UI.QoLUI
                             Main.hoverItemName = "[c/ffcc44:Consumables are not consumed]";
                         }
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
                             // ON CLICK AFFECT
-                            TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            CalNohitQoL.Instance.InfiniteConsumables = !CalNohitQoL.Instance.InfiniteConsumables;
+                            Toggles.InfiniteConsumables = !Toggles.InfiniteConsumables;
                         }
                     }
 
@@ -533,7 +533,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
                     {
                         spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                        Main.hoverItemName = "[c/ffcc44:Consumables are not consumed]\n" + (CalNohitQoL.Instance.InfiniteConsumables ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                        Main.hoverItemName = "[c/ffcc44:Consumables are not consumed]\n" + (Toggles.InfiniteConsumables ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
                     }
                     spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 

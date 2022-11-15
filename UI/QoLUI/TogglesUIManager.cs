@@ -1,32 +1,31 @@
-﻿using Microsoft.Xna.Framework;
+﻿using CalNohitQoL.ModPlayers;
+using CalNohitQoL.Systems;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using System;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.UI.Chat;
 
 namespace CalNohitQoL.UI.QoLUI
 {
     public class TogglesUIManager
     {
-        public static bool UIOpen = true;
-        public static string textToShow = "";
-        public static int clickCooldownTimer = 0;
-        public static int clickCooldownLength = 15;
+        public static bool UIOpen { get; internal set; } = true;
+        public static string TextToShow = "";
+        public static int ClickCooldownTimer = 0;
+        public static int ClickCooldownLength = 15;
         public Color OnColor = new Color(98, 255, 71);
         public Color OffColor = new Color(255, 48, 43);
         public static Color ColorToUse;
-        public static int introTimer = 0;
-        public static int outroTimer = 60;
-        public static int timer;
-        public int smoltimer;
-        public static int frame = -1;
+        public static int IntroTimer = 0;
+        public static int OutroTimer = 60;
+        public static int Timer;
+        public int Smoltimer;
+        public static int Frame = -1;
 
         private bool ShouldDraw
         {
@@ -52,17 +51,17 @@ namespace CalNohitQoL.UI.QoLUI
                 {
                     Main.spawnTileX = (int)(((Entity)Main.LocalPlayer).position.X - 8f + (float)(((Entity)Main.LocalPlayer).width / 2)) / 16;
                     Main.spawnTileY = (int)(((Entity)Main.LocalPlayer).position.Y + (float)((Entity)Main.LocalPlayer).height) / 16;
-                    CalNohitQoLPlayer.UIUpdateTextTimer = 120;
-                    textToShow = "Spawn Set";
+                    GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
+                    TextToShow = "Spawn Set";
                     ColorToUse = Color.White;
                 }
                 ));
                 //list.Add(new TogglesUIElement("Pause Time", ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/pauseTimeUIIcon", (AssetRequestMode)2).Value, delegate
                 //{
-                //    CalNohitQoLWorld.FrozenTime = !CalNohitQoLWorld.FrozenTime;
+                //    GenericModSystem.FrozenTime = !GenericModSystem.FrozenTime;
                 //    CalNohitQoLPlayer.UIUpdateTextTimer = 60;
-                //    textToShow = CalNohitQoLWorld.FrozenTime ? "Time Paused" : "Time Unpaused";
-                //    ColorToUse = CalNohitQoLWorld.FrozenTime ? OffColor : OnColor;
+                //    textToShow = GenericModSystem.FrozenTime ? "Time Paused" : "Time Unpaused";
+                //    ColorToUse = GenericModSystem.FrozenTime ? OffColor : OnColor;
                 //}
                 //));
                 list.Add(new TogglesUIElement("Toggle Potions", ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/potionUIIcon", (AssetRequestMode)2).Value, delegate
@@ -73,7 +72,7 @@ namespace CalNohitQoL.UI.QoLUI
                     SoundEngine.PlaySound(SoundID.MenuOpen, Main.LocalPlayer.Center);
                     Main.playerInventory = false;
                     PotionUI.PotionUIManager.Timer = 0;
-                    CalNohitQoLPlayer.PotionUICooldownTimer = CalNohitQoLPlayer.UICooldownTimerLength;
+                    GenericUpdatesModPlayer.PotionUICooldownTimer = GenericUpdatesModPlayer.UICooldownTimerLength;
                 }
                 ));
                 list.Add(new TogglesUIElement("Set Upgrades", ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/upgradesUIIcon", (AssetRequestMode)2).Value, delegate
@@ -120,8 +119,8 @@ namespace CalNohitQoL.UI.QoLUI
                 ));
                 //list.Add(new TogglesUIElement("Toggle Spawns", ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/toggleSpawnsUIIcon", (AssetRequestMode)2).Value, delegate
                 //{
-                //    CalNohitQoLWorld.NoSpawns = !CalNohitQoLWorld.NoSpawns;
-                //    if (CalNohitQoLWorld.NoSpawns)
+                //    GenericModSystem.NoSpawns = !GenericModSystem.NoSpawns;
+                //    if (GenericModSystem.NoSpawns)
                 //    {
                 //        for (int i = 0; i < 200; i++)
                 //        {
@@ -136,8 +135,8 @@ namespace CalNohitQoL.UI.QoLUI
                 //        }
                 //    }
                 //    CalNohitQoLPlayer.UIUpdateTextTimer = 60;
-                //    textToShow = CalNohitQoLWorld.NoSpawns ? "Spawns Disabled" : "Spawns Enabled";
-                //    ColorToUse = CalNohitQoLWorld.NoSpawns ? OffColor : OnColor;
+                //    textToShow = GenericModSystem.NoSpawns ? "Spawns Disabled" : "Spawns Enabled";
+                //    ColorToUse = GenericModSystem.NoSpawns ? OffColor : OnColor;
                 //}
                 //));
 
@@ -148,7 +147,7 @@ namespace CalNohitQoL.UI.QoLUI
         }
         public void DrawElements(SpriteBatch spriteBatch)
         {
-            outroTimer = 45;
+            OutroTimer = 45;
             int currentHover = -1;
             for (int i = 0; i < UIElementList.Count; i++)
             {
@@ -161,18 +160,20 @@ namespace CalNohitQoL.UI.QoLUI
                 Vector2 drawAngle = (MathHelper.TwoPi * i / UIElementList.Count + MathHelper.Pi+MathHelper.PiOver2).ToRotationVector2();
                 float distance = 100f;
                 float opacity = 1f;
+
                 Texture2D texture;
                 if (uiElement.AltTexture != default)
                     texture = uiElement.AltTexture;
                 else
                     texture = uiElement.IconTexture;
-                if (introTimer<=60)
+
+                if (IntroTimer <= 60)
                 {
-                    distance = ((float)introTimer / 60)*100;
-                    opacity = (float)introTimer / 60/2;
-                    introTimer++;
-                    
+                    distance = ((float)IntroTimer / 60)*100;
+                    opacity = (float)IntroTimer / 60/2;
+                    IntroTimer++;                    
                 }
+
                 Vector2 spawnPos = (drawCenter + drawAngle * distance);
                 float scale = 1;              
                 spriteBatch.End();
@@ -187,12 +188,12 @@ namespace CalNohitQoL.UI.QoLUI
                 Rectangle iconRectangeArea = Utils.CenteredRectangle(spawnPos, Utils.Size(texture) * 1f);
                 Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
                 bool isHovering = mouseHitbox.Intersects(iconRectangeArea);
-                bool animationActive = frame >= 0 && frame < 12;
-                if (isHovering&&introTimer>=60)
-                {
-                    
+                bool animationActive = Frame >= 0 && Frame < 12;
+                if (isHovering&& IntroTimer >= 60)
+                {                   
                     if(currentHover == -1)
                         currentHover = i;
+
                     scale = 1.1f;
                     spriteBatch.Draw(ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/UIIconOutline", (AssetRequestMode)2).Value, spawnPos, null, Color.White* opacity, 0f, texture.Size() * 0.5f, scale, 0, 0f);
                     Vector2 size = FontAssets.MouseText.Value.MeasureString(uiElement.Description);
@@ -200,27 +201,27 @@ namespace CalNohitQoL.UI.QoLUI
                     
                     if (currentHover == i)
                     {
-                        if(frame < 0)
-                            frame = 0;
+                        if(Frame < 0)
+                            Frame = 0;
                         
                         if (animationActive)
                         {
-                            smoltimer++;
-                            if(frame >=12)
+                            Smoltimer++;
+                            if(Frame >= 12)
                             {
-                                frame = 0;
+                                Frame = 0;
                             }
-                            if (smoltimer >= 6)
+                            if (Smoltimer >= 6)
                             {
-                                smoltimer = 0;
-                                frame++;
+                                Smoltimer = 0;
+                                Frame++;
 
                             }
 
                         }
                         else
                         {
-                            frame = 0;
+                            Frame = 0;
                         }
                     }
 
@@ -228,23 +229,23 @@ namespace CalNohitQoL.UI.QoLUI
                 
                 else if(currentHover == i)
                 {
-                    frame = -1;
+                    Frame = -1;
                 }
                 spriteBatch.Draw(texture, spawnPos, null, Color.White*opacity, 0f, texture.Size() * 0.5f, scale, 0, 0f);
-                if(CalNohitQoLPlayer.UIUpdateTextTimer > 0)
+                if(GenericUpdatesModPlayer.UIUpdateTextTimer > 0)
                 {
-                    Vector2 size = FontAssets.MouseText.Value.MeasureString(textToShow);
-                    Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, textToShow, drawCenter.X - size.X / 2, drawCenter.Y - 40f, ColorToUse * opacity, Color.Black, default, 1f);
+                    Vector2 size = FontAssets.MouseText.Value.MeasureString(TextToShow);
+                    Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, TextToShow, drawCenter.X - size.X / 2, drawCenter.Y - 40f, ColorToUse * opacity, Color.Black, default, 1f);
                 }
                 if (uiElement.OnClick != null)
                 {
                     if (mouseHitbox.Intersects(iconRectangeArea))
                     {
                         Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && ClickCooldownTimer == 0)
                         {
                             uiElement.OnClick();
-                            clickCooldownTimer = clickCooldownLength;
+                            ClickCooldownTimer = ClickCooldownLength;
                             SoundEngine.PlaySound(SoundID.MenuTick,player.Center);
                         }
                     }
@@ -253,7 +254,7 @@ namespace CalNohitQoL.UI.QoLUI
                 if (animationActive&& currentHover == i)
                 {
                     int frameHeight = animationTex.Height / 12 - 1;
-                    Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * frame, animationTex.Width, frameHeight);
+                    Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * Frame, animationTex.Width, frameHeight);
                     float xOffset = (float)(animationTex.Width - animationTex.Width) / 2f;
                     float yOffset = (float)(animationTex.Height - frameHeight) / 2f;
                     Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
@@ -268,10 +269,9 @@ namespace CalNohitQoL.UI.QoLUI
             if (closeMain)
             {
                 UIOpen = false;
-                timer = 0;
-                frame = -1;
-                introTimer = 0;
-                
+                Timer = 0;
+                Frame = -1;
+                IntroTimer = 0;              
             }
             UpgradesUIManager.IsDrawing = false;
             LocksUIManager.IsDrawing = false;
@@ -288,10 +288,10 @@ namespace CalNohitQoL.UI.QoLUI
         public void Draw(SpriteBatch spriteBatch)
         {
             // This is kinda useless but oh well.
-            // NOT ANYMORE
             if (ShouldDraw)
                 DrawElements(spriteBatch);
-            else if(outroTimer >= 0)
+            // NOT ANYMORE
+            else if (OutroTimer >= 0)
             {
                 for (int i = 0; i < UIElementList.Count; i++)
                 {
@@ -304,11 +304,11 @@ namespace CalNohitQoL.UI.QoLUI
                     Vector2 drawAngle = (MathHelper.TwoPi * i / UIElementList.Count + MathHelper.Pi + MathHelper.PiOver2).ToRotationVector2();
                     float distance = 100f;
                     float opacity = 1f;
-                    if (outroTimer >= 0)
+                    if (OutroTimer >= 0)
                     {
-                        distance = (float)outroTimer / 60 *100;
-                        opacity = (float)outroTimer / 60/2;
-                        outroTimer--;
+                        distance = (float)OutroTimer / 60 *100;
+                        opacity = (float)OutroTimer / 60/2;
+                        OutroTimer--;
                         
                     }
                     Vector2 spawnPos = (drawCenter + drawAngle * distance);
@@ -318,7 +318,7 @@ namespace CalNohitQoL.UI.QoLUI
                         texture = uiElement.AltTexture;
                     else
                         texture = uiElement.IconTexture;
-                    if(outroTimer>0)
+                    if(OutroTimer > 0)
                         spriteBatch.Draw(texture, spawnPos, null, Color.White * opacity, 0f, texture.Size() * 0.5f, scale, 0, 0f);
                 }
             }
@@ -377,28 +377,28 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = hoverTextFormatted;
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
                     thingToToggle = !thingToToggle;
-                    clickCooldownTimer = clickCooldownLength;
+                    ClickCooldownTimer = ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                     if (extraOnClickEffect == SpecialToggleOnClick.SassMode)
                     {
-                        
-                        CalNohitQoL.Instance.MNLIndicator = true;
+
+                        Toggles.MNLIndicator = true;
                         if (thingToToggle == false)
                         {
                             SoundEngine.PlaySound(new SoundStyle("CalNohitQoL/Assets/SFX/babyLaugh"), player.Center);
                         }
                         else
                         {
-                            CalNohitQoL.Instance.MNLIndicator = true;
+                            Toggles.MNLIndicator = true;
                         }
                     }
                     if (extraOnClickEffect == SpecialToggleOnClick.BossDPS)
                     {
-                        CalNohitQoL.Instance.MNLIndicator = true;
+                        Toggles.MNLIndicator = true;
                     }
                   
                 }
@@ -449,39 +449,39 @@ namespace CalNohitQoL.UI.QoLUI
                     Main.hoverItemName = hoverTextFormatted;
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    clickCooldownTimer = clickCooldownLength;
+                    ClickCooldownTimer = ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                     if(extraOnClickEffect != SpecialToggleOnClick.None)
                     {
-                        CalNohitQoLPlayer.UIUpdateTextTimer = 120;
+                        GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
                         switch (extraOnClickEffect)
                         {
                             case SpecialToggleOnClick.MapReveal:
-                                CalNohitQoLWorld.MapReveal = true;
+                                MapSystem.MapReveal = true;
                                 break;
                             case SpecialToggleOnClick.ToggleTime:
                                 Main.dayTime = !Main.dayTime;
                                 Main.time = 0.0;
                                 if(Main.dayTime)
                                 {
-                                    textToShow = "Time set to Day";
+                                    TextToShow = "Time set to Day";
                                     ColorToUse = Color.Gold;
                                 }
                                 else
                                 {
-                                    textToShow = "Time set to Night";
+                                    TextToShow = "Time set to Night";
                                     ColorToUse = Color.DimGray;
                                 }
                                 break;
                             case SpecialToggleOnClick.ToggleRain:
-                                CalNohitQoL.Instance.ToggleRain = true;
+                                Toggles.ToggleRain = true;
                                 break;
                             case SpecialToggleOnClick.DisableEvents:
-                                CalNohitQoL.Instance.DisableEvents = true;
-                                textToShow = "Events Disabled";
+                                Toggles.DisableEvents = true;
+                                TextToShow = "Events Disabled";
                                 ColorToUse = Color.Coral;
                                 break;
                             case SpecialToggleOnClick.ToggleWorldDifficulty:
@@ -516,7 +516,7 @@ namespace CalNohitQoL.UI.QoLUI
                                         ColorToUse = Color.White;
                                         break;
                                 }
-                                textToShow = text;
+                                TextToShow = text;
                                 break;
                             case SpecialToggleOnClick.TogglePlayerDificulty:
                                 switch (player.difficulty)
@@ -542,7 +542,7 @@ namespace CalNohitQoL.UI.QoLUI
                                     // Stops you and the world desyncing being journey.
                                     Main.GameMode = 1;
                                 }
-                                textToShow = text;
+                                TextToShow = text;
                                 break;
                         }
 

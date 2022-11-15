@@ -94,11 +94,11 @@ namespace CalNohitQoL.UI.QoLUI
                     spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
                 }
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    CalNohitQoL.Instance.PotionTooltips = !CalNohitQoL.Instance.PotionTooltips;
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    Toggles.PotionTooltips = !Toggles.PotionTooltips;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
@@ -108,12 +108,12 @@ namespace CalNohitQoL.UI.QoLUI
                 spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
             }
 
-            Texture2D statusTexture = CalNohitQoL.Instance.PotionTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-            Texture2D statusTextureGlow = CalNohitQoL.Instance.PotionTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+            Texture2D statusTexture = Toggles.PotionTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+            Texture2D statusTextureGlow = Toggles.PotionTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
             {
                 spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                Main.hoverItemName = "[c/ffcc44:Adds a tooltip to potions past your progression point]\n" + (CalNohitQoL.Instance.PotionTooltips ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                Main.hoverItemName = "[c/ffcc44:Adds a tooltip to potions past your progression point]\n" + (Toggles.PotionTooltips ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
             }
             spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
 
@@ -151,11 +151,11 @@ namespace CalNohitQoL.UI.QoLUI
                 else
                     spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    CalNohitQoL.Instance.PotionLock = !CalNohitQoL.Instance.PotionLock;
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    Toggles.PotionLock = !Toggles.PotionLock;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
@@ -164,12 +164,12 @@ namespace CalNohitQoL.UI.QoLUI
                 // Seeing as our glow draws the inside of the texture, AND has glow
                 spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
             }
-            statusTexture = CalNohitQoL.Instance.PotionLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-            statusTextureGlow = CalNohitQoL.Instance.PotionLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+            statusTexture = Toggles.PotionLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+            statusTextureGlow = Toggles.PotionLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
             {
                 spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                Main.hoverItemName = "[c/ffcc44:Prevents drinking potions past your progression point]\n" + (CalNohitQoL.Instance.PotionLock ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                Main.hoverItemName = "[c/ffcc44:Prevents drinking potions past your progression point]\n" + (Toggles.PotionLock ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
             }
             spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
             textToShow2 = "Toggle Potion Locks";
@@ -207,11 +207,11 @@ namespace CalNohitQoL.UI.QoLUI
                 else
                     spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    CalNohitQoL.Instance.ItemTooltips = !CalNohitQoL.Instance.ItemTooltips;
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    Toggles.ItemTooltips = !Toggles.ItemTooltips;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
@@ -220,12 +220,12 @@ namespace CalNohitQoL.UI.QoLUI
                 // Seeing as our glow draws the inside of the texture, AND has glow
                 spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
             }
-            statusTexture = CalNohitQoL.Instance.ItemTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-            statusTextureGlow = CalNohitQoL.Instance.ItemTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+            statusTexture = Toggles.ItemTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+            statusTextureGlow = Toggles.ItemTooltips ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
             {
                 spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                Main.hoverItemName = "[c/ffcc44:Adds a tooltip to Calamity items past your progression point]\n" + (CalNohitQoL.Instance.ItemTooltips ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                Main.hoverItemName = "[c/ffcc44:Adds a tooltip to Calamity items past your progression point]\n" + (Toggles.ItemTooltips ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
             }
             spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
             textToShow2 = "Toggle Item Tooltips";
@@ -262,12 +262,12 @@ namespace CalNohitQoL.UI.QoLUI
                 else
                     spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
                 Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
-                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
-                    CalNohitQoL.Instance.ItemLock = !CalNohitQoL.Instance.ItemLock;
-                    CalNohitQoL.Instance.AccLock = !CalNohitQoL.Instance.AccLock;
-                    TogglesUIManager.clickCooldownTimer = TogglesUIManager.clickCooldownLength;
+                    Toggles.ItemLock = !Toggles.ItemLock;
+                    Toggles.AccLock = !Toggles.AccLock;
+                    TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
                 }
             }
@@ -276,12 +276,12 @@ namespace CalNohitQoL.UI.QoLUI
                 // Seeing as our glow draws the inside of the texture, AND has glow
                 spriteBatch.Draw(texture, drawPos2, null, Color.White, 0, texture.Size() * 0.5f, 1f, 0, 0);
             }
-            statusTexture = CalNohitQoL.Instance.ItemLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
-            statusTextureGlow = CalNohitQoL.Instance.ItemLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
+            statusTexture = Toggles.ItemLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Cross", (AssetRequestMode)2).Value;
+            statusTextureGlow = Toggles.ItemLock ? ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value : ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             if (isHovering && mouseHitbox.Intersects(Utils.CenteredRectangle(drawPos2 + new Vector2(10, 10), statusTexture.Size())))
             {
                 spriteBatch.Draw(statusTextureGlow, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTextureGlow.Size() * 0.5f, 1f, 0, 0);
-                Main.hoverItemName = "[c/ffcc44:Prevents using Calamity items past your progression point]\n" + (CalNohitQoL.Instance.ItemLock ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
+                Main.hoverItemName = "[c/ffcc44:Prevents using Calamity items past your progression point]\n" + (Toggles.ItemLock ? "[c/44de5a:Enabled]" : "[c/de4444:Disabled]");
             }
             spriteBatch.Draw(statusTexture, drawPos2 + new Vector2(10, 10), null, Color.White, 0, statusTexture.Size() * 0.5f, 1f, 0, 0);
             textToShow2 = "Toggle Item Locks";

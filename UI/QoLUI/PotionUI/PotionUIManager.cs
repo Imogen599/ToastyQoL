@@ -346,7 +346,7 @@ namespace CalNohitQoL.UI.QoLUI.PotionUI
                     IsDrawing = false;
                     SoundEngine.PlaySound(SoundID.MenuClose, Main.LocalPlayer.Center);
                     TogglesUIManager.UIOpen = true;
-                    TogglesUIManager.introTimer = 60;
+                    TogglesUIManager.IntroTimer = 60;
                 }
             }
             spriteBatch.Draw(closeButtonTexture, closeButtonDrawPos, null, Color.White*opacity, 0, closeButtonTexture.Size() * 0.5f, 0.8f*scale, 0, 0);
@@ -613,10 +613,10 @@ namespace CalNohitQoL.UI.QoLUI.PotionUI
                     if (maxBuffs)
                         Main.hoverItemName = "Max Buffs Reached";
                     // If this is true, we have clicked it.
-                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease))&&TogglesUIManager.clickCooldownTimer == 0)
+                    if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease))&&TogglesUIManager.ClickCooldownTimer == 0)
                     {
                         // Set the generic click timer to its length, but a bit shorter in this case.
-                        TogglesUIManager.clickCooldownTimer = (int)(TogglesUIManager.clickCooldownLength*0.75f);
+                        TogglesUIManager.ClickCooldownTimer = (int)(TogglesUIManager.ClickCooldownLength*0.75f);
                         // Play a sfx.
                         if(!maxBuffs)
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
@@ -730,9 +730,9 @@ namespace CalNohitQoL.UI.QoLUI.PotionUI
                         spriteBatch.Draw(potionElement.PotionGlowTexture, potionDrawPos, null, Color.White * opacity, 0, potionElement.PotionTexture.Size() * 0.5f, potionElement.Scale, 0, 0);
                         DrawPotionSideInformation(spriteBatch, spawnPos, potionElement, opacity);
                         Main.hoverItemName = "Remove";
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
-                            TogglesUIManager.clickCooldownTimer = 10;
+                            TogglesUIManager.ClickCooldownTimer = 10;
                             DPotionsAreActive.Remove(potionElement.PotionName);
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                             index--;
@@ -776,9 +776,9 @@ namespace CalNohitQoL.UI.QoLUI.PotionUI
                         spriteBatch.Draw(potionElement.PotionGlowTexture, potionDrawPos, null, Color.White * opacity, 0, potionElement.PotionTexture.Size() * 0.5f, potionElement.Scale, 0, 0);
                         DrawPotionSideInformation(spriteBatch, spawnPos, potionElement, opacity);
                         Main.hoverItemName = "Remove";
-                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.clickCooldownTimer == 0)
+                        if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                         {
-                            TogglesUIManager.clickCooldownTimer = 10;
+                            TogglesUIManager.ClickCooldownTimer = 10;
                             DPotionsAreActive.Remove(potionElement.PotionName);
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                             index--;
