@@ -1,0 +1,67 @@
+using CalamityMod;
+using CalamityMod.NPCs.SupremeCalamitas;
+using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.Audio;
+using Terraria.ID;
+using Terraria.ModLoader;
+
+namespace CalNohitQoL
+{
+    public class BrimstoneTorch : ModItem
+    {
+        public int Amount = 1;
+        public Color TextColor = new Color(153, 0, 0);
+
+        public override void SetStaticDefaults()
+        {
+            DisplayName.SetDefault("Brimstone Torch EX");
+            Tooltip.SetDefault("Instantly summons Supreme Calamitas\n" +
+                "Right-click to increase spawn count up to 10");
+        }
+
+        public override void SetDefaults()
+        {
+            Item item = Item;
+            item.width = 58;
+            item.height = 64;
+            item.maxStack = 1;
+            item.rare = 11;
+            item.Calamity().customRarity = CalamityRarity.Violet;
+            item.useAnimation = 20;
+            item.useTime = 20;
+            item.useStyle = ItemUseStyleID.HoldUp;
+        }
+
+        public override bool AltFunctionUse(Player player) => true;
+
+        public override bool UseItem(Player player)
+        {
+            if (player.altFunctionUse == 2)
+            {
+                Amount++;
+                if (Amount > 10)
+                    Amount = 1;
+                
+                Main.NewText("Spawn Count: " + Amount, TextColor);
+            }
+            else
+            {
+                for (int i = 0; i < Amount; i++)
+                {
+                    int idx = NPC.NewNPC(null,(int)player.Center.X - 56, (int)player.Center.Y - 102, ModContent.NPCType<SupremeCalamitas>(), 1);
+                    if (idx != -1)
+                    {
+                        if (Main.netMode != NetmodeID.MultiplayerClient)
+                            CalamityUtils.BossAwakenMessage(idx);
+                        else
+                            NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, idx);
+                    }
+                }
+                SoundEngine.PlaySound(SupremeCalamitas.SpawnSound, player.Center);
+
+            }
+            return true;
+        }
+    }
+}
