@@ -343,6 +343,7 @@ namespace CalNohitQoL.UI.QoLUI
             ToggleTime,
             ToggleRain,
             BossDPS,
+            TesterTimes
         }
 
         public static void DrawElementWithBasicToggle(SpriteBatch spriteBatch,Texture2D baseTexture, Texture2D glowTexture, Player player, int index,float baseVerticalOffset,float baseOffsetAmount,string displayText, string hoverTextFormatted, ref bool thingToToggle, SpecialToggleOnClick extraOnClickEffect = SpecialToggleOnClick.None)
@@ -382,25 +383,25 @@ namespace CalNohitQoL.UI.QoLUI
                     // ON CLICK AFFECT
                     thingToToggle = !thingToToggle;
                     ClickCooldownTimer = ClickCooldownLength;
-                    SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                    if (extraOnClickEffect == SpecialToggleOnClick.SassMode)
-                    {
+                    SoundEngine.PlaySound(SoundID.MenuTick, player.Center);                  
 
-                        Toggles.MNLIndicator = true;
-                        if (thingToToggle == false)
-                        {
-                            SoundEngine.PlaySound(new SoundStyle("CalNohitQoL/Assets/SFX/babyLaugh"), player.Center);
-                        }
-                        else
-                        {
-                            Toggles.MNLIndicator = true;
-                        }
-                    }
-                    if (extraOnClickEffect == SpecialToggleOnClick.BossDPS)
+                    switch (extraOnClickEffect)
                     {
-                        Toggles.MNLIndicator = true;
+                        case SpecialToggleOnClick.SassMode:
+                            Toggles.MNLIndicator = true;
+                            if (thingToToggle == false)
+                                SoundEngine.PlaySound(new SoundStyle("CalNohitQoL/Assets/SFX/babyLaugh"), player.Center);
+                            else
+                                Toggles.MNLIndicator = true;
+                            break;
+                        case SpecialToggleOnClick.BossDPS:
+                            Toggles.MNLIndicator = true;
+                            break;
+                        case SpecialToggleOnClick.TesterTimes:
+                            GenericUpdatesModPlayer.UpdateActiveLengthDictFlag = true;
+                            break;
                     }
-                  
+
                 }
             }
 

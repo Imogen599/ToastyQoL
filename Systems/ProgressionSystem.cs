@@ -72,7 +72,7 @@ namespace CalNohitQoL.Systems
             "[c/00FF00:Pre Boss]" // 42
         };
 
-        public static void CheckProgressionBossStatus()
+        public static bool CheckProgressionBossStatus()
         {
             if (Toggles.AutomateProgressionUpgrades)
             {
@@ -105,6 +105,7 @@ namespace CalNohitQoL.Systems
                 else
                     HandleAutomatedPermanentUpgrades(PUpgradeBossProgressionOrder.NA);
             }
+            return false;
         }
         private static void HandleAutomatedPermanentUpgrades(PUpgradeBossProgressionOrder bossJustKilled)
         {

@@ -325,8 +325,7 @@ namespace CalNohitQoL.UI.QoLUI
                                 textToSend = "Toggle MNL Indicator";
                                 textToSendFormat = "[c/ffcc44:Shows a chat message informing you how close you]\n[c/ffcc44:were to a bosses MNL according to nohit rules]";
                                 thingToSend = ref Toggles.MNLIndicator;
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-                                TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
+                                TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend);
                                 break;
                             case 1: // Sass Mode.
                                 baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/sass", (AssetRequestMode)2).Value;
@@ -340,10 +339,19 @@ namespace CalNohitQoL.UI.QoLUI
                             case 2: // DPS
                                 baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/dps", (AssetRequestMode)2).Value;
                                 glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/dpsGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Toggle DPS stats";
+                                textToSend = "Toggle DPS Stats";
                                 textToSendFormat = "[c/ffcc44:Shows a chat message that tells you the average dps you had]\n[c/ffcc44:on a boss.]";
                                 thingToSend = ref Toggles.BossDPS;
                                 toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.BossDPS;
+                                TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
+                                break;
+                            case 3: // Tester Times
+                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/tester", (AssetRequestMode)2).Value;
+                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/testerGlow", (AssetRequestMode)2).Value;
+                                textToSend = "Toggle Fight Length Type";
+                                textToSendFormat = "[c/ffcc44:Enable to have the MNL Indicator use testing times instead]\n[c/ffcc44:of nohit times]";
+                                thingToSend = ref Toggles.TesterTimes;
+                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.TesterTimes;
                                 TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
                                 break;
                         }

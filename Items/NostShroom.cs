@@ -58,6 +58,11 @@ namespace CalNohitQoL.Items
 			obj8.Text = "Creamy";
 			obj8.OverrideColor = new Color(255, 242, 221, 255);
 			tooltips.Add(obj8);
+
+			TooltipLine obj9 = new TooltipLine(Mod, "7", "People who have nohit SCal with this:");
+			obj9.Text = "Xurkiderp";
+			obj9.OverrideColor = new Color(255, 242, 221, 255);
+			tooltips.Add(obj9);
 		}
         public override void SetDefaults()
 		{

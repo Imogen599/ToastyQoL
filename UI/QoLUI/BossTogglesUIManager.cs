@@ -1,4 +1,5 @@
 ﻿using CalamityMod;
+using CalNohitQoL.ModPlayers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -747,7 +748,7 @@ namespace CalNohitQoL.UI.QoLUI
                         if ((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease))
                         {
                             // ON CLICK AFFECT
-
+                            GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
                             Hatred(boss);
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
 

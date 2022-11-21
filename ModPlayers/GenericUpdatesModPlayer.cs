@@ -23,8 +23,14 @@ namespace CalNohitQoL.ModPlayers
 
         public static int PotionUICooldownTimer { get; internal set; }
 
+        public static int KeepRageMaxedTimer { get; internal set; }
+
         public const int UICooldownTimerLength = 15;
+
         internal static int GMHitCooldownTimer = 0;
+
+        internal static bool UpdateUpgradesTextFlag;
+        internal static bool UpdateActiveLengthDictFlag;
 
         public override void PreUpdate()
         {
@@ -43,10 +49,20 @@ namespace CalNohitQoL.ModPlayers
             if (UIUpdateTextTimer > 0)
                 UIUpdateTextTimer--;
 
+            if (KeepRageMaxedTimer > 0)
+            {
+                KeepRageMaxedTimer--;
+                Player.Calamity().rage = Player.Calamity().rageMax;
+            }
             // Generic update calls
-            UpgradesUIManager.SortOutTextures();
-            ProgressionSystem.CheckProgressionBossStatus();
-            CalNohitQoL.potionUIManager.GiveBuffs();
+            if(UpdateUpgradesTextFlag)
+                UpdateUpgradesTextFlag = UpgradesUIManager.SortOutTextures() || ProgressionSystem.CheckProgressionBossStatus();
+
+            if(Main.LocalPlayer.GetModPlayer<PotionUIPlayer>().DPotionsAreActive.Count > 0)
+                CalNohitQoL.potionUIManager.GiveBuffs();
+
+            if (UpdateActiveLengthDictFlag)
+                UpdateActiveLengthDictFlag = MNLSystem.UpdateActiveDictonary();
 
             // Update any cheat effects.
             if (Toggles.GodmodeEnabled)

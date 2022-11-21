@@ -35,8 +35,9 @@ using Terraria.DataStructures;
 using System.Linq;
 using CalNohitQoL.ModPlayers;
 using CalNohitQoL.Systems;
+using CalamityMod.Items.PermanentBoosters;
 
-namespace CalNohitQoL.Items
+namespace CalNohitQoL.Globals
 {
     public class CalNohitQoLGlobalItem : GlobalItem
     {
@@ -46,10 +47,10 @@ namespace CalNohitQoL.Items
         // This is massive, evil, and scares me.
         public override void ModifyTooltips(Item itemID, List<TooltipLine> tooltips)
         {
-            TooltipLine nameLine = tooltips.FirstOrDefault((TooltipLine x) => x.Name == "ItemName" && x.Mod == "Terraria");
+            TooltipLine nameLine = tooltips.FirstOrDefault((x) => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
                 ApplyRarityColor(itemID, nameLine);
-            
+
             // Communitys tooltip.
             if (itemID.type == ModContent.ItemType<TheCommunity>())
             {
@@ -562,7 +563,7 @@ namespace CalNohitQoL.Items
                         string text = "This is post Skeletron Prime, you should not be using it.";
                         TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: MountedScanner", text) { OverrideColor = Color.Red };
                         tooltips.Add(tooltip);
-                    }               
+                    }
                     if (itemID.type == ModContent.ItemType<ForbiddenOathblade>())//if destroyer is dead but neither of the other two are, so no hallowed bars.
                     {
                         string text = "This is post Skeletron Prime, you should not be using it.";
@@ -733,15 +734,15 @@ namespace CalNohitQoL.Items
                             TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: SHPC", text) { OverrideColor = Color.Red };
                             tooltips.Add(tooltip);
                         }
-                            if (itemID.type == ModContent.ItemType<Nychthemeron>())//if prime is dead but neither of the other two are, so no hallowed bars.
-                            {
-                                string text = "This is post a Mech, you should not be using it.";
-                                TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: Nychthemeron", text) { OverrideColor = Color.Red };
-                                tooltips.Add(tooltip);
-                            }
-                            //back to vanilla, jesus this is a slog to write..
+                        if (itemID.type == ModContent.ItemType<Nychthemeron>())//if prime is dead but neither of the other two are, so no hallowed bars.
+                        {
+                            string text = "This is post a Mech, you should not be using it.";
+                            TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: Nychthemeron", text) { OverrideColor = Color.Red };
+                            tooltips.Add(tooltip);
+                        }
+                        //back to vanilla, jesus this is a slog to write..
 
-                            if (itemID.type == ItemID.OrichalcumSword)
+                        if (itemID.type == ItemID.OrichalcumSword)
                         {
                             foreach (TooltipLine line3 in tooltips)
                             {
@@ -1483,7 +1484,7 @@ namespace CalNohitQoL.Items
                         TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: RelicofRuin", text) { OverrideColor = Color.Red };
                         tooltips.Add(tooltip);
                     }
-                   
+
                     if (itemID.type == ModContent.ItemType<Bazooka>())//if prime is dead but neither of the other two are, so no hallowed bars.
                     {
 
@@ -1972,6 +1973,10 @@ namespace CalNohitQoL.Items
                 if (!DownedBossSystem.downedAquaticScourge)
                 {
                     PostAquaticScourgeTooltips(itemID, tooltips);
+                }
+                if (!DownedBossSystem.downedBrimstoneElemental)
+                {
+                    PostBrimstoneElementalTooltips(itemID, tooltips);
                 }
                 if (!NPC.downedMechBoss2)
                 {
@@ -2634,7 +2639,7 @@ namespace CalNohitQoL.Items
             return true;
 
         }
-        
+
         // EVEN LESS masive and evil, and only slightly frightening. 
         public override bool CanEquipAccessory(Item item, Player player, int slot, bool modded)
         {
@@ -2928,7 +2933,7 @@ namespace CalNohitQoL.Items
                         return false;
                     }
                 }
-              
+
             }
 
 
@@ -2939,6 +2944,8 @@ namespace CalNohitQoL.Items
             if (CalNohitQoLLists.SCalTooltips.Contains(item.type))
                 nameLine.OverrideColor = CalNohitQoLUtils.TwoColorPulse(new Color(255, 132, 22), new Color(221, 85, 7), 4f);
         }
+
+        #region Tooltip Helpers
         private void PostKingSlimeTooltips(Item item, IList<TooltipLine> tooltips)
         {
             if (CalNohitQoLLists.PostKingSlime.Contains(item.type))
@@ -3432,7 +3439,7 @@ namespace CalNohitQoL.Items
             }
         }
 
-        //end of tooltip methods
+        #endregion
 
         public override void UpdateAccessory(Item item, Player player, bool hideVisual)
         {
@@ -3592,7 +3599,7 @@ namespace CalNohitQoL.Items
             {
                 player.Calamity().abaddon = false;
             }
-            if (!DownedBossSystem.downedCryogen || ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2) && (!NPC.downedMechBoss2 || !NPC.downedMechBoss3) && (!NPC.downedMechBoss1 || !NPC.downedMechBoss3)))
+            if (!DownedBossSystem.downedCryogen || (!NPC.downedMechBoss1 || !NPC.downedMechBoss2) && (!NPC.downedMechBoss2 || !NPC.downedMechBoss3) && (!NPC.downedMechBoss1 || !NPC.downedMechBoss3))
             {
                 if (item.type == ModContent.ItemType<OrnateShield>())
                 {
@@ -3704,10 +3711,10 @@ namespace CalNohitQoL.Items
 
         public override void SetDefaults(Item item)
         {
-            if (item.maxStack > 10 && (item.maxStack != 100) && !(item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin))
+            if (item.maxStack > 10 && item.maxStack != 100 && !(item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin))
             {
                 item.maxStack = 9999;
-            }        
+            }
         }
 
         private static void GiveUnlimitedBuffs(Item item, Player player)
@@ -3736,7 +3743,7 @@ namespace CalNohitQoL.Items
                         break;
                 }
 
-                if(item.type == ModContent.ItemType<VigorousCandle>())
+                if (item.type == ModContent.ItemType<VigorousCandle>())
                     player.AddBuff(ModContent.BuffType<CirrusPinkCandleBuff>(), 2);
 
                 else if (item.type == ModContent.ItemType<SpitefulCandle>())
@@ -3754,7 +3761,7 @@ namespace CalNohitQoL.Items
                 else if (item.type == ModContent.ItemType<CorruptionEffigy>())
                     player.AddBuff(ModContent.BuffType<CorruptionEffigyBuff>(), 2);
             }
-            
+
         }
         public override bool CanBeConsumedAsAmmo(Item ammo, Item weapon, Player player)
         {
@@ -3767,15 +3774,41 @@ namespace CalNohitQoL.Items
         }
         public override bool ConsumeItem(Item item, Player player)
         {
-            if(Toggles.InfiniteConsumables)
-            { 
+            if (Toggles.InfiniteConsumables)
+            {
                 if (item.damage > 0 && item.ammo == 0)
                     return false;
-                if ( (item.buffType > 0 || item.type == ItemID.RecallPotion || item.type == ItemID.PotionOfReturn || item.type == ItemID.WormholePotion) && (item.stack >= 30 || player.inventory.Any(i => i.type == item.type && !i.IsAir && i.stack >= 30)))
+                if ((item.buffType > 0 || item.type == ItemID.RecallPotion || item.type == ItemID.PotionOfReturn || item.type == ItemID.WormholePotion) && (item.stack >= 30 || player.inventory.Any(i => i.type == item.type && !i.IsAir && i.stack >= 30)))
                     return false;
             }
             return true;
         }
+
+        public override bool? UseItem(Item item, Player player)
+        {
+            if (ProgressionItems.Contains(item.type))
+                GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
+            return null;
+        }
+
+        private static readonly List<int> ProgressionItems = new()
+        {
+            ModContent.ItemType<BloodOrange>(),
+            ModContent.ItemType<MiracleFruit>(),
+            ModContent.ItemType<Elderberry>(),
+            ModContent.ItemType<Dragonfruit>(),
+            ModContent.ItemType<CometShard>(),
+            ModContent.ItemType<EtherealCore>(),
+            ModContent.ItemType<PhantomHeart>(),
+            ModContent.ItemType<MushroomPlasmaRoot>(),
+            ModContent.ItemType<InfernalBlood>(),
+            ModContent.ItemType<RedLightningContainer>(),
+            ModContent.ItemType<ElectrolyteGelPack>(),
+            ModContent.ItemType<StarlightFuelCell>(),
+            ModContent.ItemType<Ectoheart>(),
+            ItemID.DemonHeart,
+            ModContent.ItemType<CelestialOnion>(),
+        };
 
         public override bool InstancePerEntity => true;
     }

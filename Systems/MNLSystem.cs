@@ -40,6 +40,7 @@ namespace CalNohitQoL.Systems
 {
     public class MNLSystem : ModSystem
     {
+        public static Dictionary<int, float> ActiveFightLength { get; private set; }
         public static Dictionary<int, float> BossMNLS => new()
         {
             // PreHardmode
@@ -94,17 +95,74 @@ namespace CalNohitQoL.Systems
             [ModContent.NPCType<AresBody>()] = 9000,
             [ModContent.NPCType<ThanatosHead>()] = 9000,
         };
+        public static Dictionary<int, float> TesterKilltimes => new()
+        {
+            // Pre Hardmode
+            [NPCID.KingSlime] = 3600,
+            [ModContent.NPCType<DesertScourgeHead>()] = 3600,
+            [NPCID.EyeofCthulhu] = 5400,
+            [ModContent.NPCType<Crabulon>()] = 5400,
+            [NPCID.BrainofCthulhu] = 5400,
+            [NPCID.EaterofWorldsHead] = 7200,
+            [ModContent.NPCType<PerforatorHive>()] = 7200,
+            [ModContent.NPCType<HiveMind>()] = 7200,
+            [NPCID.QueenBee] = 7200,
+            [NPCID.Deerclops] = 5400,
+            [NPCID.SkeletronHead] = 7200,
+            [ModContent.NPCType<SlimeGodCore>()] = 9000,
+            [NPCID.WallofFlesh] = 7200,
 
-        public static void DisplayMNLMessage(ref float BossAliveFrames, ref NPC Boss, bool bossDied, PlayerDeathReason deathReason)
+            // Hardmode
+            [NPCID.QueenSlimeBoss] = 7200,
+            [ModContent.NPCType<Cryogen>()] = 10800,
+            [ModContent.NPCType<BrimstoneElemental>()] = 10800,
+            [ModContent.NPCType<AquaticScourgeHead>()] = 7200,
+            [NPCID.TheDestroyer] = 10800,
+            [NPCID.Retinazer] = 10800,
+            [NPCID.Spazmatism] = 10800,
+            [NPCID.SkeletronPrime] = 10800,
+            [ModContent.NPCType<CalamitasClone>()] = 14400,
+            [NPCID.Plantera] = 10800,
+            [ModContent.NPCType<Leviathan>()] = 10800,
+            [ModContent.NPCType<Anahita>()] = 10800,
+            [ModContent.NPCType<AstrumAureus>()] = 10800,
+            [NPCID.Golem] = 9000,
+            [ModContent.NPCType<PlaguebringerGoliath>()] = 10800,
+            [NPCID.HallowBoss] = 10800,
+            [NPCID.DukeFishron] = 9000,
+            [ModContent.NPCType<RavagerBody>()] = 10800,
+            [NPCID.CultistBoss] = 9000,
+            [ModContent.NPCType<AstrumDeusHead>()] = 7200,
+            [NPCID.MoonLordCore] = 14400,
+
+            // Post Moonlord
+            [ModContent.NPCType<ProfanedGuardianCommander>()] = 5400,
+            [ModContent.NPCType<Bumblefuck>()] = 7200,
+            [ModContent.NPCType<Providence>()] = 14400,
+            [ModContent.NPCType<StormWeaverHead>()] = 8100,
+            [ModContent.NPCType<CeaselessVoid>()] = 10800,
+            [ModContent.NPCType<Signus>()] = 7200,
+            [ModContent.NPCType<Polterghast>()] = 10800,
+            [ModContent.NPCType<OldDuke>()] = 10800,
+            [ModContent.NPCType<DevourerofGodsHead>()] = 14400,
+            [ModContent.NPCType<Yharon>()] = 14700,
+            [ModContent.NPCType<SupremeCalamitas>()] = 18000,
+            [ModContent.NPCType<Artemis>()] = 21600,
+            [ModContent.NPCType<Apollo>()] = 21600,
+            [ModContent.NPCType<AresBody>()] = 21600,
+            [ModContent.NPCType<ThanatosHead>()] = 21600,
+        };
+
+        public static void DisplayMNLMessage(ref float BossAliveFrames, ref NPC Boss, bool bossDied)
         {
             if (BossAliveFrames >= 3 && Main.netMode != NetmodeID.Server)
             {
-                if (!BossMNLS.TryGetValue(Boss.type, out float MNL))
+                if (!ActiveFightLength.TryGetValue(Boss.type, out float length))
                     return;
                 // Under MNL Message
-                if (BossAliveFrames < MNL)
+                if (BossAliveFrames < length)
                 {
-                    float secondsMNL = MNL / 60;
+                    float secondsMNL = length / 60;
                     float secondsTimer = BossAliveFrames / 60;
                     float timerUnder = secondsMNL - secondsTimer;
                     timerUnder = (float)Math.Truncate((double)timerUnder * 100f) / 100f;
@@ -144,6 +202,19 @@ namespace CalNohitQoL.Systems
             }
             else
                 FightStatsModPlayer.bossIsDead = 0;
+        }
+
+        public static bool UpdateActiveDictonary()
+        {
+            if (Toggles.TesterTimes)
+                ActiveFightLength = TesterKilltimes;
+            else
+                ActiveFightLength = BossMNLS;
+            return false;
+        }
+        public override void Load()
+        {
+            ActiveFightLength = new Dictionary<int, float>();
         }
     }
 }

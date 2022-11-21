@@ -1,4 +1,5 @@
 ﻿using CalamityMod;
+using CalNohitQoL.ModPlayers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -86,6 +87,7 @@ namespace CalNohitQoL.UI.QoLUI
                 if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                 {
                     // ON CLICK AFFECT
+                    GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
                     Toggles.AutomateProgressionUpgrades = !Toggles.AutomateProgressionUpgrades;
                     TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
@@ -404,6 +406,7 @@ namespace CalNohitQoL.UI.QoLUI
         //   #region Helper Methods
         private static void CheckNextUpgrade(UpgradeType upgradeType)
         {
+            GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
             switch (upgradeType)
             {
                 case UpgradeType.HP:
@@ -459,7 +462,7 @@ namespace CalNohitQoL.UI.QoLUI
         }
         public static void HandleAdrenUpgrade()
         {
-            int textType = 0;
+            int textType;
             if (Main.LocalPlayer.Calamity().adrenalineBoostThree)
             {
                 Main.LocalPlayer.Calamity().adrenalineBoostOne = false;
@@ -506,7 +509,7 @@ namespace CalNohitQoL.UI.QoLUI
         }
         public static void HandleRageUpgrade()
         {
-            int textType = 0;
+            int textType;
             if (Main.LocalPlayer.Calamity().rageBoostThree)
             {
                 Main.LocalPlayer.Calamity().rageBoostOne = false;
@@ -553,7 +556,7 @@ namespace CalNohitQoL.UI.QoLUI
         }
         public static void HandleManaUpgrade()
         {
-            int textType = 0;
+            int textType;
             // if you have max upgrades, turn them all off.
             if (Main.LocalPlayer.Calamity().pHeart)
             {
@@ -602,7 +605,7 @@ namespace CalNohitQoL.UI.QoLUI
         public static void HandleHPUpgrade()
         {
 
-            int textType = 0;
+            int textType;
             // if you have max upgrades, turn them all off.
             if (Main.LocalPlayer.Calamity().dFruit)
             {
@@ -664,57 +667,59 @@ namespace CalNohitQoL.UI.QoLUI
                     break;
             }
         }
-        internal static void SortOutTextures()
-        {
-            
-                // HP Upgrades
-                if (Main.LocalPlayer.Calamity().dFruit)
-                {
-                    NextHPUpgrade = "None";
-                }
-                else if (Main.LocalPlayer.Calamity().eBerry)
-                    NextHPUpgrade = "Dragonfruit";
-                else if (Main.LocalPlayer.Calamity().mFruit)
-                    NextHPUpgrade = "Elderberry";
-                else if (Main.LocalPlayer.Calamity().bOrange)
-                    NextHPUpgrade = "Miracle Fruit";
-                else
-                    NextHPUpgrade = "BloodOrange";
-                // Mana Upgrades
-                if (Main.LocalPlayer.Calamity().pHeart)
-                    NextManaUpgrade = "None";
-                else if (Main.LocalPlayer.Calamity().eCore)
-                    NextManaUpgrade = "Phantom Heart";
-                else if (Main.LocalPlayer.Calamity().cShard)
-                    NextManaUpgrade = "Ethereal Core";
-                else
-                    NextManaUpgrade = "Comet Shard";
-                // Rage Upgrades
-                if (Main.LocalPlayer.Calamity().rageBoostThree)
-                    NextRageUpgrade = "None";
-                else if (Main.LocalPlayer.Calamity().rageBoostTwo)
-                    NextRageUpgrade = "Red Lightning Container";
-                else if (Main.LocalPlayer.Calamity().rageBoostOne)
-                    NextRageUpgrade = "Infernal Blood";
-                else
-                    NextRageUpgrade = "Mushroom PlasmaRoot";
-                // Adren Upgrades
-                if (Main.LocalPlayer.Calamity().adrenalineBoostThree)
-                    NextAdrenalineUpgrade = "None";
-                else if (Main.LocalPlayer.Calamity().adrenalineBoostTwo)
-                    NextAdrenalineUpgrade = "Ectoheart";
-                else if (Main.LocalPlayer.Calamity().adrenalineBoostOne)
-                    NextAdrenalineUpgrade = "Starlight Fuel Cell";
-                else
-                    NextAdrenalineUpgrade = "Electrolyte Gel Pack";
-                // Acc Slot Upgrades
-                if (Main.LocalPlayer.Calamity().extraAccessoryML)
-                    NextAccUpgrade = "None";
-                else if (Main.LocalPlayer.extraAccessory)
-                    NextAccUpgrade = "Celestial Onion";
-                else
-                    NextAccUpgrade = "Demon Heart";
-            
+        internal static bool SortOutTextures()
+        {         
+            // HP Upgrades
+            if (Main.LocalPlayer.Calamity().dFruit)
+                NextHPUpgrade = "None";
+            else if (Main.LocalPlayer.Calamity().eBerry)
+                NextHPUpgrade = "Dragonfruit";
+            else if (Main.LocalPlayer.Calamity().mFruit)
+                NextHPUpgrade = "Elderberry";
+            else if (Main.LocalPlayer.Calamity().bOrange)
+                NextHPUpgrade = "Miracle Fruit";
+            else
+                NextHPUpgrade = "BloodOrange";
+
+            // Mana Upgrades
+            if (Main.LocalPlayer.Calamity().pHeart)
+                NextManaUpgrade = "None";
+            else if (Main.LocalPlayer.Calamity().eCore)
+                NextManaUpgrade = "Phantom Heart";
+            else if (Main.LocalPlayer.Calamity().cShard)
+                NextManaUpgrade = "Ethereal Core";
+            else
+                NextManaUpgrade = "Comet Shard";
+
+            // Rage Upgrades
+            if (Main.LocalPlayer.Calamity().rageBoostThree)
+                NextRageUpgrade = "None";
+            else if (Main.LocalPlayer.Calamity().rageBoostTwo)
+                NextRageUpgrade = "Red Lightning Container";
+            else if (Main.LocalPlayer.Calamity().rageBoostOne)
+                NextRageUpgrade = "Infernal Blood";
+            else
+                NextRageUpgrade = "Mushroom PlasmaRoot";
+
+            // Adren Upgrades
+            if (Main.LocalPlayer.Calamity().adrenalineBoostThree)
+                NextAdrenalineUpgrade = "None";
+            else if (Main.LocalPlayer.Calamity().adrenalineBoostTwo)
+                NextAdrenalineUpgrade = "Ectoheart";
+            else if (Main.LocalPlayer.Calamity().adrenalineBoostOne)
+                NextAdrenalineUpgrade = "Starlight Fuel Cell";
+            else
+                NextAdrenalineUpgrade = "Electrolyte Gel Pack";
+
+            // Acc Slot Upgrades
+            if (Main.LocalPlayer.Calamity().extraAccessoryML)
+                NextAccUpgrade = "None";
+            else if (Main.LocalPlayer.extraAccessory)
+                NextAccUpgrade = "Celestial Onion";
+            else
+                NextAccUpgrade = "Demon Heart";
+
+            return false;
         }
         //	#endregion
 

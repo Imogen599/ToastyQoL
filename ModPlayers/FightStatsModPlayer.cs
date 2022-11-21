@@ -136,7 +136,7 @@ namespace CalNohitQoL.ModPlayers
                 currentBoss = FightStats.Boss;
                 FightStats.BossLife = FightStats.Boss.life / (float)FightStats.Boss.lifeMax;
                 currentBossLifeRatio = FightStats.BossLife;
-                if (MNLSystem.BossMNLS.TryGetValue(FightStats.Boss.type, out float mnl))
+                if (MNLSystem.ActiveFightLength.TryGetValue(FightStats.Boss.type, out float mnl))
                 {
                     FightStats.BossAliveFrames++;
                 }
@@ -147,12 +147,17 @@ namespace CalNohitQoL.ModPlayers
             }
             if (!Main.npc.Any((n) => (n.boss || n.type == NPCID.EaterofWorldsHead || n.type == NPCID.EaterofWorldsBody || n.type == NPCID.EaterofWorldsTail) && n.active))
             {
+                string lengthType;
+                if (Toggles.TesterTimes)
+                    lengthType = "the average kill time";
+                else
+                    lengthType = "the minimum nohit length";
                 if (startOnTextDelay)
                 {
                     FightStats.BossAliveFrames = 0;
                     FightStats.Boss = null;
                     startOnTextDelay = false;
-                    CalNohitQoLUtils.DisplayText("[c/2fff2f:You were above MNL!]");
+                    CalNohitQoLUtils.DisplayText($"[c/2fff2f:You were above {lengthType}!]");
                     if (Toggles.BossDPS && BossDPS.Count > 0)
                     {
                         CalNohitQoLUtils.DisplayText($"[c/e7684b:Average DPS:] [c/fccccf:{(int)BossDPS.Average()}]");
@@ -173,7 +178,7 @@ namespace CalNohitQoL.ModPlayers
                     FightStats.BossAliveFrames = 0;
                     FightStats.Boss = null;
                     startTextDelay = false;
-                    CalNohitQoLUtils.DisplayText("[c/ff2f2f:You were under MNL by ]" + timeUnderOrOverMNL + "[c/ff2f2f: seconds!]");
+                    CalNohitQoLUtils.DisplayText($"[c/ff2f2f:You were under {lengthType} by ]" + timeUnderOrOverMNL + "[c/ff2f2f: seconds!]");
                     if (Toggles.BossDPS && BossDPS.Count > 0)
                     {
                         CalNohitQoLUtils.DisplayText($"[c/e7684b:Average DPS:] [c/fccccf:{(int)BossDPS.Average()}]");
@@ -197,7 +202,7 @@ namespace CalNohitQoL.ModPlayers
             if (FightStats.BossAliveFrames > 0 && Toggles.MNLIndicator && !(BossRushActiveFrames > 0))
             {
                 bossIsDead = 1; // Boss is not dead.
-                MNLSystem.DisplayMNLMessage(ref FightStats.BossAliveFrames, ref FightStats.Boss, false, null);
+                MNLSystem.DisplayMNLMessage(ref FightStats.BossAliveFrames, ref FightStats.Boss, false);
             }
         }
 

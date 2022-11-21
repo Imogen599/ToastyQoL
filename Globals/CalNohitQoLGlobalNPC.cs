@@ -1,7 +1,17 @@
+using CalamityMod.NPCs.AstrumAureus;
+using CalamityMod.NPCs.AstrumDeus;
+using CalamityMod.NPCs.Bumblebirb;
+using CalamityMod.NPCs.Crabulon;
+using CalamityMod.NPCs.Polterghast;
+using CalamityMod.NPCs.Providence;
+using CalamityMod.NPCs.Ravager;
+using CalamityMod.NPCs.SlimeGod;
+using CalamityMod.NPCs.Yharon;
 using CalNohitQoL.Items;
 using CalNohitQoL.ModPlayers;
 using CalNohitQoL.Systems;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -40,9 +50,9 @@ namespace CalNohitQoL.Globals
                         CalNohitQoL.DownedEater = true;
                     break;
             }
-            if (FightStatsModPlayer.FightStats.BossAliveFrames > 0 && MNLSystem.BossMNLS.ContainsKey(npc.type) && Toggles.MNLIndicator && !(FightStatsModPlayer.BossRushActiveFrames > 0))
+            if (FightStatsModPlayer.FightStats.BossAliveFrames > 0 && MNLSystem.ActiveFightLength.ContainsKey(npc.type) && Toggles.MNLIndicator && !(FightStatsModPlayer.BossRushActiveFrames > 0))
             {
-                MNLSystem.DisplayMNLMessage(ref FightStatsModPlayer.FightStats.BossAliveFrames, ref FightStatsModPlayer.FightStats.Boss, true, null);
+                MNLSystem.DisplayMNLMessage(ref FightStatsModPlayer.FightStats.BossAliveFrames, ref FightStatsModPlayer.FightStats.Boss, true);
             }
             if (FightStatsModPlayer.IsBossRushActive && Toggles.MNLIndicator && npc.boss == true)
             {
@@ -69,41 +79,29 @@ namespace CalNohitQoL.Globals
                 string line = hours + minutes + seconds;
                 CalNohitQoLUtils.DisplayText($"[c/e7684b:Current Time:] [c/fccccf:{line}]");
             }
+            if (ProgressionBosses.Contains(npc.type))
+                GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
         }
 
-        internal static int[] Bosses = {
-            NPCID.KingSlime,
-            NPCID.EyeofCthulhu,
-            //NPCID.EaterofWorldsHead,
-            NPCID.BrainofCthulhu,
-            NPCID.QueenBee,
-            NPCID.SkeletronHead,
-            NPCID.QueenSlimeBoss,
+        internal readonly List<int> ProgressionBosses = new()
+        {
+            ModContent.NPCType<Crabulon>(),
+            ModContent.NPCType<SlimeGodCore>(),
+            NPCID.WallofFlesh,
             NPCID.TheDestroyer,
-            NPCID.SkeletronPrime,
             NPCID.Retinazer,
             NPCID.Spazmatism,
-            NPCID.Plantera,
+            NPCID.SkeletronPrime,
+            ModContent.NPCType<AstrumAureus>(),
             NPCID.Golem,
-            NPCID.DukeFishron,
-            NPCID.HallowBoss,
-            NPCID.CultistBoss,
+            ModContent.NPCType<RavagerBody>(),
+            ModContent.NPCType<AstrumDeusHead>(),
             NPCID.MoonLordCore,
-            NPCID.MartianSaucerCore,
-            NPCID.Pumpking,
-            NPCID.IceQueen,
-            NPCID.DD2Betsy,
-            NPCID.DD2OgreT3,
-            NPCID.IceGolem,
-            NPCID.SandElemental,
-            NPCID.Paladin,
-            NPCID.Everscream,
-            NPCID.MourningWood,
-            NPCID.SantaNK1,
-            NPCID.HeadlessHorseman,
-            NPCID.PirateShip
+            ModContent.NPCType<Bumblefuck>(),
+            ModContent.NPCType<Providence>(),
+            ModContent.NPCType<Polterghast>(),
+            ModContent.NPCType<Yharon>()
         };
-
 
         internal bool NoLoot = false;
 

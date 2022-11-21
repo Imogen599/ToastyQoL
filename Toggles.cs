@@ -31,5 +31,6 @@
         internal static bool BossDPS = true;
         internal static bool FrozenTime = false;
         internal static bool NoSpawns = false;
+        internal static bool TesterTimes = false;
     }
 }

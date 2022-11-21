@@ -29,7 +29,7 @@ namespace CalNohitQoL.Items
             item.width = 58;
             item.height = 64;
             item.maxStack = 1;
-            item.rare = 11;
+            item.rare = ItemRarityID.Purple;
             item.useAnimation = 20;
             item.useTime = 20;
             item.useStyle = ItemUseStyleID.Swing;

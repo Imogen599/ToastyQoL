@@ -23,9 +23,6 @@ namespace CalNohitQoL.Systems
 
 			GameInterfaceDrawMethod val = delegate
 			{
-				//IL_0082: Unknown result type (might be due to invalid IL or missing references)
-				//IL_008e: Unknown result type (might be due to invalid IL or missing references)
-				//IL_0098: Unknown result type (might be due to invalid IL or missing references)
 				if (!Main.inFancyUI && Main.playerInventory)
 				{
 					CalNohitQoL.cheatIndicatorUIRenderer.Draw(SpriteBatch);
