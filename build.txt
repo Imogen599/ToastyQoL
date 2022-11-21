@@ -1,6 +1,6 @@
 displayName = Toasty's Calamity QoL
 author = Toasty
-version = 2.0.3.3
+version = 2.0.3.4
 modReferences = CalamityMod
 hideCode = true
 hideResources = true
