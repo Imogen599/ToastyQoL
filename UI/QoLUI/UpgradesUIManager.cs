@@ -398,7 +398,7 @@ namespace CalNohitQoL.UI.QoLUI
             bool isHovering = mouseHitbox.Intersects(hoverArea);
             if (isHovering)
             {
-                Main.blockMouse = (Main.LocalPlayer.mouseInterface = true);
+                Main.blockMouse = (player.mouseInterface = true);
             }
             DrawElements(spriteBatch);
         }

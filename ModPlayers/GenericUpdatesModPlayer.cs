@@ -30,7 +30,7 @@ namespace CalNohitQoL.ModPlayers
         internal static int GMHitCooldownTimer = 0;
 
         internal static bool UpdateUpgradesTextFlag;
-        internal static bool UpdateActiveLengthDictFlag;
+        internal static bool UpdateActiveLengthDictFlag = true;
 
         public override void PreUpdate()
         {

@@ -252,9 +252,7 @@ namespace CalNohitQoL.Items
 
                 }
                 if (l.Text.StartsWith("Infernum Enabled"))
-                {
                     l.OverrideColor = CalNohitQoLUtils.TwoColorPulse(Color.Firebrick, Color.Orange, 2f);
-                }
             }
         }
         public override void AddRecipes()

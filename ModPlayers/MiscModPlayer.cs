@@ -151,6 +151,7 @@ namespace CalNohitQoL.ModPlayers
             }
 
         }
+
         public override void OnRespawn(Player player)
         {
             Player.immuneTime = 60;
@@ -168,7 +169,8 @@ namespace CalNohitQoL.ModPlayers
                         }
                     }
                 }
-            }           
+            }
+            
         }      
     }
 }

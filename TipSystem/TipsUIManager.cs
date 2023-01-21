@@ -22,9 +22,13 @@ namespace CalNohitQoL.TipSystem
         private bool CurrentlyHoveringCloseButtonMain;
         private bool CurrentlyHoveringBossIcon;
         private Vector2 PreHardmodeBossIconScrollOffset = Vector2.Zero;
+
         public Player player => Main.LocalPlayer;
-        private Rectangle MouseHitbox => new(Main.mouseX, Main.mouseY, 2, 2);
-        private List<Rectangle> ActiveBossIconRects = new List<Rectangle>();
+
+        private static Rectangle MouseHitbox => new(Main.mouseX, Main.mouseY, 2, 2);
+
+        private readonly List<Rectangle> ActiveBossIconRects = new();
+
         public bool ShouldDraw
         {
             get
@@ -38,23 +42,24 @@ namespace CalNohitQoL.TipSystem
                 return false;
             }
         }
-        public List<BossElement> BossList = new List<BossElement>()
-        {
-            new BossElement("King Slime", "Slimy Monarch", "50%", TipsList.KSTipsList, new Color(50,50,255) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlime",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlimeGlow",(AssetRequestMode)1).Value),
-            new BossElement("Desert Scourge", "Dried Worm", "N/A", TipsList.DSTipsList, new Color(200,170,0) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/desertScourge",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/desertScourgeGlow",(AssetRequestMode)1).Value, 0.75f),
-            new BossElement("Eye of Cthulhu", "Demonic Seer", "", TipsList.EoCTipsList, new Color(50,50,255) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/eoc",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/eoc",(AssetRequestMode)1).Value),
 
+        public List<BossElement> BossList = new()
+        {
+            //new BossElement("King Slime", "Slimy Monarch", "50%", TipsList.KSTipsList, new Color(50,50,255) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlime",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlimeGlow",(AssetRequestMode)1).Value),
+            //new BossElement("Desert Scourge", "Dried Worm", "N/A", TipsList.DSTipsList, new Color(200,170,0) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/desertScourge",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/desertScourgeGlow",(AssetRequestMode)1).Value, 0.75f),
+            //new BossElement("Eye of Cthulhu", "Demonic Seer", "", TipsList.EoCTipsList, new Color(50,50,255) ,ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/eoc",(AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/eoc",(AssetRequestMode)1).Value),
         };
+
         public BossElement CurrentBossShowing;
+        
         public BossElement BaseBossShowing = new BossElement("base", "base", "base", new List<string>() { "base" }, Color.White, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlime", (AssetRequestMode)1).Value, ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/BossIcons/kingSlime", (AssetRequestMode)1).Value, 1);
+        
         public void DrawBase(SpriteBatch spriteBatch)
         {
             if (ShouldDraw)
             {
                 if (Main.playerInventory)
-                {
                     Main.playerInventory = false;
-                }
                 // Define a base drawing position using Main.screenWidth + Main.screenHeight to allow for scaling.
                 Vector2 spawnPos = new(Main.screenWidth / 2, Main.screenHeight / 2);
 
@@ -69,9 +74,7 @@ namespace CalNohitQoL.TipSystem
                     Timer++;
                 }
                 if (mouseHitbox.Intersects(backgroundRect))
-                {
                     Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-                }
                 spriteBatch.Draw(backgroundTexture, spawnPos, null, Color.White * Opacity, 0, backgroundTexture.Size() * 0.5f, Scale, 0, 0);
 
                 #region close button
@@ -91,9 +94,8 @@ namespace CalNohitQoL.TipSystem
                 if (mouseHitbox.Intersects(closeRect))
                 {
                     if (!CurrentlyHoveringCloseButtonMain)
-                    {
                         SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                    }
+
                     CurrentlyHoveringCloseButtonMain = true;
                     spriteBatch.Draw(glowTexture, closeButtonDrawPos, null, Color.White, 0, glowTexture.Size() * 0.5f, Scale, 0, 0);
                     textColor = Color.LightCyan;
@@ -168,9 +170,7 @@ namespace CalNohitQoL.TipSystem
                 SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
             }
             else if(!isHovering)
-            {
                 CurrentlyHoveringBossIcon = false;
-            }
             ActiveBossIconRects.Clear();
             #endregion
         }
@@ -180,28 +180,18 @@ namespace CalNohitQoL.TipSystem
             Vector2 size = font.MeasureString(text)*(font == CalNohitQoL.DraedonFont ? 0.4f : 1);
             Vector2 textboxStart = new Vector2(Main.mouseX, Main.mouseY) + new Vector2(14, 14);
             if (Main.ThickMouse)
-            {
                 textboxStart += Vector2.One * 6f;
-            }
             if (!Main.mouseItem.IsAir)
-            {
                 textboxStart.X += 34f;
-            }
             if (textboxStart.X + size.X + 4f > Main.screenWidth)
-            {
                 textboxStart.X = Main.screenWidth - size.X - 4f;
-            }
             if (textboxStart.Y + size.Y + 4f > Main.screenHeight)
-            {
                 textboxStart.Y = Main.screenHeight - size.Y - 4f;
-            }
 
             position = new Vector2(textboxStart.X, textboxStart.Y);
             float scale;
             if (font == CalNohitQoL.DraedonFont)
-            {
                 scale = 0.4f;
-            }
             else
                 scale = 1;
             DynamicSpriteFontExtensionMethods.DrawString(spriteBatch, font, text, position, baseColor,0, Vector2.Zero, scale, 0,0);

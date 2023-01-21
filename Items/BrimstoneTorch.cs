@@ -37,16 +37,16 @@ namespace CalNohitQoL.Items
 
         public override bool AltFunctionUse(Player player) => true;
 
-        public override bool? UseItem(Player player)/* tModPorter Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
         {
             if (player.altFunctionUse == 2)
             {
                 int Direction = Math.Sign(Main.MouseWorld.X - player.position.X);
                 Amount += Direction;
-                if (Amount > 10)
+                if (Amount > 20)
                     Amount = 1;
                 if (Amount < 1)
-                    Amount = 10;
+                    Amount = 20;
                 
                 Main.NewText("Supreme Calamitas Spawn Count: " + Amount, TextColor);
                 return true;

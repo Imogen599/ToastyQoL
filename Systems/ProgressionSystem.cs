@@ -24,8 +24,10 @@ namespace CalNohitQoL.Systems
             Yharon,
             NA
         }
+
         private static readonly string Eater = "[c/745e61:Eater]";
         private static readonly string Perforators = "[c/cc5151:Perforators]";
+
         public static readonly string[] CommunityBossProgression = new string[43]{
             "[c/5a9aff:King Slime]", //0
             "[c/835f39:Desert Scourge]", //1
@@ -175,6 +177,7 @@ namespace CalNohitQoL.Systems
             Main.LocalPlayer.extraAccessory = accOne;
             Main.LocalPlayer.Calamity().extraAccessoryML = accTwo;
         }
+
         public static string GetLatestBossKilled()
         {
             string bossToReturn;

@@ -20,8 +20,9 @@ namespace CalNohitQoL.UI.QoLUI
     
     public class BossTogglesUIManager
     {
-        public static bool IsDrawing;
-        private bool ShouldDraw
+        internal static bool IsDrawing;
+
+        private static bool ShouldDraw
         {
             get
             {
@@ -31,14 +32,13 @@ namespace CalNohitQoL.UI.QoLUI
                     return false;
                 }
                 if (IsDrawing)
-                {
                     return true;
-                }
                 return false;
             }
         }
+
         private float BossIconY;
-        private Vector2 ScrollbarOffset = new Vector2(115, 15);
+        private Vector2 ScrollbarOffset = new(115, 15);
         private bool dragging;
         private Vector2 mouseBasePos = default;
         private static Vector2 PreHardmodeXOffset = new(-70,0);
@@ -61,7 +61,7 @@ namespace CalNohitQoL.UI.QoLUI
 
             // Block the mouse if we are hovering over it.
             Rectangle hoverArea = Utils.CenteredRectangle(spawnPos, backgroundTexture.Size());
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             bool isHovering = mouseHitbox.Intersects(hoverArea);
             if (isHovering)
             {
@@ -71,6 +71,7 @@ namespace CalNohitQoL.UI.QoLUI
             // Go to the next things to draw, passing in spawnPos for convienience.
             DrawElements(spriteBatch, spawnPos);
         }
+
         public void DrawElements(SpriteBatch spriteBatch, Vector2 spawnPos)
         {
             #region KillAllBosses
@@ -79,7 +80,6 @@ namespace CalNohitQoL.UI.QoLUI
             Texture2D crossGlowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/CrossGlow", (AssetRequestMode)2).Value;
             Texture2D tickTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/Tick", (AssetRequestMode)2).Value;
             Texture2D tickGlowTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/TickGlow", (AssetRequestMode)2).Value;
-            Texture2D whiteGlow = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/whiteTangle", (AssetRequestMode)2).Value;
             Texture2D whiteGlowSmall = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/Powers/SmallerWhiteRect", (AssetRequestMode)2).Value;
             // Get the mouse hitbox
             Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
@@ -102,7 +102,7 @@ namespace CalNohitQoL.UI.QoLUI
             spriteBatch.Draw(deleteIconTexture, deleteIconCenter2, null, Color.White, 0, deleteIconTexture.Size() * 0.5f, 1f, 0, 0);
 
             // Mark all as alive button stuff.
-            Vector2 tickPos = new Vector2(-80, -154);
+            Vector2 tickPos = new(-80, -154);
             Rectangle tickHoverRect = Utils.CenteredRectangle(spawnPos + tickPos, whiteGlowSmall.Size());
             if(mouseHitbox.Intersects(tickHoverRect))
             {
@@ -115,6 +115,7 @@ namespace CalNohitQoL.UI.QoLUI
                     if (((Main.mouseLeft && Main.mouseLeftRelease) || (Main.mouseRight && Main.mouseRightRelease)) && TogglesUIManager.ClickCooldownTimer == 0)
                     {
                         // On click stuff
+                        GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
                         MarkAllBossesAsX(false);
                         TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                         SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
@@ -123,7 +124,7 @@ namespace CalNohitQoL.UI.QoLUI
             }
             spriteBatch.Draw(tickTexture, spawnPos + tickPos, null, Color.White, 0,tickTexture.Size() * 0.5f, 1f,0,0);
             // Mark all as dead button.
-            Vector2 crossPos = new Vector2(60, -154);
+            Vector2 crossPos = new(60, -154);
             Rectangle crossHoverRect = Utils.CenteredRectangle(spawnPos + crossPos, whiteGlowSmall.Size());
             if (mouseHitbox.Intersects(crossHoverRect))
             {
@@ -151,7 +152,7 @@ namespace CalNohitQoL.UI.QoLUI
             // the change in Y is done directly to the offset. It works just fine.
             Texture2D scrollbarBackgroundTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/scrollbarBackground", (AssetRequestMode)2).Value;
             Texture2D scrollbarTexture = ModContent.Request<Texture2D>("CalNohitQoL/UI/QoLUI/Textures/fullScrollbar", (AssetRequestMode)2).Value;
-            Vector2 scrollbarBackgroundOffset = new Vector2(115, 8);
+            Vector2 scrollbarBackgroundOffset = new(115, 8);
             spriteBatch.Draw(scrollbarBackgroundTexture, spawnPos + scrollbarBackgroundOffset, null, Color.White,0,scrollbarBackgroundTexture.Size()*0.5f,1,0,0);
 
             // Get the rectangle of the scroll bar.
@@ -229,7 +230,7 @@ namespace CalNohitQoL.UI.QoLUI
                 {
                     // Riz wanted to be here for some reason.
                     // We are no longer dragging the panel.
-                    //dragging = false;
+                    // dragging = false;
                     // If this has a value, as it will ~50% of the time, we need to set it. Not doing this makes it behave all fucky when you try to scroll it
                     // again.
                     if (mouseBasePos != default)
@@ -238,7 +239,7 @@ namespace CalNohitQoL.UI.QoLUI
                         Vector2 mouseDistance = mouseBasePos - Main.MouseScreen;
                         // Make sure to reset this.
                         mouseBasePos = default;
-                        BossIconY += 4.5f*mouseDistance.Y;
+                        BossIconY += 4.5f * mouseDistance.Y;
                         BossIconY = BossIconY.Clamp(-500, 0);
                         dragging = false;
                         ScrollbarOffset.Y -= 4.5f * (mouseDistance.Y * 0.455f);
@@ -253,7 +254,7 @@ namespace CalNohitQoL.UI.QoLUI
                 {
                     Vector2 mouseDistance = mouseBasePos - Main.MouseScreen;
                     mouseBasePos = default;
-                    BossIconY += 4.5f*mouseDistance.Y;
+                    BossIconY += 4.5f * mouseDistance.Y;
                     BossIconY = BossIconY.Clamp(-500, 0);                  
                     ScrollbarOffset.Y -= 4.5f * (mouseDistance.Y * 0.455f);
                     ScrollbarOffset.Y = ScrollbarOffset.Y.Clamp(8, 235);
@@ -286,9 +287,8 @@ namespace CalNohitQoL.UI.QoLUI
             //
             // THESE NEED TO BE CHANGED TO USE REF DOWNED BOOLS.
             Texture2D tickOrCross = tickTexture;
-            Texture2D tickOrCrossGlow = tickGlowTexture;
-            string status = "Alive";
-            
+            Texture2D tickOrCrossGlow;
+
             // Create the scroll offset with the field that we change in the scroll bar section.
             Vector2 scrollOffset = new(0, BossIconY);
             // This is the start of the slog. Ensure you add the correct, if any, horizontal offsets and MAKE SURE TO INCLUDE THE SCROLL OFFSET. That
@@ -725,7 +725,7 @@ namespace CalNohitQoL.UI.QoLUI
                     Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
 
                     // nono and nono2 are the rects of the kill zones. You dont want to be able to interact with the icons through it, so
-                    // Ensure you arent hovering over it.
+                    // ensure you arent hovering over it.
                     Rectangle nono = Utils.CenteredRectangle(killIfAbove, deleteIconTexture.Size());
                     Rectangle nono2 = Utils.CenteredRectangle(killIfBelow, deleteIconTexture.Size());
                     bool dontDraw = mouseHitbox.Intersects(nono)|| mouseHitbox.Intersects(nono2);
@@ -751,8 +751,6 @@ namespace CalNohitQoL.UI.QoLUI
                             GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
                             Hatred(boss);
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
-
-
                         }
                     }
                     // Draw the base texture.
@@ -761,7 +759,7 @@ namespace CalNohitQoL.UI.QoLUI
                     // Draw the indicator.
                     tickOrCross = bossDeathValue ? crossTexture : tickTexture;
                     tickOrCrossGlow = bossDeathValue ? crossGlowTexture : tickGlowTexture;
-                    status = bossDeathValue ? "[c/f92a07:Dead]" : "[c/19a028:Alive]";
+                    string status = bossDeathValue ? "[c/f92a07:Dead]" : "[c/19a028:Alive]";
                     spriteBatch.Draw(tickOrCross, finalDrawPos + new Vector2(10, 10), null, Color.White, 0, tickOrCross.Size() * 0.5f, 1, 0, 0);
 
                     // If we are hovering over it, and can draw

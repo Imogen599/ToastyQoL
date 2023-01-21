@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Input;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ID;
 
 namespace CalNohitQoL.Systems
 {
@@ -96,28 +97,20 @@ namespace CalNohitQoL.Systems
                 cursorWorldPosition *= 16f;
                 cursorWorldPosition.Y -= Main.LocalPlayer.height;
                 if (cursorWorldPosition.X < 0f)
-                {
                     cursorWorldPosition.X = 0f;
-                }
                 else if (cursorWorldPosition.X + Main.LocalPlayer.width > mapWidth)
-                {
                     cursorWorldPosition.X = mapWidth - Main.LocalPlayer.width;
-                }
                 if (cursorWorldPosition.Y < 0f)
-                {
                     cursorWorldPosition.Y = 0f;
-                }
                 else if (cursorWorldPosition.Y + Main.LocalPlayer.height > mapHeight)
-                {
                     cursorWorldPosition.Y = mapHeight - Main.LocalPlayer.height;
-                }
                 if (Main.LocalPlayer.position != cursorWorldPosition)
                 {
                     Main.LocalPlayer.Teleport(cursorWorldPosition, 1, 0);
                     Main.LocalPlayer.position = cursorWorldPosition;
                     Main.LocalPlayer.velocity = Vector2.Zero;
                     Main.LocalPlayer.fallStart = (int)(Main.LocalPlayer.position.Y / 16f);
-                    NetMessage.SendData(65, -1, -1, null, 0, Main.myPlayer, cursorWorldPosition.X, cursorWorldPosition.Y, 1, 0, 0);
+                    NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, Main.myPlayer, cursorWorldPosition.X, cursorWorldPosition.Y, 1, 0, 0);
                 }
             }
         }

@@ -46,10 +46,7 @@ namespace CalNohitQoL.Systems
             UpgradesUIManager.SortOutTextures();
         }
 
-        public override void OnWorldUnload()
-        {
-            ResetUIStuff();
-        }
+        public override void OnWorldUnload() => ResetUIStuff();
 
         public override void PostUpdateWorld()
         {

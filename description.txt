@@ -21,3 +21,5 @@ Items:
 - Adds Shiny Wand, an item that lets you spawn a simulation of Calamitas' bullet hells to practice.
 - Adds Reflective Wand, an item that lets you spawn a simulation of every SCal bullet hell to practice.
 - Adds a Toaster Pet that occasionally burns toast.
+- Adds "The Percenter", an item that drains 10% max hp from the nearest enemy. Useful for getting bosses to a certain phase.
+- Adds "Potion of Rage", a potion that gives you max rage for 2 seconds if no boss is alive.

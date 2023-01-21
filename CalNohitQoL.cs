@@ -18,6 +18,7 @@ using ReLogic.Graphics;
 using ReLogic.Content;
 using Terraria.GameContent;
 using CalNohitQoL.Globals;
+using Terraria.Graphics.Shaders;
 
 namespace CalNohitQoL
 {
@@ -57,7 +58,7 @@ namespace CalNohitQoL
 		{
 			Instance = this;
             CalNohitQoLLists.LoadLists();
-            TipsList.LoadLists();
+            //TipsList.LoadLists();
             PotionUIManager.Load();
 
             if (ModLoader.TryGetMod("InfernumMode", out Mod infernumMod))
@@ -66,6 +67,7 @@ namespace CalNohitQoL
                 InfernumModeEnabled = true;
             }
 
+            LoadShaders();
             LoadFonts();
         }
 
@@ -73,29 +75,36 @@ namespace CalNohitQoL
 		{
 			Instance = null;
             CalNohitQoLLists.UnloadLists();
-            TipsList.UnloadLists();
+            //TipsList.UnloadLists();
             PotionUIManager.Unload();
             InfernumMod = null;
             InfernumModeEnabled = false;
             UnloadFonts();
 
         }
+        private static void LoadShaders()
+        {
+            if (Main.netMode is not NetmodeID.Server)
+            {
+                Ref<Effect> hologram = new(ModContent.Request<Effect>("CalNohitQoL/Effects/HologramShader", AssetRequestMode.ImmediateLoad).Value);
+                GameShaders.Misc["CalNohitQoL:Hologram"] = new MiscShaderData(hologram, "HologramPass");
+            }
+        }
+
         private static void LoadFonts()
         {
             if (!Main.dedServ)
             {
-                // This was crashing on Linux and such in Calamity, i am unable to check if it will here so I am playing it safe and only allowing custom fonts to work on Windows.
+                // This was crashing on Linux and such in Calamity, I am unable to check if it will here so I am playing it safe and only allowing custom fonts to work on Windows.
                 if ((int)Environment.OSVersion.Platform == 2)
-                    DraedonFont = ModContent.Request<DynamicSpriteFont>("CalNohitQoL/Fonts/DraedonFont", (AssetRequestMode)1).Value;
+                    DraedonFont = ModContent.Request<DynamicSpriteFont>("CalNohitQoL/Fonts/DraedonFont", AssetRequestMode.ImmediateLoad).Value;
                 else
                     // If not the correct OS, we need to make it the default Terraria Font, Andy.
                     DraedonFont = FontAssets.MouseText.Value;
             }
         }
-        private static void UnloadFonts()
-        {
-            DraedonFont = null;
-        }
+
+        private static void UnloadFonts() => DraedonFont = null;
         
     }
 	public class CalNohitQoLSystem : ModSystem

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent;
+using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -64,6 +65,8 @@ namespace CalNohitQoL.Globals
             return true;
         }
         #endregion
+
+        #region Main Drawing
         public override Color? GetAlpha(Projectile projectile, Color lightColor)
         {
             if (Main.LocalPlayer.GetModPlayer<ShroomsPlayer>().Trippy || Main.LocalPlayer.GetModPlayer<ShroomsPlayer>().DoubleTrippy)
@@ -134,16 +137,31 @@ namespace CalNohitQoL.Globals
                     }
                     //position.Y = Main.player[Main.myPlayer].Center.X + num4;//7
                     //position.Y = Main.player[Main.myPlayer].Center.X - num4;//8
-                    int num5 = texture2D.Height / Main.projFrames[projectile.type];
-                    int y = num5 * projectile.frame;
+                    int frameHeight = texture2D.Height / Main.projFrames[projectile.type];
+                    int y = frameHeight * projectile.frame;
                     position.X -= projectile.width / 2;
                     position.Y -= projectile.height / 2;//end of y
-                    Main.spriteBatch.Draw(texture2D, new Vector2(position.X - Main.screenPosition.X + projectile.width / 2 - texture2D.Width * projectile.scale / 2f + origin.X * projectile.scale, position.Y - Main.screenPosition.Y + projectile.height - texture2D.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + origin.Y * projectile.scale + num + projectile.gfxOffY), new Rectangle(0, y, texture2D.Width, num5), alpha, projectile.rotation, origin, projectile.scale, effects, 0f);
+
+                    //Main.spriteBatch.EnterShaderRegion();
+
+                    //GameShaders.Misc["CalNohitQoL:Hologram"].UseImage1("Images/Misc/Perlin");
+                    //GameShaders.Misc["CalNohitQoL:Hologram"].UseOpacity(1f);
+                    //GameShaders.Misc["CalNohitQoL:Hologram"].UseColor(Color.White);
+                    //GameShaders.Misc["CalNohitQoL:Hologram"].Apply(); 
+
+                    Main.spriteBatch.Draw(texture2D, new Vector2(position.X - Main.screenPosition.X + projectile.width / 2 - texture2D.Width * projectile.scale / 2f + origin.X * projectile.scale, position.Y - Main.screenPosition.Y + projectile.height - texture2D.Height * projectile.scale / Main.projFrames[projectile.type] + 4f + origin.Y * projectile.scale + num + projectile.gfxOffY), new Rectangle(0, y, texture2D.Width, frameHeight), alpha, projectile.rotation, origin, projectile.scale, effects, 0f);
+
+                    //Main.spriteBatch.ExitShaderRegion();
                 }
                 if (CalNohitQoLLists.ShroomsDrawProjs.Contains(projectile.type) && Toggles.ShroomsInvisProjectilesVisible)
                     return true;
                 else
+                {
+                    int frameHeight = texture2D.Height / Main.projFrames[projectile.type];
+                    int y = frameHeight * projectile.frame;
+                    //ExtraShroomsEffects(projectile, new Rectangle(0, y, texture2D.Width, frameHeight),alpha);
                     return false;
+                }
 
             }
             else if (MainPlayer.GetModPlayer<ShroomsPlayer>().Trippy)
@@ -196,7 +214,38 @@ namespace CalNohitQoL.Globals
             }
             return true;
         }
+        #endregion
 
+        #region Extra Shrooms effects
+        private bool ShouldBeDrawn;
+
+        private void ExtraShroomsEffects(Projectile projectile, Rectangle frame, Color alpha)
+        {
+            if (projectile.active && Main.rand.NextBool(100) && !ShouldBeDrawn)
+                ShouldBeDrawn = true;
+
+            if (ShouldBeDrawn)
+            {
+                if (!projectile.active)
+                {
+                    ShouldBeDrawn = false;
+                    return;
+                }
+
+                Player mainPlayer = Main.player[Main.myPlayer];
+                Texture2D projTexture = TextureAssets.Projectile[projectile.type].Value;
+                SpriteEffects effects = 0;
+                if (projectile.spriteDirection == -1)
+                    effects = SpriteEffects.FlipHorizontally;
+
+                float distance = projectile.Center.Distance(mainPlayer.Center);
+                Vector2 direction = mainPlayer.Center - projectile.Center;
+                Vector2 position = projectile.Center + new Vector2(distance / 100f);
+
+                Main.spriteBatch.Draw(projTexture, position - Main.screenPosition, frame, alpha, projectile.rotation, frame.Size() * 0.5f, projectile.scale, effects, 0f);
+            }
+        }
+        #endregion
     }
 
     public class ShroomsGlobalNPC : GlobalNPC

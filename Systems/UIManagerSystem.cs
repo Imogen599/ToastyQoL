@@ -21,34 +21,34 @@ namespace CalNohitQoL.Systems
 				return;
 			}
 
-			GameInterfaceDrawMethod val = delegate
-			{
-				if (!Main.inFancyUI && Main.playerInventory)
-				{
-					CalNohitQoL.cheatIndicatorUIRenderer.Draw(SpriteBatch);
-					CalNohitQoL.SummonSlotUIIcon2.Draw(SpriteBatch);
+            static bool val()
+            {
+                if (!Main.inFancyUI && Main.playerInventory)
+                {
+                    CalNohitQoL.cheatIndicatorUIRenderer.Draw(SpriteBatch);
+                    CalNohitQoL.SummonSlotUIIcon2.Draw(SpriteBatch);
 
-				}
-				if (!Main.inFancyUI)
-				{
-					CalNohitQoL.TogglesUI.Draw(SpriteBatch);
+                }
+                if (!Main.inFancyUI)
+                {
+                    CalNohitQoL.TogglesUI.Draw(SpriteBatch);
 
-					if (TogglesUIManager.UIOpen)
-					{
-						CalNohitQoL.upgradesUIManager.Draw(SpriteBatch);
-						CalNohitQoL.locksUIManager.Draw(SpriteBatch);
-						CalNohitQoL.powersUIManager.Draw(SpriteBatch);
-						CalNohitQoL.worldUIManager.Draw(SpriteBatch);
-						CalNohitQoL.miscUIManager.Draw(SpriteBatch);
-						CalNohitQoL.bossTogglesUIManager.Draw(SpriteBatch);
-					}
-					CalNohitQoL.potionUIManager.Draw(SpriteBatch);
-					//CalNohitQoL.tipsUIManager.DrawBase(SpriteBatch);
-					//CalNohitQoL.tipMainButtonUIElement.Draw(SpriteBatch);
-				}
-				return true;
-			};
-			object obj = (object)val;
+                    if (TogglesUIManager.UIOpen)
+                    {
+                        CalNohitQoL.upgradesUIManager.Draw(SpriteBatch);
+                        CalNohitQoL.locksUIManager.Draw(SpriteBatch);
+                        CalNohitQoL.powersUIManager.Draw(SpriteBatch);
+                        CalNohitQoL.worldUIManager.Draw(SpriteBatch);
+                        CalNohitQoL.miscUIManager.Draw(SpriteBatch);
+                        CalNohitQoL.bossTogglesUIManager.Draw(SpriteBatch);
+                    }
+                    CalNohitQoL.potionUIManager.Draw(SpriteBatch);
+                    //CalNohitQoL.tipsUIManager.DrawBase(SpriteBatch);
+                    //CalNohitQoL.tipMainButtonUIElement.Draw(SpriteBatch);
+                }
+                return true;
+            }
+            object obj = (object)(GameInterfaceDrawMethod)val;
 
 
 			layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", (GameInterfaceDrawMethod)obj, (InterfaceScaleType)1));

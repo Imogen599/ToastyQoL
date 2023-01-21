@@ -28,7 +28,7 @@ namespace CalNohitQoL.Items
         {
             Item.width = 32;
             Item.height = 32;
-            Item.rare = 1;
+            Item.rare = ItemRarityID.Blue;
         }
 
         public override void UpdateInventory(Player player)

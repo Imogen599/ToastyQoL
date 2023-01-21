@@ -16,7 +16,6 @@ namespace CalNohitQoL.UI.QoLUI.PotionUI
     {
         public Dictionary<string, int> DPotionsAreActive = new Dictionary<string, int>();
 
-        string message = "Thanks to RegularPhoenix#1191 for help with getting this to work, caused me many headaches.";
         public override void SaveData(TagCompound tag)
         {
             if (Main.netMode != NetmodeID.Server && Player.whoAmI == Main.myPlayer)

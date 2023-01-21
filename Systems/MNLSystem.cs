@@ -212,9 +212,6 @@ namespace CalNohitQoL.Systems
                 ActiveFightLength = BossMNLS;
             return false;
         }
-        public override void Load()
-        {
-            ActiveFightLength = new Dictionary<int, float>();
-        }
+        public override void Load() => ActiveFightLength = BossMNLS;
     }
 }

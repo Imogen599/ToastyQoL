@@ -1,4 +1,2 @@
 ﻿Changelogs:
-- Added tester kill times as an option for the MNL indicator times.
-- Added "The Percenter", an item that drains 10% max hp from the nearest enemy. Useful for getting bosses to a certain phase.
-- Added "Potion of Rage", a potion that gives you max rage for 2 seconds if no boss is alive.
+- Fixed MNL indicator not properly setting itself as active on loading the mod.

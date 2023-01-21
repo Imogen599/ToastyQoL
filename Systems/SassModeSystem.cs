@@ -210,13 +210,9 @@ namespace CalNohitQoL.Systems
             }
             #endregion
             else
-            {
                 textToReturn = Main.rand.NextFromList(GenericSassQuotesUnderLose);
-            }
             if (textToReturn == null)
-            {
                 textToReturn = Main.rand.NextFromList(GenericSassQuotesUnderLose);
-            }
             return textToReturn;
         }
     }

@@ -2097,11 +2097,11 @@ namespace CalNohitQoL.Globals
                 }
                 if (!DownedBossSystem.downedAdultEidolonWyrm)
                 {
-                    if (itemID.type == ModContent.ItemType<HalibutCannon>())//if prime is dead but neither of the other two are, so no hallowed bars.
+                    if (itemID.type == ModContent.ItemType<HalibutCannon>())
                     {
 
                         string text = "This is post Adult Eidolon Wyrm, you should not be using it.";
-                        TooltipLine tooltip = new TooltipLine(Mod, "CalamityMod: HalibutCannon", text) { OverrideColor = Color.Red };
+                        TooltipLine tooltip = new(Mod, "CalamityMod: HalibutCannon", text) { OverrideColor = Color.Red };
                         tooltips.Add(tooltip);
                     }
                 }
@@ -2172,7 +2172,7 @@ namespace CalNohitQoL.Globals
                 {
                     return DownedBossSystem.downedCalamitas;
                 }
-                if (item.type == 1357 || item.type == 1340)
+                if (item.type == ItemID.FlaskofNanites || item.type == ItemID.FlaskofVenom)
                 {
                     return NPC.downedPlantBoss;
                 }
@@ -2184,7 +2184,7 @@ namespace CalNohitQoL.Globals
                 {
                     return NPC.downedGolemBoss;
                 }
-                if (item.type == 3544)
+                if (item.type == ItemID.SuperHealingPotion)
                 {
                     return NPC.downedAncientCultist;
                 }
@@ -2248,7 +2248,7 @@ namespace CalNohitQoL.Globals
                     }
                     return false;
                 }
-                if (item.type == 3779 || item.type == 3787 || item.type == 3788 || item.type == ModContent.ItemType<TundraFlameBlossomsStaff>() || item.type == ModContent.ItemType<BrimstoneFury>() || item.type == ModContent.ItemType<BrimstoneSword>() || item.type == ModContent.ItemType<BurningSea>() || item.type == ModContent.ItemType<BrimroseStaff>() || item.type == ModContent.ItemType<Brimblade>() || item.type == ModContent.ItemType<IgneousExaltation>() || item.type == ModContent.ItemType<WyvernsCall>() || item.type == ModContent.ItemType<Nychthemeron>() || item.type == ModContent.ItemType<StormfrontRazor>() || item.type == ModContent.ItemType<MythrilKnife>() || item.type == ModContent.ItemType<OrichalcumSpikedGemstone>() || item.type == 1192 || item.type == 1194 || item.type == 1193 || item.type == 1196 || item.type == 1195 || item.type == 1197 || item.type == 1223 || item.type == 484 || item.type == 436 || item.type == 390 || item.type == 386 || item.type == 777 || item.type == 384 || item.type == 992 || item.type == 3286 || item.type == 756 || item.type == 787 || item.type == 3284 || item.type == 3852 || item.type == 3854 || item.type == 3835 || item.type == 3836 || item.type == 3823)
+                if (item.type == ItemID.SpiritFlame || item.type == ItemID.SkyFracture || item.type == ItemID.OnyxBlaster || item.type == ModContent.ItemType<TundraFlameBlossomsStaff>() || item.type == ModContent.ItemType<BrimstoneFury>() || item.type == ModContent.ItemType<BrimstoneSword>() || item.type == ModContent.ItemType<BurningSea>() || item.type == ModContent.ItemType<BrimroseStaff>() || item.type == ModContent.ItemType<Brimblade>() || item.type == ModContent.ItemType<IgneousExaltation>() || item.type == ModContent.ItemType<WyvernsCall>() || item.type == ModContent.ItemType<Nychthemeron>() || item.type == ModContent.ItemType<StormfrontRazor>() || item.type == ModContent.ItemType<MythrilKnife>() || item.type == ModContent.ItemType<OrichalcumSpikedGemstone>() || item.type == 1192 || item.type == 1194 || item.type == 1193 || item.type == 1196 || item.type == 1195 || item.type == 1197 || item.type == 1223 || item.type == 484 || item.type == 436 || item.type == 390 || item.type == 386 || item.type == 777 || item.type == 384 || item.type == 992 || item.type == 3286 || item.type == 756 || item.type == 787 || item.type == 3284 || item.type == 3852 || item.type == 3854 || item.type == 3835 || item.type == ItemID.MonkStaffT2 || item.type == ItemID.DD2SquireDemonSword)
                 {
                     if (!NPC.downedMechBoss1 && !NPC.downedMechBoss2)
                     {
@@ -2646,297 +2646,169 @@ namespace CalNohitQoL.Globals
             if (Toggles.AccLock)
             {
                 if (!NPC.downedSlimeKing)
-                {
                     if (CalNohitQoLLists.PostKingSlime.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedDesertScourge)
-                {
                     if (CalNohitQoLLists.PostDesertScourge.Contains(item.type))
-                    {
                         return false;
-                    }
 
-                }
                 if (!NPC.downedBoss1)
-                {
                     if (CalNohitQoLLists.PostEyeOfCthulhu.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedCrabulon)
-                {
                     if (CalNohitQoLLists.PostCrabulon.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedBoss2)
-                {
                     if (CalNohitQoLLists.PostEvil1.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedHiveMind || !DownedBossSystem.downedPerforator)
-                {
                     if (CalNohitQoLLists.PostEvil2.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedQueenBee)
-                {
                     if (CalNohitQoLLists.PostEvil2.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedDeerclops)
-                {
                     if (CalNohitQoLLists.PostDeerclops.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedBoss3)
-                {
                     if (CalNohitQoLLists.PostSkeletron.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedSlimeGod)
-                {
                     if (CalNohitQoLLists.PostSlimeGod.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!Main.hardMode)
-                {
                     if (CalNohitQoLLists.PostWallOfFlesh.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedQueenSlime)
-                {
                     if (CalNohitQoLLists.PostQueenSlime.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedCryogen)
-                {
                     if (CalNohitQoLLists.PostCryogen.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedAquaticScourge)
-                {
                     if (CalNohitQoLLists.PostAquaticScourge.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedMechBoss2)
-                {
                     if (CalNohitQoLLists.PostTwins.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedMechBoss1 || !NPC.downedMechBoss2 || !NPC.downedMechBoss3)
-                {
                     if (CalNohitQoLLists.PostAllMechs.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedCalamitas)
-                {
                     if (CalNohitQoLLists.PostCalamitas.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedPlantBoss)
-                {
                     if (CalNohitQoLLists.PostPlantera.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedAstrumAureus)
-                {
                     if (CalNohitQoLLists.PostAstrumAureus.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedLeviathan)
-                {
                     if (CalNohitQoLLists.PostAnahita.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedGolemBoss)
-                {
                     if (CalNohitQoLLists.PostGolem.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedEmpressOfLight)
-                {
                     if (CalNohitQoLLists.PostEmpress.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedPlaguebringer)
-                {
                     if (CalNohitQoLLists.PostPlaguebringerGoliath.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedFishron)
-                {
                     if (CalNohitQoLLists.PostDukeFishron.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedRavager)
-                {
                     if (CalNohitQoLLists.PostRavager.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedAncientCultist)
-                {
                     if (CalNohitQoLLists.PostCultist.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedAstrumDeus)
-                {
                     if (CalNohitQoLLists.PostAstrumDeus.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!NPC.downedMoonlord)
-                {
                     if (CalNohitQoLLists.PostMoonlord.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedGuardians)
-                {
                     if (CalNohitQoLLists.PostProfanedGuardians.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedDragonfolly)
-                {
                     if (CalNohitQoLLists.PostDragonFolly.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedProvidence)
-                {
                     if (CalNohitQoLLists.PostProvidence.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedStormWeaver)
-                {
                     if (CalNohitQoLLists.PostStormWeaver.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedCeaselessVoid)
-                {
                     if (CalNohitQoLLists.PostCeaselessVoid.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedSignus)
-                {
                     if (CalNohitQoLLists.PostSignus.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedPolterghast)
-                {
                     if (CalNohitQoLLists.PostPolterghast.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedBoomerDuke)
-                {
                     if (CalNohitQoLLists.PostOldDuke.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedDoG)
-                {
                     if (CalNohitQoLLists.PostDoG.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedYharon)
-                {
                     if (CalNohitQoLLists.PostYharon.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedExoMechs)
-                {
                     if (CalNohitQoLLists.PostDraedon.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedSCal)
-                {
                     if (CalNohitQoLLists.PostSCal.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
+
                 if (!DownedBossSystem.downedSCal || !DownedBossSystem.downedExoMechs)
-                {
                     if (CalNohitQoLLists.Endgame.Contains(item.type))
-                    {
                         return false;
-                    }
-                }
-
             }
-
-
             return true;
         }
         private static void ApplyRarityColor(Item item, TooltipLine nameLine)
@@ -3676,17 +3548,13 @@ namespace CalNohitQoL.Globals
                 if (type == 89 || type == 91 || type == 242)
                 {
                     if (!NPC.downedMechBoss1 && !NPC.downedMechBoss2)
-                    {
                         return NPC.downedMechBoss3;
-                    }
                     return true;
                 }
                 if (type == 225 || type == 207)
                 {
                     if (NPC.downedMechBoss1 && NPC.downedMechBoss2)
-                    {
                         return NPC.downedMechBoss3;
-                    }
                     return false;
                 }
                 if (type == ModContent.ProjectileType<ArcticArrowProj>() || type == ModContent.ProjectileType<VeriumBulletProj>())
@@ -3696,9 +3564,7 @@ namespace CalNohitQoL.Globals
                         if ((!NPC.downedMechBoss1 || !NPC.downedMechBoss2) && (!NPC.downedMechBoss2 || !NPC.downedMechBoss3))
                         {
                             if (NPC.downedMechBoss1)
-                            {
                                 return NPC.downedMechBoss3;
-                            }
                             return false;
                         }
                         return true;
@@ -3712,9 +3578,7 @@ namespace CalNohitQoL.Globals
         public override void SetDefaults(Item item)
         {
             if (item.maxStack > 10 && item.maxStack != 100 && !(item.type >= ItemID.CopperCoin && item.type <= ItemID.PlatinumCoin))
-            {
                 item.maxStack = 9999;
-            }
         }
 
         private static void GiveUnlimitedBuffs(Item item, Player player)
@@ -3766,10 +3630,8 @@ namespace CalNohitQoL.Globals
         public override bool CanBeConsumedAsAmmo(Item ammo, Item weapon, Player player)
         {
             if (Toggles.InfiniteAmmo)
-            {
                 if (ammo.ammo != 0)
                     return false;
-            }
             return true;
         }
         public override bool ConsumeItem(Item item, Player player)
