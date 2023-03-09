@@ -139,7 +139,7 @@ namespace CalNohitQoL.Core.Systems
             [NPCID.DukeFishron] = 9000,
             [ModContent.NPCType<RavagerBody>()] = 10800,
             [NPCID.CultistBoss] = 9000,
-            [ModContent.NPCType<AstrumDeusHead>()] = 7200,
+            [ModContent.NPCType<AstrumDeusHead>()] = 10800,
             [NPCID.MoonLordCore] = 14400,
 
             // Post Moonlord
@@ -152,7 +152,7 @@ namespace CalNohitQoL.Core.Systems
             [ModContent.NPCType<Polterghast>()] = 10800,
             [ModContent.NPCType<OldDuke>()] = 10800,
             [ModContent.NPCType<DevourerofGodsHead>()] = 14400,
-            [ModContent.NPCType<Yharon>()] = 14700,
+            [ModContent.NPCType<Yharon>()] = 14400,
             [ModContent.NPCType<SupremeCalamitas>()] = 18000,
             [ModContent.NPCType<Artemis>()] = 21600,
             [ModContent.NPCType<Apollo>()] = 21600,
