@@ -1,2 +1,4 @@
 ﻿Changelogs:
-- Fixed MNL indicator not properly setting itself as active on loading the mod.
+- Updated MNLs
+- Added a new shrooms toggle for nostalgic shrooms, that makes it properly duplicate every projectile and NPC.
+- Added a toggle for the above that applies a RGB shader to all projectiles and NPCs.
