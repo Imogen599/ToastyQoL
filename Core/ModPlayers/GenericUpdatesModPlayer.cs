@@ -54,9 +54,10 @@ namespace CalNohitQoL.Core.ModPlayers
                 KeepRageMaxedTimer--;
                 Player.Calamity().rage = Player.Calamity().rageMax;
             }
+
             // Generic update calls
             if (UpdateUpgradesTextFlag)
-                UpdateUpgradesTextFlag = UpgradesUIManager.SortOutTextures() || ProgressionSystem.CheckProgressionBossStatus();
+                UpdateUpgradesTextFlag = ProgressionSystem.CheckProgressionBossStatus();
 
             if (Main.LocalPlayer.GetModPlayer<PotionUIPlayer>().DPotionsAreActive.Count > 0)
                 CalNohitQoL.potionUIManager.GiveBuffs();
@@ -89,7 +90,7 @@ namespace CalNohitQoL.Core.ModPlayers
                 if (Player.HasBuff(BuffID.BrainOfConfusionBuff))
                     Player.KillMe(PlayerDeathReason.ByCustomReason(Player.name + "'s brain is not as big as they think"), 1000.0, 0, false);
 
-                Player.buffImmune[59] = true;
+                Player.buffImmune[BuffID.ShadowDodge] = true;
                 Player.onHitDodge = false;
                 Player.buffImmune[ModContent.BuffType<TarragonImmunity>()] = true;
                 Player.Calamity().tarragonImmunity = false;
@@ -104,7 +105,6 @@ namespace CalNohitQoL.Core.ModPlayers
                 {
                     Player.shadowDodgeTimer = 2;
                     Player.blackBelt = false;
-
                 }
             }
         }

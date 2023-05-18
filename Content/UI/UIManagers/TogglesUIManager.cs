@@ -16,17 +16,16 @@ namespace CalNohitQoL.Content.UI.UIManagers
     public class TogglesUIManager
     {
         public static bool UIOpen { get; internal set; } = true;
-        public static string TextToShow = "";
-        public static int ClickCooldownTimer = 0;
-        public static int ClickCooldownLength = 15;
-        public Color OnColor = new Color(98, 255, 71);
-        public Color OffColor = new Color(255, 48, 43);
-        public static Color ColorToUse;
-        public static int IntroTimer = 0;
-        public static int OutroTimer = 60;
-        public static int Timer;
-        public int Smoltimer;
-        public static int Frame = -1;
+        internal static string TextToShow = "";
+        internal static int ClickCooldownTimer = 0;
+        public const int ClickCooldownLength = 15;
+        public readonly Color OnColor = new(98, 255, 71);
+        public Color OffColor = new(255, 48, 43);
+        internal static Color ColorToUse;
+        internal static int IntroTimer = 0;
+        internal static int OutroTimer = 60;
+        internal int Smoltimer;
+        internal static int Frame = -1;
 
         private bool ShouldDraw
         {
@@ -44,102 +43,107 @@ namespace CalNohitQoL.Content.UI.UIManagers
         {
             get
             {
-                List<TogglesUIElement> list = new List<TogglesUIElement>();
+                List<TogglesUIElement> list = new()
+                {
+                    // Add Base Ones Here
 
-                // Add Base Ones Here
+                    new TogglesUIElement("Set Spawn", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/setSpawnUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        Main.spawnTileX = (int)(Main.LocalPlayer.position.X - 8f + Main.LocalPlayer.width / 2) / 16;
+                        Main.spawnTileY = (int)(Main.LocalPlayer.position.Y + Main.LocalPlayer.height) / 16;
+                        GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
+                        TextToShow = "Spawn Set";
+                        ColorToUse = Color.White;
+                    }
+                    ),
+                    //list.Add(new TogglesUIElement("Pause Time", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/pauseTimeUIIcon", (AssetRequestMode)2).Value, delegate
+                    //{
+                    //    GenericModSystem.FrozenTime = !GenericModSystem.FrozenTime;
+                    //    CalNohitQoLPlayer.UIUpdateTextTimer = 60;
+                    //    textToShow = GenericModSystem.FrozenTime ? "Time Paused" : "Time Unpaused";
+                    //    ColorToUse = GenericModSystem.FrozenTime ? OffColor : OnColor;
+                    //}
+                    //));
+                    new TogglesUIElement("Toggle Potions", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/potionUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        bool smily = PotionUI.PotionUIManager.IsDrawing;
+                        CloseAllUI(false);
+                        PotionUI.PotionUIManager.IsDrawing = !smily;
+                        SoundEngine.PlaySound(SoundID.MenuOpen, Main.LocalPlayer.Center);
+                        Main.playerInventory = false;
+                        PotionUI.PotionUIManager.Timer = 0;
+                        GenericUpdatesModPlayer.PotionUICooldownTimer = GenericUpdatesModPlayer.UICooldownTimerLength;
+                    }
+                    ),
 
-                list.Add(new TogglesUIElement("Set Spawn", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/setSpawnUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    Main.spawnTileX = (int)(Main.LocalPlayer.position.X - 8f + Main.LocalPlayer.width / 2) / 16;
-                    Main.spawnTileY = (int)(Main.LocalPlayer.position.Y + Main.LocalPlayer.height) / 16;
-                    GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
-                    TextToShow = "Spawn Set";
-                    ColorToUse = Color.White;
-                }
-                ));
-                //list.Add(new TogglesUIElement("Pause Time", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/pauseTimeUIIcon", (AssetRequestMode)2).Value, delegate
-                //{
-                //    GenericModSystem.FrozenTime = !GenericModSystem.FrozenTime;
-                //    CalNohitQoLPlayer.UIUpdateTextTimer = 60;
-                //    textToShow = GenericModSystem.FrozenTime ? "Time Paused" : "Time Unpaused";
-                //    ColorToUse = GenericModSystem.FrozenTime ? OffColor : OnColor;
-                //}
-                //));
-                list.Add(new TogglesUIElement("Toggle Potions", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/potionUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = PotionUI.PotionUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    PotionUI.PotionUIManager.IsDrawing = !smily;
-                    SoundEngine.PlaySound(SoundID.MenuOpen, Main.LocalPlayer.Center);
-                    Main.playerInventory = false;
-                    PotionUI.PotionUIManager.Timer = 0;
-                    GenericUpdatesModPlayer.PotionUICooldownTimer = GenericUpdatesModPlayer.UICooldownTimerLength;
-                }
-                ));
-                list.Add(new TogglesUIElement("Set Upgrades", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/upgradesUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = UpgradesUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    UpgradesUIManager.IsDrawing = !smily;
-                }
-                ));
-                list.Add(new TogglesUIElement("Progression Locks", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/locksUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = LocksUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    LocksUIManager.IsDrawing = !smily;
-                }
-                ));
-                list.Add(new TogglesUIElement("Misc Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/settingsUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = MiscUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    MiscUIManager.IsDrawing = !smily;
-                }
-                ));
-                list.Add(new TogglesUIElement("Set Powers", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/playerUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = PowersUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    PowersUIManager.IsDrawing = !smily;
-                }
-                ));
-                list.Add(new TogglesUIElement("World Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/worldUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = WorldUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    WorldUIManager.IsDrawing = !smily;
-                }
-                ));
-                list.Add(new TogglesUIElement("Boss Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/bossDeathsUIIcon", (AssetRequestMode)2).Value, delegate
-                {
-                    bool smily = BossTogglesUIManager.IsDrawing;
-                    CloseAllUI(false);
-                    BossTogglesUIManager.IsDrawing = !smily;
-                }
-                ));
-                //list.Add(new TogglesUIElement("Toggle Spawns", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/toggleSpawnsUIIcon", (AssetRequestMode)2).Value, delegate
-                //{
-                //    GenericModSystem.NoSpawns = !GenericModSystem.NoSpawns;
-                //    if (GenericModSystem.NoSpawns)
-                //    {
-                //        for (int i = 0; i < 200; i++)
-                //        {
-                //            if (Main.npc[i].type != NPCID.LunarTowerNebula && Main.npc[i].type != NPCID.LunarTowerSolar && Main.npc[i].type != NPCID.LunarTowerStardust && Main.npc[i].type != NPCID.LunarTowerVortex && Main.npc[i] != null && !Main.npc[i].townNPC)
-                //            {
-                //                Main.npc[i].life = 0;
-                //                if (Main.netMode == NetmodeID.Server)
-                //                {
-                //                    NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, i, 0f, 0f, 0f, 0, 0, 0);
-                //                }
-                //            }
-                //        }
-                //    }
-                //    CalNohitQoLPlayer.UIUpdateTextTimer = 60;
-                //    textToShow = GenericModSystem.NoSpawns ? "Spawns Disabled" : "Spawns Enabled";
-                //    ColorToUse = GenericModSystem.NoSpawns ? OffColor : OnColor;
-                //}
-                //));
+                    new TogglesUIElement("Set Upgrades", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/upgradesUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        var manager = BaseTogglesUIManager.GetManagerFromString(UpgradesUIManager.UIName);
+                        if (manager != null)
+                        {
+                            bool smily = manager.IsDrawing;
+                            CloseAllUI(false);
+                            manager.IsDrawing = !smily;
+                        }
+                    }
+                    ),
+
+                    new TogglesUIElement("Progression Locks", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/locksUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        var manager = BaseTogglesUIManager.GetManagerFromString(LocksUIManager.UIName);
+                        if (manager != null)
+                        {
+                            bool smily = manager.IsDrawing;
+                            CloseAllUI(false);
+                            manager.IsDrawing = !smily;
+                        }
+                    }
+                    ),
+
+                    new TogglesUIElement("Misc Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/settingsUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        var manager = BaseTogglesUIManager.GetManagerFromString(MiscUIManager.UIName);
+                        if (manager != null)
+                        {
+                            bool smily = manager.IsDrawing;
+                            CloseAllUI(false);
+                            manager.IsDrawing = !smily;
+                        }
+                    }
+                    ),
+
+                    new TogglesUIElement("Set Powers", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/playerUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        var manager = BaseTogglesUIManager.GetManagerFromString(PowersUIManager.UIName);
+                        if (manager != null)
+                        {
+                            bool smily = manager.IsDrawing;
+                            CloseAllUI(false);
+                            manager.IsDrawing = !smily;
+                        }
+                    }
+                    ),
+
+                    new TogglesUIElement("World Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/worldUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        var manager = BaseTogglesUIManager.GetManagerFromString(WorldUIManager.UIName);
+                        if (manager != null)
+                        {
+                            bool smily = manager.IsDrawing;
+                            CloseAllUI(false);
+                            manager.IsDrawing = !smily;
+                        }
+                    }
+                    ),
+
+                    new TogglesUIElement("Boss Toggles", ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/bossDeathsUIIcon", (AssetRequestMode)2).Value, () =>
+                    {
+                        bool smily = BossTogglesUIManager.IsDrawing;
+                        CloseAllUI(false);
+                        BossTogglesUIManager.IsDrawing = !smily;
+                    }
+                    )
+                };
 
                 List<TogglesUIElement> list2 = list;
                 list2.AddRange(CalNohitQoL.OtherUIElements);
@@ -177,17 +181,13 @@ namespace CalNohitQoL.Content.UI.UIManagers
 
                 Vector2 spawnPos = drawCenter + drawAngle * distance;
                 float scale = 1;
-                spriteBatch.End();
-                spriteBatch.Begin((SpriteSortMode)1, BlendState.Additive, null, null, null, null, Main.UIScaleMatrix);
                 Texture2D bloomTexture = ModContent.Request<Texture2D>("CalNohitQoL/Assets/ExtraTextures/Bloom", (AssetRequestMode)2).Value;
                 float rot = Main.GlobalTimeWrappedHourly * 0.5f;
-                spriteBatch.Draw(bloomTexture, spawnPos, null, new Color(59, 50, 77) * (0.9f * opacity), rot, new Vector2(123f, 124f), 0.4f, 0, 0f);
-                spriteBatch.End();
-                spriteBatch.Begin(0, null, null, null, null, null, Main.UIScaleMatrix);
+                spriteBatch.Draw(bloomTexture, spawnPos, null, new Color(59, 50, 77, 0) * (0.9f * opacity), rot, new Vector2(123f, 124f), 0.4f, 0, 0f);
 
                 // Rectangle area of the icon to check for hovering.
                 Rectangle iconRectangeArea = Utils.CenteredRectangle(spawnPos, texture.Size() * 1f);
-                Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+                Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
                 bool isHovering = mouseHitbox.Intersects(iconRectangeArea);
                 bool animationActive = Frame >= 0 && Frame < 12;
                 if (isHovering && IntroTimer >= 60)
@@ -216,34 +216,31 @@ namespace CalNohitQoL.Content.UI.UIManagers
                             {
                                 Smoltimer = 0;
                                 Frame++;
-
                             }
-
                         }
                         else
-                        {
                             Frame = 0;
-                        }
                     }
 
                 }
 
                 else if (currentHover == i)
-                {
                     Frame = -1;
-                }
+
                 spriteBatch.Draw(texture, spawnPos, null, Color.White * opacity, 0f, texture.Size() * 0.5f, scale, 0, 0f);
+
                 if (GenericUpdatesModPlayer.UIUpdateTextTimer > 0)
                 {
                     Vector2 size = FontAssets.MouseText.Value.MeasureString(TextToShow);
                     Utils.DrawBorderStringFourWay(spriteBatch, FontAssets.MouseText.Value, TextToShow, drawCenter.X - size.X / 2, drawCenter.Y - 40f, ColorToUse * opacity, Color.Black, default, 1f);
                 }
+
                 if (uiElement.OnClick != null)
                 {
                     if (mouseHitbox.Intersects(iconRectangeArea))
                     {
                         Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-                        if ((Main.mouseLeft && Main.mouseLeftRelease || Main.mouseRight && Main.mouseRightRelease) && ClickCooldownTimer == 0)
+                        if (CalNohitQoLUtils.CanAndHasClickedUIElement)
                         {
                             uiElement.OnClick();
                             ClickCooldownTimer = ClickCooldownLength;
@@ -255,10 +252,10 @@ namespace CalNohitQoL.Content.UI.UIManagers
                 if (animationActive && currentHover == i)
                 {
                     int frameHeight = animationTex.Height / 12 - 1;
-                    Rectangle animCropRect = new Rectangle(0, (frameHeight + 1) * Frame, animationTex.Width, frameHeight);
+                    Rectangle animCropRect = new(0, (frameHeight + 1) * Frame, animationTex.Width, frameHeight);
                     float xOffset = (animationTex.Width - animationTex.Width) / 2f;
                     float yOffset = (animationTex.Height - frameHeight) / 2f;
-                    Vector2 sizeDiffOffset = new Vector2(xOffset, yOffset);
+                    Vector2 sizeDiffOffset = new(xOffset, yOffset);
                     spriteBatch.Draw(animationTex, spawnPos + sizeDiffOffset, (Rectangle?)animCropRect, Color.White * 0.55f, 0, animationTex.Size() * 0.5f, 1, 0, 0f);
                 }
             }
@@ -270,18 +267,13 @@ namespace CalNohitQoL.Content.UI.UIManagers
             if (closeMain)
             {
                 UIOpen = false;
-                Timer = 0;
                 Frame = -1;
                 IntroTimer = 0;
             }
-            UpgradesUIManager.IsDrawing = false;
-            LocksUIManager.IsDrawing = false;
-            PowersUIManager.IsDrawing = false;
-            PowersUIManager.PageNumber = 1;
-            WorldUIManager.IsDrawing = false;
-            WorldUIManager.PageNumber = 1;
-            MiscUIManager.IsDrawing = false;
-            MiscUIManager.PageNumber = 1;
+
+            foreach (var managerPair in BaseTogglesUIManager.UIManagers)
+                managerPair.Value.IsDrawing = false;
+            
             BossTogglesUIManager.IsDrawing = false;
             PotionUI.PotionUIManager.IsDrawing = false;
         }
@@ -359,11 +351,11 @@ namespace CalNohitQoL.Content.UI.UIManagers
             backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2;
             Vector2 drawPos2 = backgroundDrawCenter2;
 
-            Vector2 whiteDrawPos = new Vector2((Main.screenWidth + 600) / 2, (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2);
+            Vector2 whiteDrawPos = new((Main.screenWidth + 600) / 2, (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2);
             // Rectangle area of the icon and mouse to check for hovering.
             Rectangle IconRectangeArea2 = Utils.CenteredRectangle(whiteDrawPos, fancyTexture.Size());
             //Rectangle iconRectangeArea2 = new Rectangle((Main.screenWidth + 390) / 2, (Main.screenHeight - 255) / 2, (int)(105 * Main.UIScale), (int)(30*Main.UIScale));
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             bool isHovering = mouseHitbox.Intersects(IconRectangeArea2);
             if (isHovering)
             {
@@ -429,11 +421,11 @@ namespace CalNohitQoL.Content.UI.UIManagers
             backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2;
             Vector2 drawPos2 = backgroundDrawCenter2;
 
-            Vector2 whiteDrawPos = new Vector2((Main.screenWidth + 600) / 2, (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2);
+            Vector2 whiteDrawPos = new((Main.screenWidth + 600) / 2, (Main.screenHeight + baseVerticalOffset + baseOffsetAmount * index) / 2);
             // Rectangle area of the icon and mouse to check for hovering.
             Rectangle IconRectangeArea2 = Utils.CenteredRectangle(whiteDrawPos, fancyTexture.Size());
             //Rectangle iconRectangeArea2 = new Rectangle((Main.screenWidth + 390) / 2, (Main.screenHeight - 255) / 2, (int)(105 * Main.UIScale), (int)(30*Main.UIScale));
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             bool isHovering = mouseHitbox.Intersects(IconRectangeArea2);
 
             if (isHovering)

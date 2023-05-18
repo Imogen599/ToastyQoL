@@ -10,8 +10,6 @@ namespace CalNohitQoL.Core.Systems
 {
     public class UIManagerSystem : ModSystem
     {
-        public static SpriteBatch SpriteBatch => Main.spriteBatch;
-
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
 
@@ -25,34 +23,27 @@ namespace CalNohitQoL.Core.Systems
             {
                 if (!Main.inFancyUI && Main.playerInventory)
                 {
-                    CalNohitQoL.cheatIndicatorUIRenderer.Draw(SpriteBatch);
-                    CalNohitQoL.SummonSlotUIIcon2.Draw(SpriteBatch);
+                    CalNohitQoL.cheatIndicatorUIRenderer.Draw(Main.spriteBatch);
+                    CalNohitQoL.SummonSlotUIIcon2.Draw(Main.spriteBatch);
 
                 }
                 if (!Main.inFancyUI)
                 {
-                    CalNohitQoL.TogglesUI.Draw(SpriteBatch);
+                    CalNohitQoL.TogglesUI.Draw(Main.spriteBatch);
 
                     if (TogglesUIManager.UIOpen)
                     {
-                        CalNohitQoL.upgradesUIManager.Draw(SpriteBatch);
-                        CalNohitQoL.locksUIManager.Draw(SpriteBatch);
-                        CalNohitQoL.powersUIManager.Draw(SpriteBatch);
-                        CalNohitQoL.worldUIManager.Draw(SpriteBatch);
-                        MiscUIManager.Draw(SpriteBatch);
-                        CalNohitQoL.bossTogglesUIManager.Draw(SpriteBatch);
+                        BaseTogglesUIManager.DrawUIManagers(Main.spriteBatch);
+                        CalNohitQoL.bossTogglesUIManager.Draw(Main.spriteBatch);
                     }
-                    CalNohitQoL.potionUIManager.Draw(SpriteBatch);
-                    //CalNohitQoL.tipsUIManager.DrawBase(SpriteBatch);
-                    //CalNohitQoL.tipMainButtonUIElement.Draw(SpriteBatch);
+                    CalNohitQoL.potionUIManager.Draw(Main.spriteBatch);
                 }
                 return true;
             }
-            object obj = (GameInterfaceDrawMethod)val;
 
-
-            layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", (GameInterfaceDrawMethod)obj, (InterfaceScaleType)1));
+            layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", val, InterfaceScaleType.UI));
         }
+
         public override void UpdateUI(GameTime gameTime)
         {
             base.UpdateUI(gameTime);

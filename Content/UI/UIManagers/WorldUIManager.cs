@@ -1,4 +1,5 @@
 ﻿using CalNohitQoL.Core;
+using CalNohitQoL.Core.ModPlayers;
 using CalNohitQoL.Core.Systems;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,322 +14,215 @@ using Terraria.ModLoader;
 
 namespace CalNohitQoL.Content.UI.UIManagers
 {
-    public class WorldUIManager
+    public class WorldUIManager : BaseTogglesUIManager
     {
-        public static bool IsDrawing { get; internal set; }
-        public static int PageNumber { get; internal set; } = 1;
-        private static bool ShouldDraw
+        public const string UIName = "WorldManager";
+
+        public override string Name => UIName;
+
+        public override void Initialize()
         {
-            get
+            UIElements = new()
             {
-                if (!TogglesUIManager.UIOpen)
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Map", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/MapGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Reveal The Full Map",
+                () => "Fills out all of your map, cannot be reversed",
+                1f,
+                () => { MapSystem.MapReveal = true; }),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Spawns", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/SpawnsGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Enemy Spawns",
+                () => "Toggles blocking enemies from spawning",
+                2f,
+                () => { Toggles.NoSpawns = !Toggles.NoSpawns; },
+                typeof(Toggles).GetField("NoSpawns", CalNohitQoLUtils.UniversalBindingFlags)),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/time", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/timeGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Time Flow",
+                () => "Toggles the flow of time",
+                3f,
+                () => { Toggles.FrozenTime = !Toggles.FrozenTime; },
+                typeof(Toggles).GetField("FrozenTime", CalNohitQoLUtils.UniversalBindingFlags)),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/time", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/timeGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Day Time",
+                () => "Swaps between night and day",
+                4f,
+                () => 
                 {
-                    IsDrawing = false;
-                    return false;
-                }
-                if (IsDrawing)
+                     Main.dayTime = !Main.dayTime;
+                     Main.time = 0.0;
+                     if (Main.dayTime)
+                     {
+                        TogglesUIManager.TextToShow = "Time set to Day";
+                        TogglesUIManager.ColorToUse = Color.Gold;
+                     }
+                     else
+                     {
+                        TogglesUIManager.TextToShow = "Time set to Night";
+                        TogglesUIManager.ColorToUse = Color.DimGray;
+                     }
+                }),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/water", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/waterGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Rain",
+                () => "Toggles a rainstorm",
+                5f,
+                () => { Toggles.ToggleRain = !Toggles.ToggleRain; },
+                typeof(Toggles).GetField("ToggleRain", CalNohitQoLUtils.UniversalBindingFlags)),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Event", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/EventGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Disable Events",
+                () => "Cancels/disables any active events",
+                6f,
+                () => { Toggles.DisableEvents = !Toggles.DisableEvents; }),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/biome", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/biomeGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Biome Fountains",
+                () => "Water fountains now force their biome post Queen Bee",
+                7f,
+                () => { Toggles.BiomeFountainsForceBiome = !Toggles.BiomeFountainsForceBiome; },
+                typeof(Toggles).GetField("BiomeFountainsForceBiome", CalNohitQoLUtils.UniversalBindingFlags)),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/difficulty", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/difficultyGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle World Difficulty",
+                () => 
                 {
-                    return true;
-                }
-                return false;
-            }
-        }
-        public void Draw(SpriteBatch spriteBatch)
-        {
-            if (!ShouldDraw)
-                return;
-            Texture2D backgroundTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/baseSettingsUIBackground", (AssetRequestMode)2).Value;
-            Player player = Main.LocalPlayer;
-            Vector2 drawCenter;
-            drawCenter.X = Main.screenWidth / 2;
-            drawCenter.Y = Main.screenHeight / 2;
-            Vector2 spawnPos = drawCenter + new Vector2(300, 0);
-
-            spriteBatch.Draw(backgroundTexture, spawnPos, null, Color.White, 0, backgroundTexture.Size() * 0.5f, 1f, 0, 0);
-            Rectangle hoverArea = Utils.CenteredRectangle(spawnPos, backgroundTexture.Size());
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
-            bool isHovering = mouseHitbox.Intersects(hoverArea);
-            if (isHovering)
-            {
-                Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-            }
-            DrawElements(spriteBatch);
-        }
-        public void DrawElements(SpriteBatch spriteBatch)
-        {
-            float baseVerticalOffset = -308;
-            Texture2D fancyTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/whiteTangle", (AssetRequestMode)2).Value;
-            Texture2D fancyTextureSmall = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/SmallerWhiteRect", (AssetRequestMode)2).Value;
-            Player player = Main.LocalPlayer;
-            #region Page Numbers
-            switch (PageNumber)
-            {
-                // First Page
-                case 1:
-                    Texture2D arrowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Arrow", (AssetRequestMode)2).Value;
-                    Texture2D arrowGlowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/ArrowGlow", (AssetRequestMode)2).Value;
-                    Vector2 backgroundDrawCenter2;
-                    backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
-                    backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset) / 2;
-                    Vector2 drawPos2 = backgroundDrawCenter2;
-                    Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
-
-                    drawPos2.X += 130;
-                    drawPos2.Y -= 2f;
-                    Vector2 whiteDrawPos = new Vector2((Main.screenWidth + 762) / 2, (Main.screenHeight + baseVerticalOffset) / 2);
-                    Rectangle whiteHitbox = Utils.CenteredRectangle(whiteDrawPos, fancyTextureSmall.Size());
-
-                    if (mouseHitbox.Intersects(whiteHitbox))
+                    string difficulty = "";
+                    string color = "";
+                    switch (Main.GameMode)
                     {
-                        spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
-                        Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-                        if ((Main.mouseLeft && Main.mouseLeftRelease || Main.mouseRight && Main.mouseRightRelease) && TogglesUIManager.ClickCooldownTimer == 0)
-                        {
-                            // ON CLICK AFFECT
-                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
-                            SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            PageNumber = 2;
-                        }
+                        case 0:
+                            difficulty = "Expert";
+                            color = "[c/af4bff:";
+                            break;
+
+                        case 1:
+                            difficulty = "Master";
+                            color = "[c/FF4444:";
+                            break;
+
+                        case 2:
+                            difficulty = "Journey";
+                            color = "[c/ffff66:";
+                            break;
+
+                        default:
+                            difficulty = "Normal";
+                            color = "[c/ffffff:";
+                            break;
                     }
-                    Rectangle arrowRect = Utils.CenteredRectangle(whiteDrawPos, arrowTexture.Size());
-                    float scale = 1;
-                    if (mouseHitbox.Intersects(arrowRect))
+                    return $"Set the world difficulty to] {color}{difficulty}";
+                },
+                8f,
+                () => 
+                {
+                    string text;
+                    switch (Main.GameMode)
                     {
-                        scale = 1.15f;
+                        case 0:
+                            Main.GameMode = 1;
+                            Main.LocalPlayer.difficulty = 0;
+                            text = "Expert enabled";
+                            TogglesUIManager.ColorToUse = new Color(175, 75, 255);
+                            break;
+
+                        case 1:
+                            Main.GameMode = 2;
+                            Main.LocalPlayer.difficulty = 0;
+                            text = "Master enabled";
+                            TogglesUIManager.ColorToUse = new Color(255, 68, 68);
+                            break;
+
+                        case 2:
+                            Main.GameMode = 3;
+                            Main.LocalPlayer.difficulty = 3;
+                            text = "Journey enabled";
+                            TogglesUIManager.ColorToUse = new Color(255, 255, 102);
+                            break;
+
+                        default:
+                            Main.GameMode = 0;
+                            Main.LocalPlayer.difficulty = 0;
+                            text = "Normal enabled";
+                            TogglesUIManager.ColorToUse = Color.White;
+                            break;
                     }
-                    spriteBatch.Draw(arrowTexture, whiteDrawPos, null, Color.White, 0, arrowTexture.Size() * 0.5f, scale, 0, 0);
-                    if (mouseHitbox.Intersects(arrowRect))
+                    GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
+                    TogglesUIManager.TextToShow = text;
+                }),
+
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Skull", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/SkullGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Player Difficulty",
+                () =>
+                {
+                    string difficulty;
+                    string color;
+                    switch (Main.LocalPlayer.difficulty)
                     {
-                        spriteBatch.Draw(arrowGlowTexture, whiteDrawPos, null, Color.White, 0, arrowGlowTexture.Size() * 0.5f, scale, 0, 0);
-
+                        case 0:
+                            difficulty = "Mediumcore";
+                            color = "[c/af4bff:";
+                            break;
+                        case 1:
+                            difficulty = "Hardcore";
+                            color = "[c/FF4444:";
+                            break;
+                        default:
+                            difficulty = "Classic";
+                            color = "[c/ffffff:";
+                            break;
                     }
-                    backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
-                    backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset) / 2;
-                    drawPos2 = backgroundDrawCenter2;
-                    mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
-
-                    drawPos2.X += 130;
-                    drawPos2.Y -= 2f;
-                    whiteDrawPos = new Vector2((Main.screenWidth + 436) / 2, (Main.screenHeight + baseVerticalOffset) / 2);
-
-                    spriteBatch.Draw(arrowTexture, whiteDrawPos, null, Color.Black * 0.8f, 0, arrowTexture.Size() * 0.5f, 1f, SpriteEffects.FlipHorizontally, 0);
-                    DrawPage(PageNumber, spriteBatch);
-                    break;
-                case 2:
-                    arrowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Arrow", (AssetRequestMode)2).Value;
-                    arrowGlowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/ArrowGlow", (AssetRequestMode)2).Value;
-                    backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
-                    backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset) / 2;
-                    drawPos2 = backgroundDrawCenter2;
-                    mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
-
-                    drawPos2.X += 130;
-                    drawPos2.Y -= 2f;
-                    whiteDrawPos = new Vector2((Main.screenWidth + 436) / 2, (Main.screenHeight + baseVerticalOffset) / 2);
-                    whiteHitbox = Utils.CenteredRectangle(whiteDrawPos, fancyTextureSmall.Size());
-
-                    if (mouseHitbox.Intersects(whiteHitbox))
+                    return $"Set the player difficulty to] {color}{difficulty}";
+                },
+                9f,
+                () =>
+                {
+                    string text;
+                    switch (Main.LocalPlayer.difficulty)
                     {
-                        spriteBatch.Draw(fancyTextureSmall, whiteDrawPos, null, Color.White * 0.3f, 0, fancyTextureSmall.Size() * 0.5f, 1f, 0, 0);
-                        Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
-                        if ((Main.mouseLeft && Main.mouseLeftRelease || Main.mouseRight && Main.mouseRightRelease) && TogglesUIManager.ClickCooldownTimer == 0)
-                        {
-                            // ON CLICK AFFECT
-                            TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
-                            SoundEngine.PlaySound(SoundID.MenuTick, player.Center);
-                            PageNumber = 1;
-                        }
+                        case 0:
+                            Main.LocalPlayer.difficulty = 1;
+                            text = "Mediumcore enabled";
+                            TogglesUIManager.ColorToUse = new Color(175, 75, 255);
+                            break;
+                        case 1:
+                            Main.LocalPlayer.difficulty = 2;
+                            text = "Hardcore Enabled";
+                            TogglesUIManager.ColorToUse = new Color(255, 68, 68);
+                            break;
+                        default:
+                            Main.LocalPlayer.difficulty = 0;
+                            text = "Classic enabled";
+                            TogglesUIManager.ColorToUse = Color.White;
+                            break;
                     }
-                    arrowRect = Utils.CenteredRectangle(whiteDrawPos, arrowTexture.Size());
-                    scale = 1;
-                    if (mouseHitbox.Intersects(arrowRect))
+                    if (Main.GameMode == 3 && Main.LocalPlayer.difficulty != 3)
                     {
-                        scale = 1.15f;
+                        // Stops you and the world desyncing being journey.
+                        Main.GameMode = 1;
                     }
-                    spriteBatch.Draw(arrowTexture, whiteDrawPos, null, Color.White, 0, arrowTexture.Size() * 0.5f, scale, SpriteEffects.FlipHorizontally, 0);
-                    if (mouseHitbox.Intersects(arrowRect))
-                    {
-                        spriteBatch.Draw(arrowGlowTexture, whiteDrawPos, null, Color.White, 0, arrowGlowTexture.Size() * 0.5f, scale, SpriteEffects.FlipHorizontally, 0);
-                    }
+                    GenericUpdatesModPlayer.UIUpdateTextTimer = 120;
+                    TogglesUIManager.TextToShow = text;
+                }),
 
-                    backgroundDrawCenter2.X = (Main.screenWidth + 430) / 2;
-                    backgroundDrawCenter2.Y = (Main.screenHeight + baseVerticalOffset) / 2;
-                    drawPos2 = backgroundDrawCenter2;
-                    mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
-
-                    drawPos2.X += 130;
-                    drawPos2.Y -= 2f;
-                    whiteDrawPos = new Vector2((Main.screenWidth + 762) / 2, (Main.screenHeight + baseVerticalOffset) / 2);
-
-                    spriteBatch.Draw(arrowTexture, whiteDrawPos, null, Color.Black * 0.8f, 0, arrowTexture.Size() * 0.5f, 1f, 0, 0);
-                    DrawPage(PageNumber, spriteBatch);
-                    break;
-            }
-            #endregion
-        }
-        public void DrawPage(int pageNumber, SpriteBatch spriteBatch)
-        {
-            float baseVerticalOffset = -210;
-            float baseVerticalInterval = 120;
-            Texture2D fancyTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/whiteTangle", (AssetRequestMode)2).Value;
-            Player player = Main.LocalPlayer;
-
-            Texture2D baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Map", (AssetRequestMode)2).Value;
-            Texture2D glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/MapGlow", (AssetRequestMode)2).Value;
-            string textToSend = "Reveal The Full Map";
-            string textToSendFormat = "[c/ffcc44:Fills out all of your map, cannot be reversed]";
-            ref bool thingToSend = ref MapSystem.MapReveal;
-            TogglesUIManager.SpecialToggleOnClick toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-
-            switch (pageNumber)
-            {
-                case 1:
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (i < 3)
-                        {
-                            switch (i)
-                            {
-                                case 0: // Map
-                                    toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.MapReveal;
-                                    TogglesUIManager.DrawElementWithOneJob(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, toggleOnClickExtra);
-                                    break;
-                                case 1: // Spawns
-                                    baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Spawns", (AssetRequestMode)2).Value;
-                                    glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/SpawnsGlow", (AssetRequestMode)2).Value;
-                                    textToSend = "Toggle Enemy Spawns";
-                                    textToSendFormat = "[c/ffcc44:Toggles allowing enemies to spawn]";
-                                    thingToSend = ref Toggles.NoSpawns;
-                                    toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-                                    TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
-                                    break;
-                                case 2: // Time Flow
-                                    baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/time", (AssetRequestMode)2).Value;
-                                    glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/timeGlow", (AssetRequestMode)2).Value;
-                                    textToSend = "Toggle Time Flow";
-                                    textToSendFormat = "[c/ffcc44:Pauses & resumes time flowing]";
-                                    thingToSend = ref Toggles.FrozenTime;
-                                    toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-                                    TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
-                                    break;
-                            }
-
-                        }
-                        else
-                        {
-                            switch (i)
-                            {
-                                case 3: // Rain On
-                                    baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/time", (AssetRequestMode)2).Value;
-                                    glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/timeGlow", (AssetRequestMode)2).Value;
-                                    textToSend = "Toggle time";
-                                    textToSendFormat = "[c/ffcc44:Swaps between night and day]";
-                                    toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.ToggleTime;
-                                    break;
-                                case 4: // Rain off
-                                    baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/water", (AssetRequestMode)2).Value;
-                                    glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/waterGlow", (AssetRequestMode)2).Value;
-                                    textToSend = "Toggle rain";
-                                    textToSendFormat = "[c/ffcc44:Toggles a rainstorm]";
-                                    toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.ToggleRain;
-                                    break;
-                            }
-                            TogglesUIManager.DrawElementWithOneJob(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, toggleOnClickExtra);
-                        }
-                    }
-                    break;
-                case 2:
-                    for (int i = 0; i < 5; i++)
-                    {
-
-                        switch (i)
-                        {
-                            case 0: // Events
-                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Event", (AssetRequestMode)2).Value;
-                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/EventGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Disable Events";
-                                textToSendFormat = "[c/ffcc44:Cancels/disables any active events]";
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.DisableEvents;
-                                TogglesUIManager.DrawElementWithOneJob(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, toggleOnClickExtra);
-                                break;
-                            case 1: // Biome Fountains
-                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/biome", (AssetRequestMode)2).Value;
-                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/biomeGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Toggle Biome Fountains";
-                                textToSendFormat = "[c/ffcc44:Water fountains now force their biome post Queen Bee]";
-                                thingToSend = ref Toggles.BiomeFountainsForceBiome;
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-                                TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
-                                break;
-                            case 2: // World Difficulty
-                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/difficulty", (AssetRequestMode)2).Value;
-                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/difficultyGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Toggle World Difficulty";
-                                string difficulty = "";
-                                string color = "";
-                                switch (Main.GameMode)
-                                {
-                                    case 0:
-                                        difficulty = "Expert";
-                                        color = "[c/af4bff:";
-                                        break;
-                                    case 1:
-                                        difficulty = "Master";
-                                        color = "[c/FF4444:";
-                                        break;
-                                    case 2:
-                                        difficulty = "Journey";
-                                        color = "[c/ffff66:";
-                                        break;
-                                    default:
-                                        difficulty = "Normal";
-                                        color = "[c/ffffff:";
-                                        break;
-                                }
-                                textToSendFormat = $"[c/ffcc44:Set the world difficulty to] {color}{difficulty}]";
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.ToggleWorldDifficulty;
-                                TogglesUIManager.DrawElementWithOneJob(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, toggleOnClickExtra);
-                                break;
-                            case 3:
-                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/Skull", (AssetRequestMode)2).Value;
-                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/SkullGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Toggle Player Difficulty";
-                                difficulty = "";
-                                color = "";
-                                switch (player.difficulty)
-                                {
-                                    case 0:
-                                        difficulty = "Mediumcore";
-                                        color = "[c/af4bff:";
-                                        break;
-                                    case 1:
-                                        difficulty = "Hardcore";
-                                        color = "[c/FF4444:";
-                                        break;
-                                    default:
-                                        difficulty = "Classic";
-                                        color = "[c/ffffff:";
-                                        break;
-                                }
-                                textToSendFormat = $"[c/ffcc44:Set the player difficulty to] {color}{difficulty}]";
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.TogglePlayerDificulty;
-                                TogglesUIManager.DrawElementWithOneJob(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, toggleOnClickExtra);
-                                break;
-                            case 4:
-                                baseTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/teleport", (AssetRequestMode)2).Value;
-                                glowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/teleportGlow", (AssetRequestMode)2).Value;
-                                textToSend = "Toggle Map Teleporting";
-                                textToSendFormat = "[c/ffcc44:Right click the fullscreen map to teleport]";
-                                thingToSend = ref MapSystem.MapTeleport;
-                                toggleOnClickExtra = TogglesUIManager.SpecialToggleOnClick.None;
-                                TogglesUIManager.DrawElementWithBasicToggle(spriteBatch, baseTexture, glowTexture, player, i, baseVerticalOffset, baseVerticalInterval, textToSend, textToSendFormat, ref thingToSend, toggleOnClickExtra);
-                                break;
-                        }
-
-
-                    }
-                    break;
-            }
+                new PageUIElement(ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/water", AssetRequestMode.ImmediateLoad).Value,
+                ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/Powers/waterGlow", AssetRequestMode.ImmediateLoad).Value,
+                () => "Toggle Map Teleporting",
+                () => "Toggles right clicking the fullscreen map to teleport",
+                10f,
+                () => { MapSystem.MapTeleport = !MapSystem.MapTeleport; },
+                typeof(MapSystem).GetField("MapTeleport", CalNohitQoLUtils.UniversalBindingFlags)),
+            };
         }
     }
 }

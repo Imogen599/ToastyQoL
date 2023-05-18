@@ -4,9 +4,7 @@ using CalamityMod.Particles;
 using CalNohitQoL.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 using Terraria;
-using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
 
@@ -26,6 +24,13 @@ namespace CalNohitQoL.Core.Systems
             On.Terraria.Main.DrawInfernoRings += DrawShroomsRenderTarget;
             Main.OnResolutionChanged += ResizeShroomsRenderTarget;
             Main.OnPreDraw += DrawToRenderTarget;
+        }
+
+        public override void Unload()
+        {
+            On.Terraria.Main.DrawInfernoRings -= DrawShroomsRenderTarget;
+            Main.OnResolutionChanged -= ResizeShroomsRenderTarget;
+            Main.OnPreDraw -= DrawToRenderTarget;
         }
 
         private void DrawToRenderTarget(GameTime obj)

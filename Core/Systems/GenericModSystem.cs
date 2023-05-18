@@ -43,7 +43,6 @@ namespace CalNohitQoL.Core.Systems
         public override void OnWorldLoad()
         {
             ResetUIStuff();
-            UpgradesUIManager.SortOutTextures();
         }
 
         public override void OnWorldUnload() => ResetUIStuff();

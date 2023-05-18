@@ -11,9 +11,9 @@ using Terraria.GameContent;
 using Terraria.Graphics.Shaders;
 using CalNohitQoL.Content.UI.UIManagers;
 using CalNohitQoL.Content.UI;
-using CalNohitQoL.Core.Systems.TipSystem;
 using CalNohitQoL.Core;
 using CalNohitQoL.Content.UI.PotionUI;
+using CalamityMod.Projectiles.Boss;
 
 namespace CalNohitQoL
 {
@@ -28,15 +28,11 @@ namespace CalNohitQoL
         internal static TogglesUIManager TogglesUI = new();
 
         internal static UpgradesUIManager upgradesUIManager = new();
-        internal static LocksUIManager locksUIManager = new();
         internal static PowersUIManager powersUIManager = new();
         internal static WorldUIManager worldUIManager = new();
-        internal static MiscUIManager miscUIManager = new();
         internal static BossTogglesUIManager bossTogglesUIManager = new();
 
         internal static PotionUIManager potionUIManager = new();
-        internal static TipsUIManager tipsUIManager = new();
-        internal static TipMainButtonUIElement tipMainButtonUIElement = new();
 
         // OTHER VARIABLES
         public static int BHTYPE { get; internal set; } = 1;
@@ -55,6 +51,7 @@ namespace CalNohitQoL
             CalNohitQoLLists.LoadLists();
             //TipsList.LoadLists();
             PotionUIManager.Load();
+            BaseTogglesUIManager.InitializeUIManagers(this);
 
             if (ModLoader.TryGetMod("InfernumMode", out Mod infernumMod))
             {

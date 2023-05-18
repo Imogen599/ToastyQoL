@@ -310,7 +310,7 @@ namespace CalNohitQoL.Content.UI.PotionUI
 
             // Block the mouse if we are hovering over it.
             Rectangle hoverArea = Utils.CenteredRectangle(spawnPos, backgroundTexture.Size() * scale);
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             bool isHovering = mouseHitbox.Intersects(hoverArea);
             if (isHovering)
             {
@@ -382,7 +382,7 @@ namespace CalNohitQoL.Content.UI.PotionUI
             DrawActivePotions(spriteBatch, spawnPos, opacity);
         }
 
-        private void DrawSortToggleIcons(SpriteBatch spriteBatch, Vector2 spawnPos, float opacity)
+        private static void DrawSortToggleIcons(SpriteBatch spriteBatch, Vector2 spawnPos, float opacity)
         {
             Texture2D alphaTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/PotionUI/Textures/alpha", (AssetRequestMode)2).Value;
             Texture2D alphaGlowTexture = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/PotionUI/Textures/alphaGlow", (AssetRequestMode)2).Value;
@@ -433,7 +433,6 @@ namespace CalNohitQoL.Content.UI.PotionUI
                     SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                 }
             }
-
         }
 
         private static void DrawModToggleIcons(SpriteBatch spriteBatch, Vector2 spawnPos, float opacity)
@@ -460,7 +459,7 @@ namespace CalNohitQoL.Content.UI.PotionUI
             }
             Rectangle calamityHitbox = Utils.CenteredRectangle(calamityDrawPos, calamityTexture.Size());
             Rectangle terrariaHitbox = Utils.CenteredRectangle(terrariaDrawPos, terrariaTexture.Size());
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             if (mouseHitbox.Intersects(calamityHitbox) && !drawCalamityPotions)
             {
                 calamityScale = 1.1f;
@@ -491,7 +490,7 @@ namespace CalNohitQoL.Content.UI.PotionUI
         {
             // This uses structs to draw these very very efficently. I am happy with this.
             // Define these outside the for loop. May be more efficient.
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             Vector2 potionDrawPos;
             PotionElement potionElement;
             bool isHovering;
@@ -676,7 +675,7 @@ namespace CalNohitQoL.Content.UI.PotionUI
             Vector2 basePotionPos = new Vector2(87, 22) + spawnPos;
             Vector2 basePotionInterval;
             Vector2 potionDrawPos;
-            Rectangle mouseHitbox = new Rectangle(Main.mouseX, Main.mouseY, 2, 2);
+            Rectangle mouseHitbox = new(Main.mouseX, Main.mouseY, 2, 2);
             Rectangle hoverHitbox;
             int index = 0;
             int index2;

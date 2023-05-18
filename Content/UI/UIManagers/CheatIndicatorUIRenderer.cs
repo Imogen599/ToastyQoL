@@ -11,27 +11,22 @@ namespace CalNohitQoL.Content.UI.UIManagers
 {
     public class CheatIndicatorUIRenderer
     {
-        // TODO
-        // Impliment this to use the calamity difficulty mode ui so it doesnt look so fucking scuffed.
-        //
-        // ^ No, the UI does not work as originally thought :(.
-
         public void Draw(SpriteBatch spriteBatch)
         {
 
             Texture2D Icon;
             if (Toggles.GodmodeEnabled)
-                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatGodUIIcon", (AssetRequestMode)2).Value;
+                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatGodUIIcon").Value;
             else if (Toggles.InfiniteFlightTime)
-                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatWingsUIIcon", (AssetRequestMode)2).Value;
+                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatWingsUIIcon").Value;
             else if (Toggles.InfiniteMana)
-                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatManaUIIcon", (AssetRequestMode)2).Value;
+                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatManaUIIcon").Value;
             else if (Toggles.InstantDeath)
-                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatDeathUIIcon", (AssetRequestMode)2).Value;
+                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/cheatDeathUIIcon").Value;
             else
-                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/baseUIIcon", (AssetRequestMode)2).Value;
-            // The Textures of the icon, and when you hover over it (optional).
-            Texture2D HoverIcon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/UIIconOutline", (AssetRequestMode)2).Value;
+                Icon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/baseUIIcon").Value;
+            // The Textures of the icon, and when you hover over it.
+            Texture2D HoverIcon = ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/UIIconOutline").Value;
 
             // These set the center of the icon, and the "hitbox" around it. Play around with the Vector floats to change position.
             // This does not scale properly
@@ -50,12 +45,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
             if (isHovering)
             {
                 spriteBatch.Draw(HoverIcon, IconCenter, null, Color.White, 0f, Icon.Size() * 0.5f, 1, 0, 0f);
-            }
 
-
-
-            if (isHovering)
-            {
                 string IconHighlight;
                 if (Toggles.GodmodeEnabled)
                     IconHighlight = "[c/cdd00c:Godmode Enabled]";
@@ -67,6 +57,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
                     IconHighlight = "[c/f92a07:Instant Death Enabled]";
                 else
                     IconHighlight = "No Player Cheat";
+
                 Main.hoverItemName = IconHighlight + "\n[c/ffcc44:Click to open UI!]";
 
                 Main.blockMouse = Main.LocalPlayer.mouseInterface = true;
@@ -77,14 +68,14 @@ namespace CalNohitQoL.Content.UI.UIManagers
                         TogglesUIManager.CloseAllUI(false);
                     else
                         TogglesUIManager.CloseAllUI(true);
+
                     TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                     SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                 }
             }
-            // Now, draw the icon in the correct place. Use Color.White here.
+            
+            // Now, draw the icon in the correct place.
             spriteBatch.Draw(Icon, IconCenter, null, Color.White, 0f, Icon.Size() * 0.5f, 1, 0, 0f);
-
-
         }
 
     }
