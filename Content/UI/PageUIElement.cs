@@ -29,7 +29,7 @@ namespace CalNohitQoL.Content.UI
         public const string ColorTag = "c/ffcc44:";
         public const string DisabledTag = "c/de4444:";
         public const string EnabledText = "[c/44de5a:Enabled]";
-        public const string DisabledText = $"[{DisabledTag}:Disabled]";
+        public const string DisabledText = $"[{DisabledTag}Disabled]";
 
         public static Texture2D Lock => ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/lock", AssetRequestMode.ImmediateLoad).Value;
         public static Texture2D LockGlow => ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/lockGlow", AssetRequestMode.ImmediateLoad).Value;

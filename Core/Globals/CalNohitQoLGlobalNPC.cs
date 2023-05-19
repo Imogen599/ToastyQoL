@@ -79,7 +79,7 @@ namespace CalNohitQoL.Core.Globals
                 CalNohitQoLUtils.DisplayText($"[c/e7684b:Current Time:] [c/fccccf:{line}]");
             }
             if (ProgressionBosses.Contains(npc.type))
-                GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
+                GenericUpdatesModPlayer.UpdateProgressionSystem = true;
         }
 
         internal readonly List<int> ProgressionBosses = new()

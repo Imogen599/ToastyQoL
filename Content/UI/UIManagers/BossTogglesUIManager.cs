@@ -115,7 +115,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
                     if ((Main.mouseLeft && Main.mouseLeftRelease || Main.mouseRight && Main.mouseRightRelease) && TogglesUIManager.ClickCooldownTimer == 0)
                     {
                         // On click stuff
-                        GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
+                        GenericUpdatesModPlayer.UpdateProgressionSystem = true;
                         MarkAllBossesAsX(false);
                         TogglesUIManager.ClickCooldownTimer = TogglesUIManager.ClickCooldownLength;
                         SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
@@ -748,7 +748,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
                         if (Main.mouseLeft && Main.mouseLeftRelease || Main.mouseRight && Main.mouseRightRelease)
                         {
                             // ON CLICK AFFECT
-                            GenericUpdatesModPlayer.UpdateUpgradesTextFlag = true;
+                            GenericUpdatesModPlayer.UpdateProgressionSystem = true;
                             Hatred(boss);
                             SoundEngine.PlaySound(SoundID.MenuTick, Main.LocalPlayer.Center);
                         }

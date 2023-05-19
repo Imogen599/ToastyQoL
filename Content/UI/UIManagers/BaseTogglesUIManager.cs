@@ -22,7 +22,6 @@ namespace CalNohitQoL.Content.UI.UIManagers
         }
 
         public Texture2D UIBackgroundTexture => UseSmallerBackground ? UIBackgroundTextureSmall : UIBackgroundTextureLarge;
-
         public static Texture2D UIBackgroundTextureLarge => ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/baseSettingsUIBackground", AssetRequestMode.ImmediateLoad).Value;
         public static Texture2D UIBackgroundTextureSmall => ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/baseSettingsUIBackgroundSmall", AssetRequestMode.ImmediateLoad).Value;
         public static Texture2D HoverBackgroundTexture => ModContent.Request<Texture2D>("CalNohitQoL/Content/UI/Textures/whiteTangle", AssetRequestMode.ImmediateLoad).Value;
@@ -62,7 +61,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
 
         public const int MaxElementsPerPage = 5;
 
-        public const int ElementVerticalOffset = 120;
+        public const int ElementVerticalOffset = 60;
 
         #endregion
 
@@ -148,7 +147,7 @@ namespace CalNohitQoL.Content.UI.UIManagers
 
                 var currentElement = UIElements[i];
                 currentElement.Draw(elementDrawPosition, UIBackgroundTexture.Width);
-                elementDrawPosition.Y += 60f;//ElementVerticalOffset; 
+                elementDrawPosition.Y += ElementVerticalOffset; 
             }
 
             // Draw the page ticks.

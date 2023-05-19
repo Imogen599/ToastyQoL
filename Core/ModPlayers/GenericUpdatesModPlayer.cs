@@ -29,7 +29,7 @@ namespace CalNohitQoL.Core.ModPlayers
 
         internal static int GMHitCooldownTimer = 0;
 
-        internal static bool UpdateUpgradesTextFlag;
+        internal static bool UpdateProgressionSystem;
         internal static bool UpdateActiveLengthDictFlag = true;
 
         public override void PreUpdate()
@@ -56,8 +56,8 @@ namespace CalNohitQoL.Core.ModPlayers
             }
 
             // Generic update calls
-            if (UpdateUpgradesTextFlag)
-                UpdateUpgradesTextFlag = ProgressionSystem.CheckProgressionBossStatus();
+            if (UpdateProgressionSystem)
+                UpdateProgressionSystem = ProgressionSystem.CheckProgressionBossStatus();
 
             if (Main.LocalPlayer.GetModPlayer<PotionUIPlayer>().DPotionsAreActive.Count > 0)
                 CalNohitQoL.potionUIManager.GiveBuffs();
