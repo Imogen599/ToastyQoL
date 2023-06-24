@@ -297,9 +297,12 @@ namespace ToastyQoL
                 throw new ArgumentException("Argument 2 must be a string.");
 
             FieldInfo toggle = typeof(Toggles).GetField((string)args[1], ToastyQoLUtils.UniversalBindingFlags);
-            if (toggle != null && toggle.GetType() == typeof(bool))
-                return (bool)toggle.GetValue(null);
-            return false;
+            bool value;
+            if (toggle != null && toggle.FieldType == typeof(bool))
+                value = (bool)toggle.GetValue(null);
+            else
+                value = false;
+            return value;
         }
 
         private static void AddShroomsDrawFunc(object[] args)
