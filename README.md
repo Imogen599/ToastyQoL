@@ -2,7 +2,7 @@
 
 ## In-game Description
 
-A QoL mod for Calamity with a focus on more cheaty features.
+A QoL mod with a focus on more cheaty features.
 
 ### UI:
 
