@@ -1,4 +1,4 @@
-A QoL mod for Calamity with a focus on more cheaty features.
+A QoL mod with a focus on more cheaty features.
 
 UI:
 
@@ -7,8 +7,7 @@ UI:
 - Examples of these toggles include: Powers (such as godmode), Light Hack, Enemy Spawns, Changing time,
   a system that sends a chat message informing you if you were under Minimum Nohit Length for a boss fight,
   and by how much.
-
-- You can also toggle the death state of any Vanilla and Calamity boss.
+- You can also toggle the death state of any boss.
 - There is a potion UI menu that allows you to give yourself any potion buff.
 - Adds an Summoner Minion Slot UI icon left of the HP bar that gives you information about your current summon slots.
 
@@ -17,9 +16,6 @@ Items:
 - Adds boss spawners that allows you to spawn up to 10 at once.
 - Adds Nostalgic Shroom: The OG Shroom, nothing more. Has a list of victors in its tooltip.
 - Adds Double Shroom: doubles the effect of Nostalgic Shroom.
-- Both of these are sold by the Drunken Princess Town NPC.
-- Adds Shiny Wand, an item that lets you spawn a simulation of Calamitas' bullet hells to practice.
-- Adds Reflective Wand, an item that lets you spawn a simulation of every SCal bullet hell to practice.
+- Both of these are sold by the Merchant.
 - Adds a Toaster Pet that occasionally burns toast.
 - Adds "The Percenter", an item that drains 10% max hp from the nearest enemy. Useful for getting bosses to a certain phase.
-- Adds "Potion of Rage", a potion that gives you max rage for 2 seconds if no boss is alive.

@@ -1,9 +1,9 @@
-﻿using CalNohitQoL.Content.Projectiles;
+﻿using ToastyQoL.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Content.Buffs
+namespace ToastyQoL.Content.Buffs
 {
     public class ToasterBuff : ModBuff
     {

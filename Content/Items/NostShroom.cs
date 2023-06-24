@@ -4,9 +4,9 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using System.Linq;
 using Microsoft.Xna.Framework;
-using CalNohitQoL.Content.Buffs;
+using ToastyQoL.Content.Buffs;
 
-namespace CalNohitQoL.Content.Items
+namespace ToastyQoL.Content.Items
 {
     public class NostShroom : ModItem
     {
@@ -23,43 +23,59 @@ namespace CalNohitQoL.Content.Items
             obj.OverrideColor = new Color(Main.DiscoR, Main.DiscoG, Main.DiscoB);
 
 
-            TooltipLine obj2 = new TooltipLine(Mod, "1", "People who have nohit SCal with this:");
-            obj2.Text = "People who have nohit SCal with this:";
+            TooltipLine obj2 = new(Mod, "1", "People who have nohit SCal with this:")
+            {
+                Text = "People who have nohit SCal with this:"
+            };
             tooltips.Add(obj2);
 
-            TooltipLine obj3 = new TooltipLine(Mod, "2", "People who have nohit SCal with this:");
-            obj3.Text = "Joey";
-            obj3.OverrideColor = new Color(244, 127, 255, 255);
+            TooltipLine obj3 = new(Mod, "2", "People who have nohit SCal with this:")
+            {
+                Text = "Joey",
+                OverrideColor = new(244, 127, 255)
+            };
             tooltips.Add(obj3);
 
-            TooltipLine obj4 = new TooltipLine(Mod, "3", "People who have nohit SCal with this:");
-            obj4.Text = "Athos";
-            obj4.OverrideColor = new Color(83, 169, 76, 255);
+            TooltipLine obj4 = new(Mod, "3", "People who have nohit SCal with this:")
+            {
+                Text = "Athos",
+                OverrideColor = new(83, 169, 76)
+            };
             tooltips.Add(obj4);
 
-            TooltipLine obj5 = new TooltipLine(Mod, "4", "People who have nohit SCal with this:");
-            obj5.Text = "Hobbes";
-            obj5.OverrideColor = new Color(255, 151, 11, 255);
+            TooltipLine obj5 = new(Mod, "4", "People who have nohit SCal with this:")
+            {
+                Text = "Hobbes",
+                OverrideColor = new(255, 151, 11)
+            };
             tooltips.Add(obj5);
 
-            TooltipLine obj6 = new TooltipLine(Mod, "5", "People who have nohit SCal with this:");
-            obj6.Text = "Brue";
-            obj6.OverrideColor = new Color(95, 205, 228, 255);
+            TooltipLine obj6 = new(Mod, "5", "People who have nohit SCal with this:")
+            {
+                Text = "Brue",
+                OverrideColor = new(95, 205, 228)
+            };
             tooltips.Add(obj6);
 
-            TooltipLine obj7 = new TooltipLine(Mod, "6", "People who have nohit SCal with this:");
-            obj7.Text = "Toasty";
-            obj7.OverrideColor = new Color(209, 180, 128, 255);
+            TooltipLine obj7 = new(Mod, "6", "People who have nohit SCal with this:")
+            {
+                Text = "Toasty",
+                OverrideColor = new(209, 180, 128)
+            };
             tooltips.Add(obj7);
 
-            TooltipLine obj8 = new TooltipLine(Mod, "7", "People who have nohit SCal with this:");
-            obj8.Text = "Creamy";
-            obj8.OverrideColor = new Color(255, 242, 221, 255);
+            TooltipLine obj8 = new(Mod, "7", "People who have nohit SCal with this:")
+            {
+                Text = "Creamy",
+                OverrideColor = new(242, 221, 255)
+            };
             tooltips.Add(obj8);
 
-            TooltipLine obj9 = new TooltipLine(Mod, "7", "People who have nohit SCal with this:");
-            obj9.Text = "Xurkiderp";
-            obj9.OverrideColor = new Color(255, 242, 221, 255);
+            TooltipLine obj9 = new(Mod, "7", "People who have nohit SCal with this:")
+            {
+                Text = "Xurkiderp",
+                OverrideColor = new(242, 221, 255)
+            };
             tooltips.Add(obj9);
         }
         public override void SetDefaults()

@@ -1,4 +1,4 @@
-# CalNohitQoL
+# ToastyQoL
 
 Feel free to browse through and see how this mod works.
 If you wish to copy/use something specific from this in your own mod, please contact me on Discord at "Toasty#1007" and ask.

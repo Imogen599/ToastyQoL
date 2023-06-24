@@ -1,4 +1,4 @@
-﻿namespace CalNohitQoL.Core
+﻿namespace ToastyQoL.Core
 {
     internal static class Toggles
     {
@@ -21,8 +21,6 @@
         internal static float LightHack = 0;
         internal static bool playerShouldBeJourney = false;
         internal static bool InfiniteMana = false;
-        internal static bool AutoChargeDraedonWeapons = true;
-        internal static bool AutomateProgressionUpgrades = true;
         internal static bool MNLIndicator = true;
         internal static bool SassMode = false;
         internal static bool ShroomsExtraDamage = false;
@@ -30,7 +28,6 @@
         internal static bool BossDPS = true;
         internal static bool FrozenTime = false;
         internal static bool NoSpawns = false;
-        internal static bool TesterTimes = false;
         internal static bool ProperShrooms = true;
         internal static bool ShroomShader = true;
     }

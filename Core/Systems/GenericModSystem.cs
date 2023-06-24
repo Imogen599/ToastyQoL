@@ -1,31 +1,18 @@
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using CalamityMod.CalPlayer;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Content;
 using Terraria;
-using Terraria.Chat;
 using Terraria.GameContent.Events;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Terraria.ModLoader.IO;
-using Terraria.UI;
 using Terraria.ID;
-using CalNohitQoL.Content.UI.UIManagers;
+using ToastyQoL.Content.UI;
 
-namespace CalNohitQoL.Core.Systems
+namespace ToastyQoL.Core.Systems
 {
     public class GenericModSystem : ModSystem
     {
-
         private static void ResetUIStuff()
         {
             TogglesUIManager.ClickCooldownTimer = 0;
-            TogglesUIManager.CloseAllUI(true);
-            TogglesUIManager.OutroTimer = 0;
+            TogglesUIManager.CloseUI();
         }
 
         public override void NetSend(BinaryWriter writer)
@@ -58,10 +45,31 @@ namespace CalNohitQoL.Core.Systems
                 Toggles.DisableEvents = false;
             }
 
-            if (CalNohitQoL.DownedBrain || CalNohitQoL.DownedEater)
+            if (SavingSystem.DownedBrain || SavingSystem.DownedEater)
                 NPC.downedBoss2 = true;
             else
                 NPC.downedBoss2 = false;
+
+            if (Toggles.ToggleRain)
+            {
+                if (Main.raining == true)
+                {
+                    Main.StopRain();
+                    Sandstorm.Happening = false;
+                    Sandstorm.StopSandstorm();
+                    Sandstorm.WorldClear();
+                    Main.SyncRain();
+                }
+                else
+                {
+                    Main.StartRain();
+                    Main.rainTime = 12000;
+                    Sandstorm.StartSandstorm();
+                    Sandstorm.Happening = true;
+                    Main.SyncRain();
+                }
+                Toggles.ToggleRain = false;
+            }
         }
 
         internal static void ClearEvents()
@@ -120,14 +128,11 @@ namespace CalNohitQoL.Core.Systems
 
         public static ModKeybind OpenPotionsUI { get; private set; }
 
-        //public static ModKeybind OpenTipsUI { get; private set; }
 
         public override void Load()
         {
             OpenTogglesUI = KeybindLoader.RegisterKeybind(Mod, "Open Toggles UI", "L");
             OpenPotionsUI = KeybindLoader.RegisterKeybind(Mod, "Open Potions UI", "P");
-            //OpenTipsUI = KeybindLoader.RegisterKeybind(Mod, "Open Tips UI", "O");
         }
-
     }
 }

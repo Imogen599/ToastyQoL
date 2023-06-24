@@ -1,14 +1,14 @@
-﻿namespace CalNohitQoL.Content.UI
+﻿using System;
+
+namespace ToastyQoL.Content.UI
 {
     public struct ToggleBlockInformation
     {
-        public delegate bool CanToggleDelegate();
-
-        public CanToggleDelegate CanToggle;
+        public Func<bool> CanToggle;
 
         public string ExtraHoverText;
 
-        public ToggleBlockInformation(CanToggleDelegate canToggleDelegate, string extraHoverText)
+        public ToggleBlockInformation(Func<bool> canToggleDelegate, string extraHoverText)
         {
             CanToggle = canToggleDelegate;
             ExtraHoverText = extraHoverText;

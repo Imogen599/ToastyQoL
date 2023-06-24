@@ -17,7 +17,8 @@ float4 uShaderSpecificData;
 float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 pixel = tex2D(uImage0, coords);
-    return lerp(pixel, float4(uColor, 1), 0.5) * pixel.a;
+    return float4(lerp(pixel.rgb, uColor, 0.5), 1) * pixel.a;
+
 }
 
 technique Technique1

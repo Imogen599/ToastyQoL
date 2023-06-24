@@ -1,10 +1,8 @@
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using CalamityMod;
-using CalamityMod.CalPlayer;
 
-namespace CalNohitQoL.Content.Items
+namespace ToastyQoL.Content.Items
 {
     public class SacrificialDagger : ModItem
     {
@@ -13,32 +11,26 @@ namespace CalNohitQoL.Content.Items
             SacrificeTotal = 1;
             DisplayName.SetDefault("Sacrificial Dagger");
             Tooltip.SetDefault("Reduces player health to 10\n" +
-                "Reduces health to 1 if already at 10 health or less\n" +
-                "Does not work while a boss is alive");
+                "Reduces health to 1 if already at 10 health or less");
         }
 
         public override void SetDefaults()
         {
             Item.width = 28;
             Item.height = 30;
-            Item.rare = 1;
+            Item.rare = ItemRarityID.Blue;
             Item.useAnimation = Item.useTime = 5;
             Item.useStyle = ItemUseStyleID.DrinkLiquid;
         }
-        public override bool CanUseItem(Player player) => !CalamityPlayer.areThereAnyDamnBosses; //You're not supposed to use this while a boss is alive.
 
-        public override bool? UseItem(Player player)/* Suggestion: Return null instead of false */
+        public override bool? UseItem(Player player)
         {
             if (player.statLife > 10)
-            {
                 player.statLife = 10;
-            }
             else
-            {
                 player.statLife = 1;
-            }
 
-            return true;
+            return null;
         }
 
         public override void AddRecipes()

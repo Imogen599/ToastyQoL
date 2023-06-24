@@ -1,19 +1,20 @@
-﻿using CalamityMod;
-using CalamityMod.Particles;
-using CalNohitQoL.Content.Buffs;
+﻿using ToastyQoL.Content.Buffs;
 using Microsoft.Xna.Framework;
 using System;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Content.Projectiles
+namespace ToastyQoL.Content.Projectiles
 {
     public class ToasterProj : ModProjectile
     {
+        
         public Player Owner => Main.player[Projectile.owner];
+        
         public ref float Timer => ref Projectile.ai[0];
-        public ThanatosSmokeParticleSet SmokeDrawer = new(-1, 3, 0f, 16f, 0.4f);
+        
+        //public ThanatosSmokeParticleSet SmokeDrawer = new(-1, 3, 0f, 16f, 0.4f);
+       
         public bool HoleBelow
         {
             get
@@ -35,11 +36,15 @@ namespace CalNohitQoL.Content.Projectiles
                 return true;
             }
         }
+       
         public int playerStill;
 
         public bool fly;
+       
         public bool easyfix = true;
-        public override string Texture => "CalNohitQoL/Assets/ExtraTextures/toasterSheet";
+        
+        public override string Texture => "ToastyQoL/Assets/ExtraTextures/toasterSheet";
+        
         public override void SetStaticDefaults()
         {
             Main.projFrames[Projectile.type] = 6;
@@ -71,9 +76,8 @@ namespace CalNohitQoL.Content.Projectiles
 
             // Keep the projectile from disappearing as long as the player isn't dead and has the pet buff.
             if (!Owner.dead && Owner.HasBuff(ModContent.BuffType<ToasterBuff>()))
-            {
                 Projectile.timeLeft = 2;
-            }
+
             #region Movement
             if (easyfix)
             {
@@ -141,8 +145,7 @@ namespace CalNohitQoL.Content.Projectiles
             {
                 float num16 = 0.3f;
                 Projectile.tileCollide = false;
-                Vector2 vector3 = default;
-                vector3 = new(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
+                Vector2 vector3 = new(Projectile.position.X + Projectile.width * 0.5f, Projectile.position.Y + Projectile.height * 0.5f);
                 float horiPos = Main.player[Projectile.owner].position.X + Main.player[Projectile.owner].width / 2 - vector3.X;
                 float vertiPos = Main.player[Projectile.owner].position.Y + Main.player[Projectile.owner].height / 2 - vector3.Y;
                 vertiPos += Main.rand.Next(-10, 21);
@@ -241,17 +244,20 @@ namespace CalNohitQoL.Content.Projectiles
                 Projectile.spriteDirection = 1;
             }
             #endregion
-            if (Projectile.frame == 3)
-                SmokeDrawer.ParticleSpawnRate = 12;
-            else
-                SmokeDrawer.ParticleSpawnRate = 99999999;
-            SmokeDrawer.BaseMoveRotation = MathHelper.PiOver2;
-            SmokeDrawer.Update();
+
+            //if (Projectile.frame == 3)
+             //   SmokeDrawer.ParticleSpawnRate = 12;
+            //else
+               // SmokeDrawer.ParticleSpawnRate = 99999999;
+            //SmokeDrawer.BaseMoveRotation = MathHelper.PiOver2;
+            //SmokeDrawer.Update();
+
             if (Timer >= 600 && Timer < 700)
             {
                 if (Projectile.frame < 3 && Timer % 2 == 0)
                     Projectile.frame++;
             }
+
             if (Timer >= 900)
             {
                 if (Projectile.frame > 0 && Timer % 2 == 0)
@@ -259,11 +265,12 @@ namespace CalNohitQoL.Content.Projectiles
                 else if (Projectile.frame == 0)
                     Timer = 0;
             }
+
             Timer++;
         }
         public override bool PreDraw(ref Color lightColor)
         {
-            SmokeDrawer.DrawSet(Projectile.Center + new Vector2(0, -10));
+            //SmokeDrawer.DrawSet(Projectile.Center + new Vector2(0, -10));
             return true;
         }
     }

@@ -1,6 +1,5 @@
-﻿using CalNohitQoL.Content.Buffs;
-using CalNohitQoL.Content.Projectiles;
-using CalNohitQoL.Core;
+﻿using ToastyQoL.Content.Buffs;
+using ToastyQoL.Content.Projectiles;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,11 +7,11 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Content.Items
+namespace ToastyQoL.Content.Items
 {
     public class ToasterItem : ModItem
     {
-        public override string Texture => "CalNohitQoL/Assets/ExtraTextures/toaster";
+        public override string Texture => "ToastyQoL/Assets/ExtraTextures/toaster";
         private readonly Color LightColor = new(209, 180, 128);
         private readonly Color DarkColor = new(209, 167, 96);
         public override void SetStaticDefaults()
@@ -39,7 +38,7 @@ namespace CalNohitQoL.Content.Items
             TooltipLine nameLine = tooltips.FirstOrDefault((x) => x.Name == "ItemName" && x.Mod == "Terraria");
             if (nameLine != null)
             {
-                nameLine.OverrideColor = CalNohitQoLUtils.TwoColorPulse(LightColor, DarkColor, 2f);
+                nameLine.OverrideColor = ToastyQoLUtils.TwoColorPulse(LightColor, DarkColor, 2f);
             }
         }
         public override void AddRecipes()

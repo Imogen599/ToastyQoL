@@ -1,8 +1,7 @@
-displayName = Toasty's Calamity QoL
+displayName = Toasty's QoL Mod
 author = Toasty
-version = 2.0.4.1
-modReferences = CalamityMod
+version = 2.1
 hideCode = true
 hideResources = true
-sortAfter = CalamityMod, EfficientNohits 
+sortAfter = EfficientNohits
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*

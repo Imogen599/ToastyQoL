@@ -1,22 +1,27 @@
-﻿using CalamityMod;
-using CalamityMod.DataStructures;
-using CalamityMod.Particles;
-using CalNohitQoL.Core.Globals;
+﻿using ToastyQoL.Core.Globals;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.Graphics.Shaders;
 using Terraria.ModLoader;
+using System.Collections.Generic;
+using System;
 
-namespace CalNohitQoL.Core.Systems
+namespace ToastyQoL.Core.Systems
 {
     public class ShroomsRenderTargetManager : ModSystem
     {
         private static RenderTarget2D ShroomsRenderTarget;
 
-        public static bool ShouldPreDraw = false;
+        internal static bool ShouldPreDraw = false;
 
-        public static MiscShaderData ShroomsShader => GameShaders.Misc["CalNohitQoL:Shrooms"];
+        public static List<Action<SpriteBatch>> ExtraDrawMethods
+        {
+            get;
+            private set;
+        }
+
+        public static MiscShaderData ShroomsShader => GameShaders.Misc["ToastyQoL:Shrooms"];
 
         #region Overrides
         public override void Load()
@@ -24,6 +29,7 @@ namespace CalNohitQoL.Core.Systems
             On.Terraria.Main.DrawInfernoRings += DrawShroomsRenderTarget;
             Main.OnResolutionChanged += ResizeShroomsRenderTarget;
             Main.OnPreDraw += DrawToRenderTarget;
+            ExtraDrawMethods = new();
         }
 
         public override void Unload()
@@ -31,44 +37,38 @@ namespace CalNohitQoL.Core.Systems
             On.Terraria.Main.DrawInfernoRings -= DrawShroomsRenderTarget;
             Main.OnResolutionChanged -= ResizeShroomsRenderTarget;
             Main.OnPreDraw -= DrawToRenderTarget;
+            ExtraDrawMethods = null;
         }
 
         private void DrawToRenderTarget(GameTime obj)
         {
             ShouldPreDraw = true;
-            if (Main.gameMenu)
-                return;
-            if (!Main.LocalPlayer.GetModPlayer<ShroomsPlayer>().NostTrippy || !Toggles.ProperShrooms)
+
+            if (Main.gameMenu || !Main.LocalPlayer.GetModPlayer<ShroomsPlayer>().NostTrippy || !Toggles.ProperShrooms)
                 return;
 
-            // Swap to the custom render target to prepare things to pixelation.
             ShroomsRenderTarget.SwapToRenderTarget();
             Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
 
-            // Draw each projectile.
             foreach (Projectile projectile in Main.projectile)
             {
                 if (projectile.active)
-                {
                     Main.instance.DrawProj(projectile.whoAmI);
-
-                    if (projectile.ModProjectile is IAdditiveDrawer additive)
-                        additive.AdditiveDraw(Main.spriteBatch);
-                }
             }
 
-            // Draw each NPC
             foreach (NPC npc in Main.npc)
             {
                 if (npc.active)
                     Main.instance.DrawNPC(npc.whoAmI, npc.behindTiles);
             }
 
-            GeneralParticleHandler.DrawAllParticles(Main.spriteBatch);
-            ShouldPreDraw = false;
-            // Clear the current render target.
+            foreach (var drawMethod in ExtraDrawMethods)
+                drawMethod(Main.spriteBatch);
+
             Main.graphics.GraphicsDevice.SetRenderTarget(null);
             Main.spriteBatch.End();
+
+            ShouldPreDraw = false;
         }
 
         private void ResizeShroomsRenderTarget(Vector2 obj)
@@ -88,20 +88,25 @@ namespace CalNohitQoL.Core.Systems
                 if (ShroomsRenderTarget is null)
                     ResizeShroomsRenderTarget(Vector2.Zero);
 
-                Main.spriteBatch.End();
-                Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null);
-
+                Effect effect = null;
                 // Draw the RT.
                 if (Toggles.ShroomShader)
                 {
-                    ShroomsShader.UseColor(Main.DiscoColor);
+                    ShroomsShader.UseColor(Main.DiscoColor.ToVector3());
                     ShroomsShader.Apply();
+                    effect = ShroomsShader.Shader;
                 }
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, effect);
+
                 Main.spriteBatch.Draw(ShroomsRenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
                 Main.spriteBatch.Draw(ShroomsRenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally, 0f);
                 Main.spriteBatch.Draw(ShroomsRenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipVertically, 0f);
                 Main.spriteBatch.Draw(ShroomsRenderTarget, Vector2.Zero, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.FlipHorizontally | SpriteEffects.FlipVertically, 0f);
-                Main.spriteBatch.ExitShaderRegion();
+
+                Main.spriteBatch.End();
+                Main.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, Main.DefaultSamplerState, DepthStencilState.None, Main.Rasterizer, null, Main.GameViewMatrix.TransformationMatrix);
             }
             orig(self);
         }

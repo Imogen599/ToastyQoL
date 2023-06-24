@@ -1,7 +1,4 @@
-using CalamityMod;
-using CalamityMod.Items;
-using CalNohitQoL.Core.Globals;
-using CalNohitQoL.Core.Systems;
+using ToastyQoL.Core.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;
@@ -11,7 +8,7 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Core.ModPlayers
+namespace ToastyQoL.Core.ModPlayers
 {
     public class MiscModPlayer : ModPlayer
     {
@@ -22,8 +19,8 @@ namespace CalNohitQoL.Core.ModPlayers
         {
             if (Toggles.InstantDeath)
                 Despawn();
-            CalNohitQoLGlobalNPC.currentTimer = 0;
         }
+
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
         {
             if (Player.whoAmI != Main.myPlayer)
@@ -33,7 +30,7 @@ namespace CalNohitQoL.Core.ModPlayers
             {
                 if (GenericUpdatesModPlayer.GMHitCooldownTimer == 0)
                 {
-                    SoundEngine.PlaySound(new SoundStyle("CalNohitQoL/Assets/Sounds/Custom/godmodeHitSFX"), Main.player[Main.myPlayer].Center);
+                    SoundEngine.PlaySound(new SoundStyle("ToastyQoL/Assets/Sounds/Custom/godmodeHitSFX"), Main.player[Main.myPlayer].Center);
                     GenericUpdatesModPlayer.GMHitCooldownTimer = HitCooldownFrames;
                 }
                 return false;
@@ -55,7 +52,7 @@ namespace CalNohitQoL.Core.ModPlayers
                 if (Main.netMode == NetmodeID.Server)
                     ChatHelper.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
                 else if (Main.netMode == NetmodeID.SinglePlayer)
-                    CalNohitQoLUtils.DisplayText(deathText.ToString(), (Color?)new Color(225, 25, 25));
+                    ToastyQoLUtils.DisplayText(deathText.ToString(), (Color?)new Color(225, 25, 25));
 
                 if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
                     NetMessage.SendPlayerDeath(Player.whoAmI, damageSource, damage, hitDirection, pvp, -1, -1);
@@ -97,10 +94,7 @@ namespace CalNohitQoL.Core.ModPlayers
                 }
             }
         }
-        public override void OnEnterWorld(Player player)
-        {
-            SavingSystem.CalamityCallQueued = false;
-        }
+
         public override void PostUpdateMiscEffects()
         {
             CheckBiomeFountains();
@@ -142,22 +136,6 @@ namespace CalNohitQoL.Core.ModPlayers
         public override void OnRespawn(Player player)
         {
             Player.immuneTime = 60;
-            if (Toggles.AutoChargeDraedonWeapons)
-            {
-                for (int i = 0; i < player.inventory.Length; i++)
-                {
-                    Item item = player.inventory[i];
-                    if (item.type >= 5125)
-                    {
-                        CalamityGlobalItem modItem = item.Calamity();
-                        if (modItem != null && modItem.UsesCharge)
-                        {
-                            modItem.Charge = modItem.MaxCharge;
-                        }
-                    }
-                }
-            }
-
         }
     }
 }

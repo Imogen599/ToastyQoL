@@ -1,12 +1,13 @@
-﻿using CalNohitQoL.Content.UI.UIManagers;
+﻿using ToastyQoL.Content.UI.PotionUI;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
+using ToastyQoL.Content.UI.MiscUI;
+using ToastyQoL.Content.UI;
 
-namespace CalNohitQoL.Core.Systems
+namespace ToastyQoL.Core.Systems
 {
     public class UIManagerSystem : ModSystem
     {
@@ -15,33 +16,22 @@ namespace CalNohitQoL.Core.Systems
 
             int mouseIndex = layers.FindIndex((layer) => layer.Name == "Vanilla: Mouse Text");
             if (mouseIndex == -1)
-            {
                 return;
-            }
 
-            static bool val()
+            layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", () =>
             {
                 if (!Main.inFancyUI && Main.playerInventory)
                 {
-                    CalNohitQoL.cheatIndicatorUIRenderer.Draw(Main.spriteBatch);
-                    CalNohitQoL.SummonSlotUIIcon2.Draw(Main.spriteBatch);
-
+                    CheatIndicatorUIRenderer.Draw(Main.spriteBatch);
+                    SummonSlotUIIcon.Draw(Main.spriteBatch);
                 }
                 if (!Main.inFancyUI)
                 {
-                    CalNohitQoL.TogglesUI.Draw(Main.spriteBatch);
-
-                    if (TogglesUIManager.UIOpen)
-                    {
-                        BaseTogglesUIManager.DrawUIManagers(Main.spriteBatch);
-                        CalNohitQoL.bossTogglesUIManager.Draw(Main.spriteBatch);
-                    }
-                    CalNohitQoL.potionUIManager.Draw(Main.spriteBatch);
+                    TogglesUIManager.Draw(Main.spriteBatch);
+                    PotionUIManager.Draw(Main.spriteBatch);
                 }
                 return true;
-            }
-
-            layers.Insert(mouseIndex, new LegacyGameInterfaceLayer("Special UIs", val, InterfaceScaleType.UI));
+            }, InterfaceScaleType.UI));
         }
 
         public override void UpdateUI(GameTime gameTime)

@@ -1,11 +1,37 @@
-﻿using Terraria.ModLoader;
+﻿using Terraria;
+using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
 
-namespace CalNohitQoL.Core.Systems
+namespace ToastyQoL.Core.Systems
 {
     public class SavingSystem : ModSystem
     {
-        public static bool CalamityCallQueued = false;
+        private static bool _downedBrain;
+
+        private static bool _downedEater;
+
+        public static bool DownedBrain
+        {
+            get => _downedBrain;
+            internal set
+            {
+                _downedBrain = value;
+                if (value)
+                    NPC.downedBoss2 = true;
+            }
+        }
+
+        public static bool DownedEater 
+        {
+            get => _downedEater;
+            internal set
+            {
+                _downedEater = value;
+                if (value)
+                    NPC.downedBoss2 = true;
+            }
+        }
+
         public override void PreWorldGen()
         {
             // BOOLS
@@ -28,10 +54,8 @@ namespace CalNohitQoL.Core.Systems
             Toggles.LightHack = 0;
             Toggles.playerShouldBeJourney = false;
             Toggles.InfiniteMana = false;
-            Toggles.AutoChargeDraedonWeapons = true;
-            Toggles.AutomateProgressionUpgrades = true;
-            CalNohitQoL.DownedBrain = false;
-            CalNohitQoL.DownedEater = false;
+            DownedBrain = false;
+            DownedEater = false;
             Toggles.MNLIndicator = true;
             Toggles.SassMode = false;
             Toggles.FrozenTime = false;
@@ -41,6 +65,7 @@ namespace CalNohitQoL.Core.Systems
             Toggles.ProperShrooms = true;
             Toggles.ShroomShader = true;
         }
+
         public override void OnWorldLoad()
         {
             // BOOLS
@@ -63,10 +88,8 @@ namespace CalNohitQoL.Core.Systems
             Toggles.LightHack = 0;
             Toggles.playerShouldBeJourney = false;
             Toggles.InfiniteMana = false;
-            Toggles.AutoChargeDraedonWeapons = true;
-            Toggles.AutomateProgressionUpgrades = true;
-            CalNohitQoL.DownedBrain = false;
-            CalNohitQoL.DownedEater = false;
+            DownedBrain = false;
+            DownedEater = false;
             Toggles.MNLIndicator = true;
             Toggles.SassMode = false;
             Toggles.FrozenTime = false;
@@ -76,6 +99,7 @@ namespace CalNohitQoL.Core.Systems
             Toggles.ProperShrooms = true;
             Toggles.ShroomShader = true;
         }
+
         public override void LoadWorldData(TagCompound tag)
         {
             Toggles.PotionTooltips = tag.GetBool("PotionTooltips");
@@ -96,10 +120,8 @@ namespace CalNohitQoL.Core.Systems
             Toggles.LightHack = tag.GetFloat("LightHack");
             Toggles.playerShouldBeJourney = tag.GetBool("playerShouldBeJourney");
             Toggles.InfiniteMana = tag.GetBool("InfiniteMana");
-            Toggles.AutoChargeDraedonWeapons = tag.GetBool("AutoChargeDraedonWeapons");
-            Toggles.AutomateProgressionUpgrades = tag.GetBool("APU");
-            CalNohitQoL.DownedBrain = tag.GetBool("DownedBrain");
-            CalNohitQoL.DownedEater = tag.GetBool("DownedEater");
+            DownedBrain = tag.GetBool("DownedBrain");
+            DownedEater = tag.GetBool("DownedEater");
             Toggles.MNLIndicator = tag.GetBool("MNLI");
             Toggles.SassMode = tag.GetBool("SASS");
             Toggles.FrozenTime = tag.GetBool("TimePaused");
@@ -107,7 +129,7 @@ namespace CalNohitQoL.Core.Systems
             Toggles.NoSpawns = tag.GetBool("nospawns");
             MapSystem.MapTeleport = tag.GetBool("maptp");
             Toggles.ProperShrooms = tag.GetBool("propershrooms");
-            Toggles.ShroomShader = tag.GetBool("shroomsshader"); ;
+            Toggles.ShroomShader = tag.GetBool("shroomsshader");
         }
 
         public override void SaveWorldData(TagCompound tag)
@@ -130,10 +152,8 @@ namespace CalNohitQoL.Core.Systems
             tag["LightHack"] = Toggles.LightHack;
             tag["playerShouldBeJourney"] = Toggles.playerShouldBeJourney;
             tag["InfiniteMana"] = Toggles.InfiniteMana;
-            tag["AutoChargeDraedonWeapons"] = Toggles.AutoChargeDraedonWeapons;
-            tag["APU"] = Toggles.AutomateProgressionUpgrades;
-            tag["DownedBrain"] = CalNohitQoL.DownedBrain;
-            tag["DownedEater"] = CalNohitQoL.DownedEater;
+            tag["DownedBrain"] = DownedBrain;
+            tag["DownedEater"] = DownedEater;
             tag["MNLI"] = Toggles.MNLIndicator;
             tag["SASS"] = Toggles.SassMode;
             tag["TimePaused"] = Toggles.FrozenTime;
@@ -143,20 +163,5 @@ namespace CalNohitQoL.Core.Systems
             tag["propershrooms"] = Toggles.ProperShrooms;
             tag["shroomsshader"] = Toggles.ShroomShader;
         }
-
-        public override void PreUpdateEntities()
-        {
-            if (CalamityCallQueued)
-            {
-                if (ModLoader.TryGetMod("CalamityMod", out Mod calamity))
-                {
-                    bool instantDeathActive = Toggles.InstantDeath;
-                    calamity.Call(new object[3] { "SetDifficultyActive", "armageddon", instantDeathActive });
-                    calamity.Call(new object[2] { "DisableAllDodges", instantDeathActive });
-                }
-                CalamityCallQueued = false;
-            }
-        }
-
     }
 }

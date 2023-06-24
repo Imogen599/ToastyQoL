@@ -1,8 +1,8 @@
-using CalNohitQoL.Core.Globals;
+using ToastyQoL.Core.Globals;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Content.Buffs
+namespace ToastyQoL.Content.Buffs
 {
     public class DoubleTrippy : ModBuff
 	{

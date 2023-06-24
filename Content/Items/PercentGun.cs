@@ -1,12 +1,10 @@
-﻿using CalamityMod;
-using CalamityMod.Rarities;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace CalNohitQoL.Content.Items
+namespace ToastyQoL.Content.Items
 {
     public class PercentGun : ModItem
     {
@@ -15,7 +13,7 @@ namespace CalNohitQoL.Content.Items
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("The Percenter");
-            Tooltip.SetDefault("Deals 10% of the nearest targets max HP to them");
+            Tooltip.SetDefault("Deals 10% of the nearest targets max HP to them\nThis is likely to break more complex fights.");
         }
         public override void SetDefaults()
         {
@@ -32,7 +30,7 @@ namespace CalNohitQoL.Content.Items
             Item.useStyle = ItemUseStyleID.Shoot;
             Item.noMelee = true;
             Item.width = Item.height = 25;
-            Item.rare = ModContent.RarityType<CalamityRed>();
+            Item.rare = ItemRarityID.Red;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -40,7 +38,7 @@ namespace CalNohitQoL.Content.Items
         }
         public override bool Shoot(Player player, EntitySource_ItemUse_WithAmmo source, Vector2 position, Vector2 velocity, int type, int damage, float knockback)
         {
-            NPC target = player.Center.ClosestNPCAt(2500, true, true);
+            NPC target = player.Center.ClosestNPCAt(2500);
             if (target != null)
             {
                 float lifeRatio = target.life / (float)target.lifeMax;

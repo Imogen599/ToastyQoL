@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
-using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ID;
 
-namespace CalNohitQoL.Core.Systems
+namespace ToastyQoL.Core.Systems
 {
     public class MapSystem : ModSystem
     {
