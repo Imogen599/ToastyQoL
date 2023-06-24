@@ -296,7 +296,7 @@ namespace ToastyQoL
             if (args[1].GetType() != typeof(string))
                 throw new ArgumentException("Argument 2 must be a string.");
 
-            FieldInfo toggle = typeof(Toggles).GetField((string)args[1]);
+            FieldInfo toggle = typeof(Toggles).GetField((string)args[1], ToastyQoLUtils.UniversalBindingFlags);
             if (toggle != null && toggle.GetType() == typeof(bool))
                 return (bool)toggle.GetValue(null);
             return false;

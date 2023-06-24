@@ -1,6 +1,6 @@
 displayName = Toasty's QoL Mod
 author = Toasty
-version = 2.1
+version = 2.1.1
 hideCode = true
 hideResources = true
 sortAfter = EfficientNohits

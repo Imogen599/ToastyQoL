@@ -50,7 +50,7 @@ namespace ToastyQoL.Content.UI.PotionUI
         {
             get
             {
-                if (CurrentlySelectedMod == null)
+                if (CurrentlySelectedMod == null || ModsRelatedPotions == null)
                     return new();
 
                 if (ModsRelatedPotions.TryGetValue(CurrentlySelectedMod, out var list))
@@ -71,6 +71,7 @@ namespace ToastyQoL.Content.UI.PotionUI
         #region Initialization
         public static void InitializePotionElements()
         {
+            ModsRelatedPotions = new();
             PotionMod vanilla = new("Terraria", "ToastyQoL/Content/UI/PotionUI/Textures/terrariaIcon");
             ModsRelatedPotions.Add(vanilla, new List<PotionElement>() 
             {
@@ -217,6 +218,7 @@ namespace ToastyQoL.Content.UI.PotionUI
             });
 
             CurrentlySelectedMod = vanilla;
+            CurrentSortingMode = new AToZPotionSort();
         }
 
         public static PotionMod RegisterPotionMod(PotionMod mod)
