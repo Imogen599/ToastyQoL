@@ -1,4 +1,3 @@
-using ToastyQoL.Core.Systems;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Audio;

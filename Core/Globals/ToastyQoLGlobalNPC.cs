@@ -1,7 +1,5 @@
 using ToastyQoL.Content.Items;
-using ToastyQoL.Core.ModPlayers;
 using ToastyQoL.Core.Systems;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

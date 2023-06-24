@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToastyQoL.Core.Systems.MNLSystems
+﻿namespace ToastyQoL.Core.Systems.MNLSystems
 {
     // This is used to pick which of the loaded MNL sets should have its MNLs used.
     public class MNLWeights

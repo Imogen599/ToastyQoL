@@ -1,5 +1,4 @@
 ﻿using ToastyQoL.Core;
-using ToastyQoL.Core.ModPlayers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;

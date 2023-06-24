@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ToastyQoL.Content.UI
+﻿namespace ToastyQoL.Content.UI
 {
     public static class Weights
     {
