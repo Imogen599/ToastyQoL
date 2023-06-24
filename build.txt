@@ -5,3 +5,4 @@ hideCode = true
 hideResources = true
 sortAfter = EfficientNohits
 buildIgnore = *.csproj, *.user, obj\*, bin\*, .vs\*
+homepage = https://github.com/toasty599/ToastyQoL
