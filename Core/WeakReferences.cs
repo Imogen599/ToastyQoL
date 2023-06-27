@@ -14,6 +14,8 @@ using ToastyQoL.Core.Systems;
 using ToastyQoL.Core.Systems.MNLSystems.Sets;
 using ToastyQoL.Core.Systems.MNLSystems;
 using ToastyQoL.Content.UI.PotionUI;
+using Terraria;
+using Terraria.ID;
 
 namespace ToastyQoL
 {
@@ -49,7 +51,7 @@ namespace ToastyQoL
 
         public override object Call(params object[] args)
         {
-            if (args == null)
+            if (args == null || Main.netMode is NetmodeID.Server)
                 return null;
 
             if (args[0].GetType() != typeof(string))
