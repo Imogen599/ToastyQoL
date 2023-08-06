@@ -1,6 +1,6 @@
-using ToastyQoL.Core.Globals;
 using Terraria;
 using Terraria.ModLoader;
+using ToastyQoL.Core.Globals;
 
 namespace ToastyQoL.Content.Buffs
 {

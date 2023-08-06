@@ -1,12 +1,12 @@
-﻿using ToastyQoL.Content.UI.PotionUI;
-using ToastyQoL.Core.Systems;
-using Terraria;
+﻿using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
 using ToastyQoL.Content.UI;
+using ToastyQoL.Content.UI.PotionUI;
+using ToastyQoL.Core.Systems;
 
 namespace ToastyQoL.Core.ModPlayers
 {

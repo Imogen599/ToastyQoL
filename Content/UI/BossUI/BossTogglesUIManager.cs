@@ -1,15 +1,15 @@
-﻿using ToastyQoL.Core.Systems;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
+using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
-using System.Collections.Generic;
-using System.Linq;
-using Microsoft.Xna.Framework.Input;
+using ToastyQoL.Core.Systems;
 
 namespace ToastyQoL.Content.UI.BossUI
 {

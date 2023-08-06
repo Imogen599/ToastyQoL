@@ -1,11 +1,11 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
-using System.Runtime.CompilerServices;
 
 namespace ToastyQoL.Content.UI.MiscUI
 {

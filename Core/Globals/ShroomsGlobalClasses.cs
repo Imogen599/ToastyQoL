@@ -1,11 +1,11 @@
-﻿using ToastyQoL.Core.Systems;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ToastyQoL.Core.Systems;
 
 namespace ToastyQoL.Core.Globals
 {

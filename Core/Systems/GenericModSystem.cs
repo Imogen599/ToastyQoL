@@ -1,8 +1,8 @@
 using System.IO;
 using Terraria;
 using Terraria.GameContent.Events;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 using ToastyQoL.Content.UI;
 
 namespace ToastyQoL.Core.Systems

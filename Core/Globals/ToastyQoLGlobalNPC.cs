@@ -1,8 +1,8 @@
-using ToastyQoL.Content.Items;
-using ToastyQoL.Core.Systems;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ToastyQoL.Content.Items;
+using ToastyQoL.Core.Systems;
 using ToastyQoL.Core.Systems.MNLSystems;
 
 namespace ToastyQoL.Core.Globals

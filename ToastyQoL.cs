@@ -1,13 +1,13 @@
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria;
 using Terraria.Graphics.Shaders;
-using ToastyQoL.Content.UI.UIManagers;
+using Terraria.ID;
+using Terraria.ModLoader;
+using ToastyQoL.Content.UI.BossUI;
 using ToastyQoL.Content.UI.PotionUI;
 using ToastyQoL.Content.UI.SingleElements;
-using ToastyQoL.Content.UI.BossUI;
+using ToastyQoL.Content.UI.UIManagers;
 
 namespace ToastyQoL
 {

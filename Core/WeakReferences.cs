@@ -1,21 +1,21 @@
-﻿using ToastyQoL.Content.UI;
-using ToastyQoL.Content.UI.UIManagers;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static ToastyQoL.Core.Systems.TieringSystem;
-using ToastyQoL.Content.UI.Pages;
-using ToastyQoL.Content.UI.SingleElements;
-using ToastyQoL.Content.UI.BossUI;
-using ToastyQoL.Core;
-using ToastyQoL.Core.Systems;
-using ToastyQoL.Core.Systems.MNLSystems.Sets;
-using ToastyQoL.Core.Systems.MNLSystems;
-using ToastyQoL.Content.UI.PotionUI;
 using Terraria;
 using Terraria.ID;
+using ToastyQoL.Content.UI;
+using ToastyQoL.Content.UI.BossUI;
+using ToastyQoL.Content.UI.Pages;
+using ToastyQoL.Content.UI.PotionUI;
+using ToastyQoL.Content.UI.SingleElements;
+using ToastyQoL.Content.UI.UIManagers;
+using ToastyQoL.Core;
+using ToastyQoL.Core.Systems;
+using ToastyQoL.Core.Systems.MNLSystems;
+using ToastyQoL.Core.Systems.MNLSystems.Sets;
+using static ToastyQoL.Core.Systems.TieringSystem;
 
 namespace ToastyQoL
 {

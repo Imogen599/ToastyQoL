@@ -1,11 +1,11 @@
-using System.Collections.Generic;
-using Terraria;
-using Terraria.ID;
-using Terraria.ModLoader;
-using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using System.Collections.Generic;
+using System.Linq;
+using Terraria;
+using Terraria.ID;
+using Terraria.ModLoader;
 using ToastyQoL.Content.Buffs;
 
 namespace ToastyQoL.Content.Items

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using static ToastyQoL.Core.Systems.MNLSystems.MNLsHandler;
-using Terraria.ID;
 using Terraria;
+using Terraria.ID;
+using static ToastyQoL.Core.Systems.MNLSystems.MNLsHandler;
 
 namespace ToastyQoL.Core.Systems.MNLSystems
 {

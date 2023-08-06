@@ -1,11 +1,11 @@
-using Terraria;
-using Terraria.ID;
 using Microsoft.Xna.Framework;
-using System;
-using Terraria.Chat;
-using Terraria.Localization;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Reflection;
+using Terraria;
+using Terraria.Chat;
+using Terraria.ID;
+using Terraria.Localization;
 using ToastyQoL.Content.UI;
 
 namespace ToastyQoL

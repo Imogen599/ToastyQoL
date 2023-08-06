@@ -1,11 +1,11 @@
-﻿using ToastyQoL.Content.UI.PotionUI;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI;
-using ToastyQoL.Content.UI.MiscUI;
 using ToastyQoL.Content.UI;
+using ToastyQoL.Content.UI.MiscUI;
+using ToastyQoL.Content.UI.PotionUI;
 
 namespace ToastyQoL.Core.Systems
 {

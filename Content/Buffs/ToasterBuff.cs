@@ -1,7 +1,7 @@
-﻿using ToastyQoL.Content.Projectiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
+using ToastyQoL.Content.Projectiles;
 
 namespace ToastyQoL.Content.Buffs
 {

@@ -8,9 +8,9 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.ID;
 using Terraria.ModLoader;
-using ToastyQoL.Core.ModPlayers;
 using ToastyQoL.Content.UI.SingleElements;
 using ToastyQoL.Content.UI.UIManagers;
+using ToastyQoL.Core.ModPlayers;
 
 namespace ToastyQoL.Content.UI
 {

@@ -1,11 +1,11 @@
-﻿using ToastyQoL.Content.Buffs;
-using ToastyQoL.Content.Projectiles;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using ToastyQoL.Content.Buffs;
+using ToastyQoL.Content.Projectiles;
 
 namespace ToastyQoL.Content.Items
 {

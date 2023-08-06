@@ -1,9 +1,9 @@
-﻿using ToastyQoL.Core;
-using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
-using Terraria.ModLoader;
 using System.Collections.Generic;
+using Terraria.ModLoader;
 using ToastyQoL.Content.UI.Pages;
+using ToastyQoL.Core;
 
 namespace ToastyQoL.Content.UI.UIManagers
 {

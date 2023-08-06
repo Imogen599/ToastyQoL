@@ -1,8 +1,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Terraria;
-using Terraria.ModLoader;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace ToastyQoL.Core.Systems
 {
