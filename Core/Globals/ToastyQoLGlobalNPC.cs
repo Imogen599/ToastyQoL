@@ -11,17 +11,10 @@ namespace ToastyQoL.Core.Globals
     {
         public override bool InstancePerEntity => true;
 
-        public override void SetupShop(int type, Chest shop, ref int nextSlot)
+        public override void ModifyShop(NPCShop shop)
         {
-            if (type == NPCID.Merchant)
-            {
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<NostShroom>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-                nextSlot++;
-                shop.item[nextSlot].SetDefaults(ModContent.ItemType<DoubleShroom>());
-                shop.item[nextSlot].shopCustomPrice = Item.buyPrice(1, 0, 0, 0);
-                nextSlot++;
-            }
+            if (shop.NpcType == NPCID.Merchant)
+                shop.Add(new NPCShop.Entry(ModContent.ItemType<NostShroom>()), new NPCShop.Entry(ModContent.ItemType<DoubleShroom>()));
         }
 
         public override void OnKill(NPC npc)
@@ -47,6 +40,5 @@ namespace ToastyQoL.Core.Globals
                 maxSpawns = 0;
             }
         }
-
     }
 }

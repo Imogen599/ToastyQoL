@@ -8,8 +8,8 @@ namespace ToastyQoL.Content.Buffs
 	{
         public override void SetStaticDefaults()
         {      
-			DisplayName.SetDefault("Trippier");
-			Description.SetDefault("Ok, I think you've taken enough...");
+			// DisplayName.SetDefault("Trippier");
+			// Description.SetDefault("Ok, I think you've taken enough...");
 			Main.debuff[Type] = false;
 			Main.pvpBuff[Type] = true;
 			Main.buffNoSave[Type] = false;

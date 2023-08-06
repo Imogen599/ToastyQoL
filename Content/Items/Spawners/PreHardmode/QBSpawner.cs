@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.PreHardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Queen Bee Spawner");
-            Tooltip.SetDefault("Instantly summons Queen Bee\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Queen Bee Spawner");
+            /* Tooltip.SetDefault("Instantly summons Queen Bee\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

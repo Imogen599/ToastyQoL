@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.PreHardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Deerclops Spawner");
-            Tooltip.SetDefault("Instantly summons Deerclops\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Deerclops Spawner");
+            /* Tooltip.SetDefault("Instantly summons Deerclops\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

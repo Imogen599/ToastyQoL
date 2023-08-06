@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.Hardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Duke Fishron Spawner");
-            Tooltip.SetDefault("Instantly summons Duke Fishron\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Duke Fishron Spawner");
+            /* Tooltip.SetDefault("Instantly summons Duke Fishron\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

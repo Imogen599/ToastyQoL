@@ -18,9 +18,9 @@ namespace ToastyQoL.Content.Items.Spawners.Hardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault(bossname + " Spawner");
-            Tooltip.SetDefault("Instantly summons " + bossname + ".\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault(bossname + " Spawner");
+            /* Tooltip.SetDefault("Instantly summons " + bossname + ".\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

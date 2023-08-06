@@ -89,7 +89,7 @@ namespace ToastyQoL.Content.UI
 
         public const int FrameCount = 12;
 
-        public const int MessageLength = 180;
+        public const int MessageLength = 120;
 
         public const int OpenLength = 20;
 

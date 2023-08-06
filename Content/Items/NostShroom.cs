@@ -12,8 +12,8 @@ namespace ToastyQoL.Content.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Nostalgic Shrooms");
-            Tooltip.SetDefault("The original\nThis gets replaced.");
+            // DisplayName.SetDefault("Nostalgic Shrooms");
+            // Tooltip.SetDefault("The original\nThis gets replaced.");
         }
 
         public override void ModifyTooltips(List<TooltipLine> tooltips)
@@ -78,6 +78,7 @@ namespace ToastyQoL.Content.Items
             };
             tooltips.Add(obj9);
         }
+
         public override void SetDefaults()
         {
             Item.width = 42;

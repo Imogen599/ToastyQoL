@@ -20,25 +20,27 @@ namespace ToastyQoL.Core.ModPlayers
                 Despawn();
         }
 
-        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource, ref int cooldownCounter)
+        public override bool FreeDodge(Player.HurtInfo info)
         {
-            if (Player.whoAmI != Main.myPlayer)
-                return false;
-
-            else if (Toggles.GodmodeEnabled)
+            if (Toggles.GodmodeEnabled && !Toggles.InstantDeath)
             {
                 if (GenericUpdatesModPlayer.GMHitCooldownTimer == 0)
                 {
                     SoundEngine.PlaySound(new SoundStyle("ToastyQoL/Assets/Sounds/Custom/godmodeHitSFX"), Main.player[Main.myPlayer].Center);
                     GenericUpdatesModPlayer.GMHitCooldownTimer = HitCooldownFrames;
                 }
-                return false;
+                return true;
             }
-            else if (Toggles.InstantDeath)
-            {
-                if (Main.netMode == NetmodeID.Server || Player.whoAmI != Main.myPlayer)
-                    return PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource, ref cooldownCounter);
+            return false;
+        }
 
+        public override void ModifyHurt(ref Player.HurtModifiers modifiers)/* tModPorter Override ImmuneTo, FreeDodge or ConsumableDodge instead to prevent taking damage */
+        {
+            if (Player.whoAmI != Main.myPlayer)
+                return;
+
+            if (Toggles.InstantDeath)
+            {
                 Player.mount.Dismount(Player);
                 Player.dead = true;
                 Player.respawnTimer = 120;
@@ -46,19 +48,13 @@ namespace ToastyQoL.Core.ModPlayers
                 Player.palladiumRegen = false;
                 Player.iceBarrier = false;
                 Player.crystalLeaf = false;
-                NetworkText deathText = damageSource.GetDeathText(Player.name);
+                NetworkText deathText = modifiers.DamageSource.GetDeathText(Player.name);
+                ToastyQoLUtils.DisplayText(deathText.ToString(), (Color?)new Color(225, 25, 25));
 
-                if (Main.netMode == NetmodeID.Server)
-                    ChatHelper.BroadcastChatMessage(deathText, new Color(225, 25, 25), -1);
-                else if (Main.netMode == NetmodeID.SinglePlayer)
-                    ToastyQoLUtils.DisplayText(deathText.ToString(), (Color?)new Color(225, 25, 25));
-
-                if (Main.netMode == NetmodeID.MultiplayerClient && Player.whoAmI == Main.myPlayer)
-                    NetMessage.SendPlayerDeath(Player.whoAmI, damageSource, damage, hitDirection, pvp, -1, -1);
+                if (Main.netMode == NetmodeID.MultiplayerClient)
+                    NetMessage.SendPlayerDeath(Player.whoAmI, modifiers.DamageSource, 999999, modifiers.HitDirection, modifiers.PvP, -1, -1);
             }
-            return true;
         }
-
 
         private void CheckBiomeFountains()
         {
@@ -99,6 +95,7 @@ namespace ToastyQoL.Core.ModPlayers
             CheckBiomeFountains();
             Player.unlockedBiomeTorches = true;
         }
+
         public static void Despawn()
         {
             for (int i2 = 0; i2 < 1000; i2++)
@@ -129,12 +126,8 @@ namespace ToastyQoL.Core.ModPlayers
                     NetMessage.SendData(MessageID.SyncNPC, -1, -1, null, m, 0f, 0f, 0f, 0, 0, 0);
                 }
             }
-
         }
 
-        public override void OnRespawn(Player player)
-        {
-            Player.immuneTime = 60;
-        }
+        public override void OnRespawn() => Player.immuneTime = 60;
     }
 }

@@ -1,0 +1,260 @@
+Mods: {
+	ToastyQoL: {
+		Buffs: {
+			DoubleTrippy: {
+				DisplayName: Trippier
+				Description: Ok, I think you've taken enough...
+			}
+
+			NostTrippy: {
+				DisplayName: Trippy
+				Description: So pretty...
+			}
+
+			ToasterBuff: {
+				DisplayName: Toaster
+				Description: He tries, but often burns it
+			}
+		}
+
+		Items: {
+			DoubleShroom: {
+				DisplayName: Double Shrooms
+				Tooltip:
+					'''
+					Trippier (Hage)
+					This gets replaced.
+					'''
+			}
+
+			NostShroom: {
+				DisplayName: Nostalgic Shrooms
+				Tooltip:
+					'''
+					The original
+					This gets replaced.
+					'''
+			}
+
+			PercentGun: {
+				DisplayName: The Percenter
+				Tooltip:
+					'''
+					Deals 10% of the nearest targets max HP to them
+					This is likely to break more complex fights.
+					'''
+			}
+
+			SacrificialDagger: {
+				DisplayName: Sacrificial Dagger
+				Tooltip:
+					'''
+					Reduces player health to 10
+					Reduces health to 1 if already at 10 health or less
+					'''
+			}
+
+			BetsySpawner: {
+				DisplayName: Betsy Spawner
+				Tooltip:
+					'''
+					Instantly summons Betsy.
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			DestSpawner: {
+				DisplayName: Destroyer Spawner
+				Tooltip:
+					'''
+					Instantly summons Destroyer
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			DFSpawner: {
+				DisplayName: Duke Fishron Spawner
+				Tooltip:
+					'''
+					Instantly summons Duke Fishron
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			EoLSpawner: {
+				DisplayName: Empress Of Light Spawner
+				Tooltip:
+					'''
+					Instantly summons Empress Of Light
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			GolemSpawner: {
+				DisplayName: Golem Spawner
+				Tooltip:
+					'''
+					Instantly summons Golem
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			LCSpawner: {
+				DisplayName: Lunatic Cultist Spawner
+				Tooltip:
+					'''
+					Instantly summons Lunatic Cultist
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			MLSpawner: {
+				DisplayName: Moon Lord Spawner
+				Tooltip:
+					'''
+					Instantly summons Moon Lord
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			PlantSpawner: {
+				DisplayName: Plantera Spawner
+				Tooltip:
+					'''
+					Instantly summons Plantera
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			QSSpawner: {
+				DisplayName: Queen Slime Spawner
+				Tooltip:
+					'''
+					Instantly summons Queen Slime
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			SkPrSpawner: {
+				DisplayName: Skeletron Prime Spawner
+				Tooltip:
+					'''
+					Instantly summons Skeletron Prime
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			TwinsSpawner: {
+				DisplayName: Twins Spawner
+				Tooltip:
+					'''
+					Instantly summons Twins
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			BoCSpawner: {
+				DisplayName: Brain Of Cthulhu Spawner
+				Tooltip:
+					'''
+					Instantly summons Brain Of Cthulhu
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			DCSpawner: {
+				DisplayName: Deerclops Spawner
+				Tooltip:
+					'''
+					Instantly summons Deerclops
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			EOCSpawner: {
+				DisplayName: Eye Of Cthulhu Spawner
+				Tooltip:
+					'''
+					Instantly summons Eye Of Cthulhu
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			EoWSpawner: {
+				DisplayName: Eater Of Worlds Spawner
+				Tooltip:
+					'''
+					Instantly summons Eater Of Worlds
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			KSSpawner: {
+				DisplayName: King Slime Spawner
+				Tooltip:
+					'''
+					Instantly summons King Slime
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			QBSpawner: {
+				DisplayName: Queen Bee Spawner
+				Tooltip:
+					'''
+					Instantly summons Queen Bee
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			SkeletronSpawner: {
+				DisplayName: Skeletron Spawner
+				Tooltip:
+					'''
+					Instantly summons Skeletron
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			WoFSpawner: {
+				DisplayName: Wall Of Flesh Spawner
+				Tooltip:
+					'''
+					Instantly summons Wall Of Flesh on your left.
+					Right-click to increase spawn count up to 10
+					Spawn Count
+					'''
+			}
+
+			ToasterItem: {
+				DisplayName: Toaster
+				Tooltip: "'Ding'"
+			}
+		}
+
+		Projectiles.ToasterProj.DisplayName: Toaster Proj
+
+		Keybinds: {
+			"Open Toggles UI.DisplayName": Open  Toggles  U I
+			"Open Potions UI.DisplayName": Open  Potions  U I
+		}
+	}
+}

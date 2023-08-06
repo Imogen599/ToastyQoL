@@ -12,8 +12,8 @@ namespace ToastyQoL.Content.Items
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("The Percenter");
-            Tooltip.SetDefault("Deals 10% of the nearest targets max HP to them\nThis is likely to break more complex fights.");
+            // DisplayName.SetDefault("The Percenter");
+            // Tooltip.SetDefault("Deals 10% of the nearest targets max HP to them\nThis is likely to break more complex fights.");
         }
         public override void SetDefaults()
         {

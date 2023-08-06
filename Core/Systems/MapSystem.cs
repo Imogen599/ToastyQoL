@@ -109,7 +109,7 @@ namespace ToastyQoL.Core.Systems
                     Main.LocalPlayer.position = cursorWorldPosition;
                     Main.LocalPlayer.velocity = Vector2.Zero;
                     Main.LocalPlayer.fallStart = (int)(Main.LocalPlayer.position.Y / 16f);
-                    NetMessage.SendData(MessageID.Teleport, -1, -1, null, 0, Main.myPlayer, cursorWorldPosition.X, cursorWorldPosition.Y, 1, 0, 0);
+                    NetMessage.SendData(MessageID.TeleportEntity, -1, -1, null, 0, Main.myPlayer, cursorWorldPosition.X, cursorWorldPosition.Y, 1, 0, 0);
                 }
             }
         }

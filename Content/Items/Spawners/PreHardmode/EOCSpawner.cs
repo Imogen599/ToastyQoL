@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.PreHardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Eye Of Cthulhu Spawner");
-            Tooltip.SetDefault("Instantly summons Eye Of Cthulhu\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Eye Of Cthulhu Spawner");
+            /* Tooltip.SetDefault("Instantly summons Eye Of Cthulhu\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

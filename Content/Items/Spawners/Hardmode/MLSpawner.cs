@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.Hardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Moon Lord Spawner");
-            Tooltip.SetDefault("Instantly summons Moon Lord\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Moon Lord Spawner");
+            /* Tooltip.SetDefault("Instantly summons Moon Lord\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

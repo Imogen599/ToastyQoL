@@ -16,9 +16,9 @@ namespace ToastyQoL.Content.Items
         private readonly Color DarkColor = new(209, 167, 96);
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Toaster");
-            Tooltip.SetDefault("'Ding'");
-            SacrificeTotal = 1;
+            // DisplayName.SetDefault("Toaster");
+            // Tooltip.SetDefault("'Ding'");
+            Item.ResearchUnlockCount = 1;
         }
         public override void SetDefaults()
         {

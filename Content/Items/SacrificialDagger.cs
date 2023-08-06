@@ -8,10 +8,10 @@ namespace ToastyQoL.Content.Items
     {
         public override void SetStaticDefaults()
         {
-            SacrificeTotal = 1;
-            DisplayName.SetDefault("Sacrificial Dagger");
-            Tooltip.SetDefault("Reduces player health to 10\n" +
-                "Reduces health to 1 if already at 10 health or less");
+            Item.ResearchUnlockCount = 1;
+            // DisplayName.SetDefault("Sacrificial Dagger");
+            /* Tooltip.SetDefault("Reduces player health to 10\n" +
+                "Reduces health to 1 if already at 10 health or less"); */
         }
 
         public override void SetDefaults()

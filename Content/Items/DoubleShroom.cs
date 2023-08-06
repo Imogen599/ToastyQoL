@@ -14,8 +14,8 @@ namespace ToastyQoL.Content.Items
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Double Shrooms");
-            Tooltip.SetDefault("Trippier (Hage)\nThis gets replaced.");
+            // DisplayName.SetDefault("Double Shrooms");
+            // Tooltip.SetDefault("Trippier (Hage)\nThis gets replaced.");
         }
 
         public override void SetDefaults()

@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.Hardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Queen Slime Spawner");
-            Tooltip.SetDefault("Instantly summons Queen Slime\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Queen Slime Spawner");
+            /* Tooltip.SetDefault("Instantly summons Queen Slime\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

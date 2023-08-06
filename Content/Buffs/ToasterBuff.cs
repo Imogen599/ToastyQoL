@@ -12,8 +12,8 @@ namespace ToastyQoL.Content.Buffs
         {
             Main.buffNoTimeDisplay[Type] = true;
             Main.vanityPet[Type] = true;
-            DisplayName.SetDefault("Toaster");
-            Description.SetDefault("He tries, but often burns it");
+            // DisplayName.SetDefault("Toaster");
+            // Description.SetDefault("He tries, but often burns it");
         }
 
         public override void Update(Player player, ref int buffIndex)

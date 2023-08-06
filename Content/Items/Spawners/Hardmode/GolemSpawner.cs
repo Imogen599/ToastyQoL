@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.Hardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Golem Spawner");
-            Tooltip.SetDefault("Instantly summons Golem\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Golem Spawner");
+            /* Tooltip.SetDefault("Instantly summons Golem\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {

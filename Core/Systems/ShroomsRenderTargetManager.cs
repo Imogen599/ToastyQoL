@@ -26,7 +26,7 @@ namespace ToastyQoL.Core.Systems
         #region Overrides
         public override void Load()
         {
-            On.Terraria.Main.DrawInfernoRings += DrawShroomsRenderTarget;
+            On_Main.DrawInfernoRings += DrawShroomsRenderTarget;
             Main.OnResolutionChanged += ResizeShroomsRenderTarget;
             Main.OnPreDraw += DrawToRenderTarget;
             ExtraDrawMethods = new();
@@ -34,7 +34,7 @@ namespace ToastyQoL.Core.Systems
 
         public override void Unload()
         {
-            On.Terraria.Main.DrawInfernoRings -= DrawShroomsRenderTarget;
+            On_Main.DrawInfernoRings -= DrawShroomsRenderTarget;
             Main.OnResolutionChanged -= ResizeShroomsRenderTarget;
             Main.OnPreDraw -= DrawToRenderTarget;
             ExtraDrawMethods = null;
@@ -81,7 +81,7 @@ namespace ToastyQoL.Core.Systems
             ShroomsRenderTarget = new(Main.graphics.GraphicsDevice, Main.screenWidth, Main.screenHeight);
         }
 
-        private void DrawShroomsRenderTarget(On.Terraria.Main.orig_DrawInfernoRings orig, Main self)
+        private void DrawShroomsRenderTarget(Terraria.On_Main.orig_DrawInfernoRings orig, Main self)
         {
             if (Main.LocalPlayer.GetModPlayer<ShroomsPlayer>().NostTrippy && Toggles.ProperShrooms)
             {

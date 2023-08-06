@@ -15,9 +15,9 @@ namespace ToastyQoL.Content.Items.Spawners.PreHardmode
 
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Wall Of Flesh Spawner");
-            Tooltip.SetDefault("Instantly summons Wall Of Flesh on your left.\n" +
-                "Right-click to increase spawn count up to 10\nSpawn Count");
+            // DisplayName.SetDefault("Wall Of Flesh Spawner");
+            /* Tooltip.SetDefault("Instantly summons Wall Of Flesh on your left.\n" +
+                "Right-click to increase spawn count up to 10\nSpawn Count"); */
         }
         public override void SetDefaults()
         {
