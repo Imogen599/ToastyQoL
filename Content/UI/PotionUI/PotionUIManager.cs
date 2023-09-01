@@ -743,7 +743,7 @@ namespace ToastyQoL.Content.UI.PotionUI
         public static void GiveBuffs(Player player)
         {
             foreach (var element in SelectedPotions)
-                    player.AddBuff(element.PotionBuffID, 2);
+                player.AddBuff(element.PotionBuffID, 2);
         }
         #endregion
     }
