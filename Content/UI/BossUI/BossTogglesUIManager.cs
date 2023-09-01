@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using ReLogic.Content;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Terraria;
@@ -223,7 +224,11 @@ namespace ToastyQoL.Content.UI.BossUI
             Texture2D backgroundTexture = ModContent.Request<Texture2D>("ToastyQoL/Content/UI/Textures/baseSettingsUIBackgroundWide", (AssetRequestMode)2).Value;
             Rectangle backRect = Utils.CenteredRectangle(spawnPos, backgroundTexture.Size());
 
-            float maxScrollDistance = -50f * (((BossElements.Count / 3) > 5) ? (BossElements.Count / 3) - 5f : 0f);
+            float maxScrollDistance = -50f;
+            if (BossElements.Count / 3f < 5f)
+                maxScrollDistance = 0f;
+            else
+                maxScrollDistance *= MathF.Ceiling((BossElements.Count / 3f) - 5f);
 
             if (mouseHitbox.Intersects(backRect))
             {
